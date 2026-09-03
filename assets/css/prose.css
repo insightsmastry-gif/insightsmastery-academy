@@ -1,0 +1,310 @@
+/* ==========================================================================
+   prose.css — typography for the injected handbook HTML
+   ------------------------------------------------------------------------
+   The files in /notes are standalone documents that ship their own
+   light-only stylesheet. reader.js strips every <style>, <link> and inline
+   style attribute, so this file is the ONLY thing styling that markup.
+   Everything is scoped under `.prose` and expressed in tokens, so both
+   themes work with no per-theme overrides.
+   ========================================================================== */
+
+.prose {
+  --prose-scale: 1;
+  font-size: calc(var(--step-0) * var(--prose-scale));
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+}
+
+[data-size="s"] .prose { --prose-scale: 0.94; }
+[data-size="m"] .prose { --prose-scale: 1; }
+[data-size="l"] .prose { --prose-scale: 1.1; }
+
+.prose > *:first-child { margin-top: 0; }
+.prose > *:last-child { margin-bottom: 0; }
+
+/* The source wraps content in <section id="sN"> — flatten the spacing. */
+.prose section { margin: 0 0 var(--space-8); }
+.prose section:last-child { margin-bottom: 0; }
+
+/* --- headings --------------------------------------------------------------- */
+.prose :is(h2, h3, h4, h5) {
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
+  scroll-margin-top: calc(var(--header-h) + var(--reader-bar-h, 3.5rem) + var(--space-4));
+  text-wrap: balance;
+}
+
+.prose h2 {
+  margin: var(--space-9) 0 var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+  color: var(--accent-text);
+  font-size: calc(var(--step-2) * var(--prose-scale));
+}
+
+.prose section > h2:first-child { margin-top: var(--space-2); }
+
+.prose h3 {
+  margin: var(--space-7) 0 var(--space-3);
+  font-size: calc(var(--step-1) * var(--prose-scale));
+}
+
+.prose h4 {
+  margin: var(--space-5) 0 var(--space-2);
+  color: var(--text-secondary);
+  font-size: calc(var(--step-0) * var(--prose-scale));
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: none;
+}
+
+/* --- body text -------------------------------------------------------------- */
+.prose p {
+  max-width: var(--reader-measure);
+  margin: 0 0 var(--space-4);
+  line-height: var(--leading-relaxed);
+}
+
+.prose p.lead {
+  max-width: var(--reader-measure);
+  color: var(--text);
+  font-size: calc(var(--step-1) * var(--prose-scale));
+  line-height: var(--leading-normal);
+}
+
+.prose p.fig {
+  color: var(--text-muted);
+  font-size: calc(var(--step--1) * var(--prose-scale));
+  font-style: italic;
+}
+
+.prose strong { color: var(--text); font-weight: 650; }
+.prose em { font-style: italic; }
+.prose small { font-size: calc(var(--step--1) * var(--prose-scale)); color: var(--text-muted); }
+
+.prose a {
+  color: var(--accent-text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color var(--dur-1) var(--ease-out),
+    text-decoration-color var(--dur-1) var(--ease-out);
+}
+
+.prose a:hover {
+  color: var(--accent-hover);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+
+.prose hr {
+  height: 1px;
+  margin: var(--space-8) 0;
+  border: 0;
+  background: var(--border);
+}
+
+/* --- lists ------------------------------------------------------------------ */
+.prose :is(ul, ol) {
+  max-width: var(--reader-measure);
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-6);
+}
+
+.prose li { margin: var(--space-2) 0; }
+.prose li::marker { color: var(--accent); }
+.prose :is(ul, ol) :is(ul, ol) { margin: var(--space-2) 0 var(--space-2); }
+
+.prose ul.checklist { list-style: none; padding-left: 0; }
+
+.prose ul.checklist > li {
+  position: relative;
+  padding-left: var(--space-7);
+}
+
+.prose ul.checklist > li::before {
+  content: "";
+  position: absolute;
+  top: 0.45em;
+  left: var(--space-2);
+  width: 0.85em;
+  height: 0.5em;
+  border: solid var(--accent);
+  border-width: 0 0 2px 2px;
+  transform: rotate(-45deg);
+}
+
+/* --- quotes ----------------------------------------------------------------- */
+.prose blockquote {
+  max-width: var(--reader-measure);
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-5);
+  border-left: 3px solid var(--accent-border);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--surface-2);
+  color: var(--text);
+  font-style: italic;
+}
+
+.prose blockquote > *:last-child { margin-bottom: 0; }
+
+/* --- tables ----------------------------------------------------------------- */
+.prose table {
+  width: 100%;
+  margin: var(--space-5) 0 var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: calc(var(--step--1) * var(--prose-scale));
+  overflow: hidden;
+}
+
+.prose :is(th, td) {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 650;
+  letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
+}
+
+.prose thead th { border-bottom: 1px solid var(--accent-border); }
+.prose tbody tr:nth-child(even) { background: var(--surface-2); }
+.prose tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.prose table.meta th { white-space: normal; }
+.prose table.meta td:first-child { color: var(--text); font-weight: 600; width: 34%; }
+
+.prose caption {
+  caption-side: bottom;
+  padding-top: var(--space-3);
+  color: var(--text-muted);
+  font-size: calc(var(--step--2) * var(--prose-scale));
+  font-style: italic;
+  text-align: left;
+}
+
+/* Narrow screens only: let wide tables scroll instead of squashing the page. */
+@media (max-width: 719px) {
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .prose caption { white-space: normal; }
+}
+
+/* --- code ------------------------------------------------------------------- */
+.prose pre {
+  margin: var(--space-4) 0 var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-inset);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: calc(var(--step--1) * var(--prose-scale));
+  line-height: var(--leading-normal);
+  overflow-x: auto;
+  tab-size: 2;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose pre code {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  white-space: pre;
+}
+
+.prose code {
+  padding: 0.12em 0.4em;
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-xs);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  overflow-wrap: break-word;
+}
+
+.prose kbd {
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-xs);
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+/* --- callouts (div.note > span.tag) ---------------------------------------- */
+.prose div.note {
+  max-width: var(--reader-measure);
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-5);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft-strong);
+  color: var(--text);
+}
+
+.prose div.note > *:last-child { margin-bottom: 0; }
+.prose div.note :is(ul, ol) { margin-bottom: 0; }
+
+.prose div.note span.tag {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--accent-text);
+  font-size: calc(var(--step--2) * var(--prose-scale));
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.prose div.note.warn {
+  border-left-color: var(--warning);
+  background: var(--warning-soft);
+}
+
+.prose div.note.warn span.tag { color: var(--warning); }
+
+/* --- media ------------------------------------------------------------------ */
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: var(--space-5) 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+
+.prose figure { margin: var(--space-5) 0; }
+.prose figcaption {
+  color: var(--text-muted);
+  font-size: calc(var(--step--1) * var(--prose-scale));
+  font-style: italic;
+}
+
+/* Focus mode widens the measure — `is-focus` is set on the reader root. */
+.is-focus .prose { --reader-measure: 86ch; }
+
+/* reader.js also renders `.empty` / `.alert` components into `.prose` on
+   failure — keep the prose text rules from fighting those components. */
+.prose :is(.empty, .alert) :is(p, h1, h2) { max-width: none; margin-inline: auto; }
+.prose :is(.empty, .alert) h2 { padding: 0; border: 0; }

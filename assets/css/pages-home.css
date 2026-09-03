@@ -1,0 +1,457 @@
+/* ==========================================================================
+   Page styles — home, about, 404.
+   Layout + page-specific composition only. Components live in components.css.
+   Tokens only: never hard-code a color here.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: var(--space-9) var(--space-8);
+  background: var(--bg);
+}
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-canvas);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__canvas::after {
+  /* Fade the canvas into the page so the section below never hard-edges. */
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+}
+
+.orb {
+  position: absolute;
+  border-radius: var(--radius-full);
+  filter: blur(60px);
+  opacity: 0.9;
+  will-change: transform;
+  animation: float-slow 22s var(--ease-in-out) infinite alternate;
+}
+
+.orb--1 {
+  inset-block-start: -14%;
+  inset-inline-start: -12%;
+  inline-size: min(62vw, 460px);
+  block-size: min(62vw, 460px);
+  background: radial-gradient(circle at 35% 35%, var(--orb-1), transparent 68%);
+}
+
+.orb--2 {
+  inset-block-start: 18%;
+  inset-inline-end: -18%;
+  inline-size: min(70vw, 520px);
+  block-size: min(70vw, 520px);
+  background: radial-gradient(circle at 60% 40%, var(--orb-2), transparent 70%);
+  animation-duration: 28s;
+  animation-delay: -6s;
+}
+
+.orb--3 {
+  inset-block-end: -22%;
+  inset-inline-start: 26%;
+  inline-size: min(58vw, 420px);
+  block-size: min(58vw, 420px);
+  background: radial-gradient(circle at 45% 55%, var(--orb-3), transparent 70%);
+  animation-duration: 34s;
+  animation-delay: -13s;
+}
+
+@keyframes float-slow {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, -6%, 0) scale(1.12);
+  }
+}
+
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(to right, var(--grid-line) 0 1px, transparent 1px 72px),
+    repeating-linear-gradient(to bottom, var(--grid-line) 0 1px, transparent 1px 72px);
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, var(--slate-900) 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, var(--slate-900) 30%, transparent 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: var(--z-raised);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+  max-inline-size: 60ch;
+  margin-inline: auto;
+}
+
+.hero__content .lede {
+  max-inline-size: 52ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.hero__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  inline-size: 100%;
+  margin-block-start: var(--space-5);
+  padding: var(--space-5) var(--space-4);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 48em) {
+  .hero {
+    padding-block: var(--space-11) var(--space-10);
+  }
+
+  .hero__stats {
+    gap: var(--space-6);
+    padding: var(--space-6) var(--space-7);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Latest notes
+   -------------------------------------------------------------------------- */
+
+.home-notes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 42em) {
+  .home-notes {
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  }
+}
+
+.home-notes .alert {
+  grid-column: 1 / -1;
+}
+
+.home-notes__more {
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+   How it works — numbered steps
+   -------------------------------------------------------------------------- */
+
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  counter-reset: step;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.step__num {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: var(--radius-full);
+  background: var(--grad-accent);
+  color: var(--accent-contrast);
+  font-weight: 700;
+  font-size: var(--step-0);
+  box-shadow: var(--shadow-glow);
+}
+
+.step__body > * + * {
+  margin-block-start: var(--space-2);
+}
+
+.step__title {
+  font-size: var(--step-1);
+  font-weight: 650;
+  letter-spacing: var(--tracking-tight);
+}
+
+.step::after {
+  /* Connector between steps — vertical on mobile. */
+  content: "";
+  position: absolute;
+  inset-inline-start: 1.375rem;
+  inset-block-start: 3.25rem;
+  inline-size: 1px;
+  block-size: calc(100% - 1.5rem);
+  background: linear-gradient(to bottom, var(--accent-border), transparent);
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+@media (min-width: 48em) {
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-7);
+  }
+
+  .step {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .step::after {
+    inset-block-start: 1.375rem;
+    inset-inline-start: 3.5rem;
+    inline-size: calc(100% - 1rem);
+    block-size: 1px;
+    background: linear-gradient(to right, var(--accent-border), transparent);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Closing CTA band
+   -------------------------------------------------------------------------- */
+
+.cta-band {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-5);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  background:
+    var(--grad-accent-soft),
+    var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-lg);
+}
+
+.cta-band__text {
+  max-inline-size: 48ch;
+}
+
+.cta-band__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+@media (min-width: 48em) {
+  .cta-band {
+    padding: var(--space-10) var(--space-8);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   About page
+   -------------------------------------------------------------------------- */
+
+.about-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: var(--space-8) var(--space-7);
+  text-align: center;
+}
+
+.about-prose > * + * {
+  margin-block-start: var(--space-4);
+}
+
+.about-list {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.about-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  color: var(--text-secondary);
+}
+
+.about-list li::before {
+  content: "";
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  margin-block-start: 0.5em;
+  border-radius: var(--radius-full);
+  background: var(--grad-accent);
+}
+
+.about-figure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-block-end: var(--space-3);
+}
+
+.about-figure__value {
+  font-size: var(--step-4);
+  font-weight: 750;
+  letter-spacing: var(--tracking-tight);
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.about-figure__label {
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+}
+
+.about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.about-tag {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-full);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: var(--step--1);
+  font-weight: 550;
+}
+
+/* --------------------------------------------------------------------------
+   Feedback form (layout only — controls come from components.css)
+   -------------------------------------------------------------------------- */
+
+.feedback-form {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.feedback-form__row {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.feedback-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.feedback-form__note {
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+@media (min-width: 40em) {
+  .feedback-form {
+    padding: var(--space-6);
+  }
+
+  .feedback-form__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   404
+   -------------------------------------------------------------------------- */
+
+.error-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  min-block-size: calc(100svh - var(--header-h) - var(--space-11));
+  padding-block: var(--space-9);
+  text-align: center;
+}
+
+.error-page__inner {
+  position: relative;
+  z-index: var(--z-raised);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  max-inline-size: 46ch;
+}
+
+.error-page__code {
+  line-height: 1;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.error-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-block-start: var(--space-2);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+  }
+}

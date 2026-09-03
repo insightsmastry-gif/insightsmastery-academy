@@ -1,0 +1,70 @@
+{
+  "_comment": "Optional metadata for the content build. EVERY field here is optional: a new file dropped into notes/ or pdfs/ is published by `npm run build` without touching this file — title, description, headings, word count and size are read from the file itself, and the category comes from the first matching entry in `rules` (or `defaults.category`). Use `notes`/`resources` only to override what the file cannot tell us: category, tags, description, title. Keys are exact filenames.",
+  "defaults": {
+    "category": "General",
+    "tags": []
+  },
+  "rules": [
+    { "match": "data_connectivity", "category": "Data Connectivity", "tags": ["Power BI", "Power Query", "Get Data"] },
+    { "match": "time_intelligence", "category": "DAX", "tags": ["DAX", "Time Intelligence"] },
+    { "match": "data_modeling", "category": "Data Modeling", "tags": ["Data Modeling", "Power Query"] },
+    { "match": "transform_data_cleaning", "category": "Power Query", "tags": ["Power Query", "Data Cleaning"] },
+    { "match": "powerquery", "category": "Power Query", "tags": ["Power Query"] },
+    { "match": "sql_server", "category": "SQL Server", "tags": ["SQL Server", "SSMS"] },
+    { "match": "ssms", "category": "SQL Server", "tags": ["SQL Server", "SSMS"] },
+    { "match": "install", "category": "Setup & SOP", "tags": ["Setup", "SOP"] },
+    { "match": "sop", "category": "Setup & SOP", "tags": ["SOP"] },
+    { "match": "dax", "category": "DAX", "tags": ["DAX"] }
+  ],
+  "notes": {
+    "InsightsMastery_PowerBI_Data_Connectivity_Handbook.html": {
+      "category": "Data Connectivity",
+      "tags": ["Power BI", "Power Query", "Get Data", "SQL Server"],
+      "description": "Step-by-step patterns for connecting Power BI Desktop to Excel, CSV, folders, SQL Server and shared semantic models, with the best practices that keep refreshes reliable."
+    },
+    "InsightsMastery_Time_Intelligence_DAX_Handbook.html": {
+      "category": "DAX",
+      "tags": ["DAX", "Time Intelligence", "Power BI"]
+    },
+    "PowerBI_Learning_Handbook_Data_Modeling_PowerQuery.html": {
+      "category": "Data Modeling",
+      "tags": ["Data Modeling", "Power Query", "DAX", "Time Intelligence"]
+    },
+    "SOP_Install_SQL_Server_2022_Developer_SSMS.html": {
+      "category": "SQL Server",
+      "tags": ["SQL Server", "SSMS", "Installation", "SOP"]
+    }
+  },
+  "resources": {
+    "InsightsMastery_Time_Intelligence_DAX_Handbook.pdf": {
+      "category": "DAX",
+      "tags": ["DAX", "Time Intelligence"],
+      "description": "Print-ready reference for the DAX time intelligence functions, with the formula patterns used across the handbook."
+    },
+    "InsightsMastery_PowerBI_Data_Connectivity_Handbook.pdf": {
+      "category": "Data Connectivity",
+      "tags": ["Power BI", "Power Query", "Get Data"],
+      "description": "Printable companion to the data connectivity handbook — Excel, CSV, folder, SQL Server and semantic model sources in one file."
+    },
+    "InsightsMastery_PowerQuery_Transform_Data_Cleaning_Handbook.pdf": {
+      "category": "Power Query",
+      "tags": ["Power Query", "Data Cleaning", "Transform"],
+      "description": "Power Query field guide: the Transform tab, column shaping and the data-cleaning steps that survive a refresh."
+    },
+    "PowerBI_Learning_Handbook_Data_Modeling_PowerQuery.pdf": {
+      "category": "Data Modeling",
+      "tags": ["Data Modeling", "Power Query", "DAX"],
+      "description": "Full learning handbook on semantic modeling, DAX time intelligence and Power Query data cleaning, formatted for print."
+    },
+    "SOP_Install_SQL_Server_2022_Developer_SSMS.pdf": {
+      "category": "SQL Server",
+      "tags": ["SQL Server", "SSMS", "Installation", "SOP"],
+      "description": "Controlled procedure for installing SQL Server 2022 Developer Edition with SQL Server Management Studio on Windows."
+    },
+    "InsightsMastery_Install_SOP_PowerBI_DAXStudio_TabularEditor.pdf": {
+      "category": "Setup & SOP",
+      "tags": ["Setup", "Power BI", "DAX Studio", "Tabular Editor"],
+      "description": "Installation SOP for the Power BI toolchain: Power BI Desktop, DAX Studio and Tabular Editor, including post-install checks."
+    }
+  }
+}

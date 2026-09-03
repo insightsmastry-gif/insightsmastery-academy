@@ -1,0 +1,232 @@
+/* ==========================================================================
+   InsightsMastery Academy — design tokens
+   Single source of truth for color, type, space, motion, elevation.
+   Light theme = :root defaults. Dark theme = [data-theme="dark"].
+   ========================================================================== */
+
+:root {
+  /* --- Font families ----------------------------------------------------- */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, SFMono-Regular,
+    Consolas, "Liberation Mono", monospace;
+
+  /* --- Fluid type scale (clamp: min, preferred, max) --------------------- */
+  --step--2: clamp(0.694rem, 0.68rem + 0.07vw, 0.75rem);
+  --step--1: clamp(0.833rem, 0.81rem + 0.11vw, 0.9rem);
+  --step-0: clamp(0.975rem, 0.95rem + 0.13vw, 1.05rem);
+  --step-1: clamp(1.17rem, 1.12rem + 0.25vw, 1.31rem);
+  --step-2: clamp(1.4rem, 1.31rem + 0.44vw, 1.64rem);
+  --step-3: clamp(1.68rem, 1.53rem + 0.75vw, 2.05rem);
+  --step-4: clamp(2.02rem, 1.77rem + 1.24vw, 2.56rem);
+  --step-5: clamp(2.42rem, 2.03rem + 1.95vw, 3.2rem);
+  --step-6: clamp(2.9rem, 2.29rem + 3.05vw, 4rem);
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.02em;
+  --tracking-eyebrow: 0.16em;
+
+  /* --- Space scale ------------------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 5rem;
+  --space-11: 6.5rem;
+  --space-12: 8rem;
+
+  /* --- Radii ------------------------------------------------------------- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+
+  /* --- Layout ------------------------------------------------------------ */
+  --container: 1180px;
+  --container-narrow: 760px;
+  --header-h: 68px;
+  --reader-measure: 72ch;
+
+  /* --- Motion ------------------------------------------------------------ */
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --dur-4: 520ms;
+  --dur-5: 800ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* --- Z layers ---------------------------------------------------------- */
+  --z-canvas: 0;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-header: 200;
+  --z-overlay: 300;
+  --z-toast: 400;
+
+  /* --- Brand ramp (accent = indigo/violet) ------------------------------- */
+  --indigo-50: #eef2ff;
+  --indigo-100: #e0e7ff;
+  --indigo-200: #c7d2fe;
+  --indigo-300: #a5b4fc;
+  --indigo-400: #818cf8;
+  --indigo-500: #6366f1;
+  --indigo-600: #4f46e5;
+  --indigo-700: #4338ca;
+  --indigo-800: #3730a3;
+  --indigo-900: #312e81;
+
+  /* --- Neutral ramp (slate) --------------------------------------------- */
+  --slate-0: #ffffff;
+  --slate-25: #fcfcfd;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --slate-950: #080d17;
+
+  /* --- Semantic surface / text (LIGHT) ---------------------------------- */
+  --bg: var(--slate-50);
+  --bg-deep: var(--slate-100);
+  --surface: var(--slate-0);
+  --surface-2: var(--slate-50);
+  --surface-3: var(--slate-100);
+  --surface-inset: #f4f6fb;
+  --border: #e6eaf2;
+  --border-strong: #d3dae7;
+  --text: var(--slate-900);
+  --text-secondary: var(--slate-700);
+  --text-muted: var(--slate-500);
+  --text-subtle: var(--slate-400);
+  --text-inverse: var(--slate-0);
+
+  --accent: var(--indigo-600);
+  --accent-hover: var(--indigo-700);
+  --accent-text: var(--indigo-700);
+  --accent-soft: var(--indigo-50);
+  --accent-soft-strong: var(--indigo-100);
+  --accent-border: var(--indigo-200);
+  --accent-contrast: #ffffff;
+
+  --success: #047857;
+  --success-soft: #ecfdf5;
+  --warning: #b45309;
+  --warning-soft: #fffbeb;
+  --danger: #be123c;
+  --danger-soft: #fff1f2;
+  --info: #0369a1;
+  --info-soft: #f0f9ff;
+
+  /* --- Glass / gradients (LIGHT) ---------------------------------------- */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-strong: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-blur: 16px;
+
+  --grad-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+  --grad-accent-soft: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.12) 0%,
+    rgba(139, 92, 246, 0.1) 50%,
+    rgba(6, 182, 212, 0.1) 100%
+  );
+  --grad-text: linear-gradient(120deg, #4f46e5 0%, #7c3aed 45%, #0891b2 100%);
+  --grad-surface: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  --orb-1: rgba(99, 102, 241, 0.32);
+  --orb-2: rgba(139, 92, 246, 0.26);
+  --orb-3: rgba(6, 182, 212, 0.22);
+  --grid-line: rgba(15, 23, 42, 0.045);
+
+  /* --- Elevation (LIGHT) ------------------------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.07), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08), 0 2px 4px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.1), 0 4px 10px rgba(15, 23, 42, 0.05);
+  --shadow-xl: 0 28px 60px rgba(15, 23, 42, 0.14), 0 8px 20px rgba(15, 23, 42, 0.06);
+  --shadow-glow: 0 8px 30px rgba(99, 102, 241, 0.28);
+  --ring: 0 0 0 3px rgba(99, 102, 241, 0.35);
+
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   Dark theme
+   ========================================================================== */
+[data-theme="dark"] {
+  --bg: #070b14;
+  --bg-deep: #05080f;
+  --surface: #0e1522;
+  --surface-2: #131c2c;
+  --surface-3: #1a2436;
+  --surface-inset: #0b111c;
+  --border: #1f2a3c;
+  --border-strong: #2d3a50;
+  --text: #eef2f9;
+  --text-secondary: #c2ccdb;
+  --text-muted: #8e9cb3;
+  --text-subtle: #6c7a91;
+  --text-inverse: #0b111c;
+
+  --accent: var(--indigo-400);
+  --accent-hover: var(--indigo-300);
+  --accent-text: var(--indigo-300);
+  --accent-soft: rgba(99, 102, 241, 0.14);
+  --accent-soft-strong: rgba(99, 102, 241, 0.22);
+  --accent-border: rgba(129, 140, 248, 0.32);
+  --accent-contrast: #0b1020;
+
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.12);
+  --warning: #fbbf24;
+  --warning-soft: rgba(251, 191, 36, 0.12);
+  --danger: #fb7185;
+  --danger-soft: rgba(251, 113, 133, 0.12);
+  --info: #38bdf8;
+  --info-soft: rgba(56, 189, 248, 0.12);
+
+  --glass-bg: rgba(14, 21, 34, 0.72);
+  --glass-bg-strong: rgba(14, 21, 34, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --grad-accent: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #22d3ee 100%);
+  --grad-accent-soft: linear-gradient(
+    135deg,
+    rgba(129, 140, 248, 0.18) 0%,
+    rgba(167, 139, 250, 0.14) 50%,
+    rgba(34, 211, 238, 0.12) 100%
+  );
+  --grad-text: linear-gradient(120deg, #a5b4fc 0%, #c4b5fd 45%, #67e8f9 100%);
+  --grad-surface: linear-gradient(180deg, #101a29 0%, #0b1220 100%);
+  --orb-1: rgba(99, 102, 241, 0.4);
+  --orb-2: rgba(139, 92, 246, 0.32);
+  --orb-3: rgba(6, 182, 212, 0.26);
+  --grid-line: rgba(255, 255, 255, 0.04);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55), 0 6px 14px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 32px 70px rgba(0, 0, 0, 0.62), 0 10px 24px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 8px 34px rgba(129, 140, 248, 0.35);
+  --ring: 0 0 0 3px rgba(129, 140, 248, 0.45);
+
+  color-scheme: dark;
+}

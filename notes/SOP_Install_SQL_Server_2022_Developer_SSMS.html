@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOP — Install SQL Server 2022 Developer Edition &amp; SSMS</title>
+<style>
+  :root{
+    --brand:#1f4e79; --brand-dark:#14375c; --accent:#c00000;
+    --ink:#1f2933; --muted:#52616b; --line:#dbe2ea; --bg:#f5f7fa;
+    --note-bg:#eef3f8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .page{max-width:920px;margin:0 auto;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  header.cover{border-top:8px solid var(--accent);background:var(--brand);color:#fff;padding:48px 48px}
+  header.cover .kicker{letter-spacing:.16em;text-transform:uppercase;font-size:.78rem;opacity:.85;margin:0}
+  header.cover h1{font-size:2rem;margin:14px 0 8px;line-height:1.2}
+  header.cover p.lead{margin:14px 0 0;opacity:.92;max-width:70ch}
+  main{padding:34px 48px 52px}
+  h2{color:var(--brand-dark);border-bottom:2px solid var(--line);padding-bottom:6px;margin-top:42px;font-size:1.45rem}
+  h3{color:var(--brand);margin-top:26px;font-size:1.12rem}
+  h4{color:var(--muted);margin:18px 0 6px;font-size:1rem}
+  a{color:var(--brand)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:var(--brand);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:var(--bg)}
+  .meta td:first-child{width:32%;background:var(--bg);font-weight:600;color:var(--brand-dark)}
+  .note{background:var(--note-bg);border-left:4px solid var(--brand);padding:12px 16px;margin:16px 0;border-radius:4px}
+  .note .tag{display:block;font-weight:700;color:var(--brand-dark);margin-bottom:4px}
+  .warn{background:#fbeeee;border-left:4px solid var(--accent)}
+  .warn .tag{color:var(--accent)}
+  .fig{font-style:italic;color:var(--muted);font-size:.85rem;margin:6px 0 14px;padding:6px 10px;border-left:3px dashed var(--line)}
+  ul,ol{padding-left:22px}
+  li{margin:4px 0}
+  nav.toc{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:18px 26px}
+  .checklist{list-style:none;padding-left:0}
+  .checklist li{padding-left:26px;position:relative}
+  .checklist li::before{content:"\2610";position:absolute;left:0;color:var(--brand);font-size:1.05rem}
+  footer{background:var(--brand-dark);color:#fff;text-align:center;padding:22px 20px;font-size:.82rem}
+  .confidential{background:#fff3cd;color:#664d03;text-align:center;font-size:.78rem;padding:6px;letter-spacing:.08em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="confidential">Confidential – Internal Use Only</div>
+<header class="cover">
+  <p class="kicker">Standard Operating Procedure</p>
+  <h1>Installation of Microsoft SQL Server 2022 Developer Edition with SQL Server Management Studio</h1>
+  <p class="lead">A controlled, enterprise-grade procedure for installing Microsoft SQL Server 2022 Developer Edition and the accompanying SQL Server Management Studio on Windows workstations and servers for development, test, and non-production environments.</p>
+</header>
+<main>
+
+<table class="meta" aria-label="Document control">
+  <tbody>
+    <tr><td>Document ID</td><td>SOP-DBA-SQL-001</td></tr>
+    <tr><td>Version</td><td>1.0</td></tr>
+    <tr><td>Effective Date</td><td>23 August 2026</td></tr>
+    <tr><td>Classification</td><td>Internal – Confidential</td></tr>
+    <tr><td>Owner / Author</td><td>Database Administration / Platform Engineering</td></tr>
+    <tr><td>Review Cycle</td><td>Annual or upon major product release</td></tr>
+    <tr><td>Approved By</td><td>___________________________</td></tr>
+  </tbody>
+</table>
+
+<nav class="toc" aria-label="Table of contents">
+  <h2 style="margin-top:0;border:none">Contents</h2>
+  <ol>
+    <li><a href="#s1">Purpose</a></li>
+    <li><a href="#s2">Scope</a></li>
+    <li><a href="#s3">Definitions &amp; Abbreviations</a></li>
+    <li><a href="#s4">Prerequisites &amp; System Requirements</a></li>
+    <li><a href="#s5">Roles and Responsibilities</a></li>
+    <li><a href="#s6">Procedure – Download SQL Server 2022 Developer Edition</a></li>
+    <li><a href="#s7">Procedure – Install SQL Server 2022 Developer Edition</a></li>
+    <li><a href="#s8">Procedure – Install SQL Server Management Studio (SSMS)</a></li>
+    <li><a href="#s9">Post-Installation Verification</a></li>
+    <li><a href="#s10">Troubleshooting Common Issues</a></li>
+    <li><a href="#s11">References</a></li>
+    <li><a href="#s12">Document History</a></li>
+  </ol>
+</nav>
+
+<section id="s1">
+  <h2>1. Purpose</h2>
+  <p>The purpose of this Standard Operating Procedure (SOP) is to define a consistent, secure, and repeatable method for installing Microsoft SQL Server 2022 Developer Edition together with SQL Server Management Studio (SSMS) on approved Windows platforms. Adherence to this procedure ensures compliance with licensing terms, security baselines, and operational standards.</p>
+</section>
+
+<section id="s2">
+  <h2>2. Scope</h2>
+  <p>This SOP applies to all installations of SQL Server 2022 Developer Edition and SSMS performed by IT staff, developers, DBAs, and contractors on company-managed or approved personal development machines.</p>
+  <h3>In Scope</h3>
+  <ul>
+    <li>Windows 10/11 (version 1607+) and Windows Server 2016/2019/2022/2025</li>
+    <li>SQL Server 2022 Developer Edition (free, non-production license)</li>
+    <li>SQL Server Management Studio 22 (current recommended version)</li>
+    <li>Standalone (non-clustered) default or named instances</li>
+  </ul>
+  <h3>Out of Scope</h3>
+  <ul>
+    <li>Production use of Developer Edition (strictly prohibited by Microsoft EULA)</li>
+    <li>SQL Server Express, Standard, or Enterprise licensed installations</li>
+    <li>Always On Availability Groups, Failover Clusters, or PolyBase scale-out</li>
+    <li>Linux or container-based deployments (covered by separate SOPs)</li>
+  </ul>
+</section>
+
+<section id="s3">
+  <h2>3. Definitions &amp; Abbreviations</h2>
+  <table>
+    <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+    <tbody>
+      <tr><td>SSMS</td><td>SQL Server Management Studio – graphical management tool</td></tr>
+      <tr><td>Developer Edition</td><td>Full-featured free edition of SQL Server licensed solely for development and test (non-production)</td></tr>
+      <tr><td>Default Instance</td><td>Instance named MSSQLSERVER; connects using machine name or localhost</td></tr>
+      <tr><td>Named Instance</td><td>Instance with a custom name; connects using machine\instancename</td></tr>
+      <tr><td>sa</td><td>System Administrator login used with SQL Server Authentication</td></tr>
+      <tr><td>CU</td><td>Cumulative Update – recommended post-install patch</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s4">
+  <h2>4. Prerequisites &amp; System Requirements</h2>
+  <h3>4.1 Hardware Minimums (SQL Server 2022)</h3>
+  <table>
+    <thead><tr><th>Component</th><th>Minimum</th><th>Recommended</th></tr></thead>
+    <tbody>
+      <tr><td>Processor</td><td>x64 1.4 GHz</td><td>x64 2.0 GHz or higher</td></tr>
+      <tr><td>Memory (RAM)</td><td>1 GB</td><td>4 GB or more</td></tr>
+      <tr><td>Disk Space</td><td>6 GB free</td><td>20 GB+ (plus data growth)</td></tr>
+      <tr><td>Display</td><td>Super VGA 800×600</td><td>1280×1024 or higher</td></tr>
+    </tbody>
+  </table>
+  <h3>4.2 Software Requirements</h3>
+  <ul>
+    <li>Operating System: Windows 10 (1607+), Windows 11, Windows Server 2016 or later</li>
+    <li>.NET Framework 4.7.2 (included with modern Windows; install if missing)</li>
+    <li>Administrator rights on the target machine</li>
+    <li>Internet connectivity for download (or pre-staged media)</li>
+    <li>No pending Windows restarts (especially on Windows Server 2022+)</li>
+  </ul>
+  <h3>4.3 Pre-Installation Checklist</h3>
+  <ul class="checklist">
+    <li>Verify target machine meets hardware/software requirements</li>
+    <li>Confirm installation is for non-production use only</li>
+    <li>Close all applications and ensure no pending reboots</li>
+    <li>Temporarily disable real-time antivirus if it interferes with setup (re-enable after)</li>
+    <li>Have a strong password ready for the sa account (if Mixed Mode selected)</li>
+    <li>Decide default vs named instance and data directory layout</li>
+  </ul>
+</section>
+
+<section id="s5">
+  <h2>5. Roles and Responsibilities</h2>
+  <table>
+    <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+    <tbody>
+      <tr><td>Requester / Developer</td><td>Request installation; ensure non-production use; provide justification if required</td></tr>
+      <tr><td>Installer (DBA / Desktop Eng.)</td><td>Execute this SOP; configure instance per standards; document completion</td></tr>
+      <tr><td>Platform / Security Team</td><td>Approve elevated rights if needed; review baseline compliance</td></tr>
+      <tr><td>Document Owner</td><td>Maintain this SOP; update for new versions or policy changes</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s6">
+  <h2>6. Procedure – Download SQL Server 2022 Developer Edition</h2>
+  <h3>Step 6.1 – Obtain the Installer</h3>
+  <ol>
+    <li>Open a browser and navigate to the official Microsoft SQL Server downloads page: <a href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads">https://www.microsoft.com/en-us/sql-server/sql-server-downloads</a></li>
+    <li>Locate the section "Or, download a free specialized edition" and select Developer.</li>
+    <li>Click Download now. The small bootstrapper (SQL2022-SSEI-Dev.exe) will download.</li>
+    <li>(Alternative) For offline media, run the bootstrapper and choose Download Media, then select ISO.</li>
+  </ol>
+  <p class="fig">Figure 1 – Official SQL Server downloads page (Developer edition)</p>
+</section>
+
+<section id="s7">
+  <h2>7. Procedure – Install SQL Server 2022 Developer Edition</h2>
+  <h3>Step 7.1 – Launch Setup</h3>
+  <ol>
+    <li>Right-click the downloaded SQL2022-SSEI-Dev.exe and select Run as administrator.</li>
+    <li>On the first screen choose Custom (recommended for enterprise control) or Download Media if preparing offline ISO.</li>
+  </ol>
+  <p class="fig">Figure 2 – Installation type selection</p>
+  <h3>Step 7.2 – SQL Server Installation Center</h3>
+  <ol>
+    <li>In the Installation Center, select Installation in the left navigation pane.</li>
+    <li>Click New SQL Server stand-alone installation or add features to an existing installation.</li>
+  </ol>
+  <h3>Step 7.3 – Edition Selection</h3>
+  <ol>
+    <li>On the Product Key / Edition page, select Specify a free edition.</li>
+    <li>From the drop-down list choose Developer. Click Next.</li>
+  </ol>
+  <p class="fig">Figure 3 – Selecting Developer edition</p>
+  <h3>Step 7.4 – License Terms</h3>
+  <ol><li>Review the license terms. Check I accept the license terms. Click Next.</li></ol>
+  <div class="note warn"><span class="tag">Note</span>Developer Edition is licensed only for development and testing. Production use violates the EULA.</div>
+  <h3>Step 7.5 – Microsoft Update (Recommended)</h3>
+  <ol><li>Check Use Microsoft Update to check for updates (recommended). Click Next.</li></ol>
+  <h3>Step 7.6 – Install Rules</h3>
+  <ol><li>Setup runs system configuration checks. Resolve any Failed rules before continuing. Warnings should be reviewed.</li></ol>
+  <h3>Step 7.7 – Feature Selection</h3>
+  <p>Select the following recommended features for a development workstation:</p>
+  <ul>
+    <li>Database Engine Services (required)</li>
+    <li>SQL Server Replication (optional)</li>
+    <li>Full-Text and Semantic Extractions for Search (optional)</li>
+    <li>Machine Learning Services and Language Extensions (optional)</li>
+    <li>Client Tools Connectivity / Client Tools SDK</li>
+  </ul>
+  <p>Accept the default shared feature directories unless organizational standards dictate otherwise. Click Next.</p>
+  <p class="fig">Figure 4 – Feature Selection page</p>
+  <h3>Step 7.8 – Instance Configuration</h3>
+  <ol>
+    <li>Choose Default instance (MSSQLSERVER) unless multiple instances are required on the same machine.</li>
+    <li>If using a named instance, enter a short, meaningful name (e.g., DEV2022). Click Next.</li>
+  </ol>
+  <p class="fig">Figure 5 – Instance Configuration</p>
+  <h3>Step 7.9 – Server Configuration (Service Accounts)</h3>
+  <ol>
+    <li>Accept the default virtual service accounts (NT Service\MSSQLSERVER and NT Service\SQLSERVERAGENT) for development machines.</li>
+    <li>Check Grant Perform Volume Maintenance Task privilege to SQL Server Database Engine Service (enables Instant File Initialization – highly recommended).</li>
+    <li>On the Collation tab, accept the default (SQL_Latin1_General_CP1_CI_AS) or select the organization-approved collation. Click Next.</li>
+  </ol>
+  <p class="fig">Figure 6 – Server Configuration / Service Accounts</p>
+  <h3>Step 7.10 – Database Engine Configuration</h3>
+  <ol>
+    <li>Authentication Mode: Select Mixed Mode for maximum flexibility in development environments. Provide a strong password for the sa account (minimum 12 characters, complexity required).</li>
+    <li>Click Add Current User under Specify SQL Server administrators so the installing account is a sysadmin.</li>
+    <li>Optionally add additional Windows groups or accounts that require sysadmin rights.</li>
+    <li>On the Data Directories tab, review paths. For development machines the defaults are usually acceptable. For larger environments place data and log files on separate volumes.</li>
+    <li>On the TempDB tab, leave defaults or increase file count to match logical processors (up to 8). Click Next.</li>
+  </ol>
+  <p class="fig">Figure 7 – Database Engine Configuration (Authentication &amp; Admins)</p>
+  <h3>Step 7.11 – Ready to Install &amp; Completion</h3>
+  <ol>
+    <li>Review the summary. Click Install.</li>
+    <li>Wait for the installation to complete (typically 10–30 minutes).</li>
+    <li>When the Complete page appears, verify all features show Succeeded. Click Close.</li>
+    <li>Restart the computer if prompted by Windows or SQL Server setup.</li>
+  </ol>
+  <p class="fig">Figure 8 – Installation progress &nbsp;|&nbsp; Figure 9 – Installation complete</p>
+</section>
+
+<section id="s8">
+  <h2>8. Procedure – Install SQL Server Management Studio (SSMS)</h2>
+  <p>SSMS is installed separately from the Database Engine. The current recommended version is SSMS 22 (Visual Studio Installer based). It is fully compatible with SQL Server 2022 and later.</p>
+  <h3>Step 8.1 – Download SSMS 22</h3>
+  <ol>
+    <li>Navigate to the official download page or use the direct bootstrapper link: <a href="https://aka.ms/ssms/22/release/vs_SSMS.exe">https://aka.ms/ssms/22/release/vs_SSMS.exe</a> or from Learn: <a href="https://learn.microsoft.com/en-us/ssms/install/install">https://learn.microsoft.com/en-us/ssms/install/install</a></li>
+    <li>Save the small vs_SSMS.exe bootstrapper.</li>
+  </ol>
+  <h3>Step 8.2 – Install SSMS</h3>
+  <ol>
+    <li>Right-click vs_SSMS.exe → Run as administrator.</li>
+    <li>Accept the Microsoft Privacy Statement and Software License Terms. Click Continue.</li>
+    <li>The Visual Studio Installer opens. The default workload selection is sufficient for most users. Optional: add Hybrid and Migration or other components if required.</li>
+    <li>Click Install. Wait for the download and installation to finish.</li>
+    <li>When complete, launch SQL Server Management Studio from the Start menu.</li>
+  </ol>
+  <p class="fig">Figure 10 – SSMS 22 installation via Visual Studio Installer</p>
+</section>
+
+<section id="s9">
+  <h2>9. Post-Installation Verification</h2>
+  <h3>Step 9.1 – Connect with SSMS</h3>
+  <ol>
+    <li>Open SQL Server Management Studio.</li>
+    <li>In the Connect to Server dialog:
+      <ul>
+        <li>Server type: Database Engine</li>
+        <li>Server name: localhost or <code>.</code> or <code>(local)</code> (default instance)</li>
+        <li>Authentication: Windows Authentication (preferred) or SQL Server Authentication (sa)</li>
+      </ul>
+    </li>
+    <li>Click Connect. Object Explorer should expand and show the instance, Databases, Security, etc.</li>
+  </ol>
+  <p class="fig">Figure 11 – Successful connection in SSMS</p>
+  <h3>Step 9.2 – Validate Services</h3>
+  <ol>
+    <li>Open SQL Server Configuration Manager (search Start menu).</li>
+    <li>Confirm SQL Server (MSSQLSERVER) and SQL Server Agent services are Running and set to Automatic (or Automatic Delayed Start).</li>
+  </ol>
+  <h3>Step 9.3 – Optional: Apply Latest Cumulative Update</h3>
+  <ol>
+    <li>Check the latest CU for SQL Server 2022 at the Microsoft Update Catalog or Microsoft Learn release notes.</li>
+    <li>Download and install the CU as Administrator. Restart services or the machine if required.</li>
+  </ol>
+  <h3>Step 9.4 – Record the Installation</h3>
+  <p>Document the following in the change/ticket system or asset inventory:</p>
+  <ul>
+    <li>Hostname / Machine name</li>
+    <li>Instance name (default or named)</li>
+    <li>Edition &amp; version (SELECT @@VERSION)</li>
+    <li>SSMS version</li>
+    <li>Date of installation and installer identity</li>
+  </ul>
+</section>
+
+<section id="s10">
+  <h2>10. Troubleshooting Common Issues</h2>
+  <table>
+    <thead><tr><th>Symptom</th><th>Resolution Guidance</th></tr></thead>
+    <tbody>
+      <tr><td>Setup fails with pending restart</td><td>Restart Windows, then re-run setup. Especially critical on Windows Server 2022+.</td></tr>
+      <tr><td>Feature rules fail (e.g., .NET)</td><td>Install the missing prerequisite (.NET 4.7.2) and retry.</td></tr>
+      <tr><td>Cannot connect after install</td><td>Verify SQL Server service is running; check Windows Firewall allows TCP 1433 (or named instance port); confirm protocol (Shared Memory / TCP/IP) is enabled in Configuration Manager.</td></tr>
+      <tr><td>SSMS install hangs or fails</td><td>Ensure sufficient disk space; run vs_SSMS.exe as Administrator; clear Visual Studio Installer cache if needed.</td></tr>
+      <tr><td>sa login fails</td><td>Confirm Mixed Mode was selected; unlock the sa account if locked; reset password via single-user mode if necessary.</td></tr>
+      <tr><td>Antivirus interference</td><td>Temporarily exclude the setup directories and SQL Server data folders during installation.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s11">
+  <h2>11. References</h2>
+  <ul>
+    <li>Microsoft Learn – Install SQL Server from the Installation Wizard (Setup)</li>
+    <li>Microsoft Learn – Hardware and software requirements for SQL Server 2022</li>
+    <li>Microsoft Learn – Install SQL Server Management Studio</li>
+    <li>SQL Server 2022 Downloads: <a href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads">https://www.microsoft.com/en-us/sql-server/sql-server-downloads</a></li>
+    <li>SSMS Download: <a href="https://aka.ms/ssms/22/release/vs_SSMS.exe">https://aka.ms/ssms/22/release/vs_SSMS.exe</a></li>
+    <li>Editions and supported features of SQL Server 2022 (Microsoft Learn)</li>
+  </ul>
+</section>
+
+<section id="s12">
+  <h2>12. Document History</h2>
+  <table>
+    <thead><tr><th>Version</th><th>Date</th><th>Author</th><th>Changes</th></tr></thead>
+    <tbody>
+      <tr><td>1.0</td><td>23 Aug 2026</td><td>Platform Engineering</td><td>Initial release – SQL Server 2022 Developer + SSMS 22</td></tr>
+    </tbody>
+  </table>
+  <p><em>End of Document. This SOP is controlled. Printed copies are uncontrolled. Always refer to the latest approved electronic version.</em></p>
+</section>
+
+</main>
+<footer>Confidential – Internal Use Only &bull; SOP-DBA-SQL-001 &bull; Rev 1.0 | Aug 2026</footer>
+</div>
+</body>
+</html>

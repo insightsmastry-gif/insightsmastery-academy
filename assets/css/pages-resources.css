@@ -1,0 +1,301 @@
+/* ==========================================================================
+   resources.html — downloads page
+   Layout only: every colour, radius, shadow and duration comes from tokens.css.
+   Mobile-first; the single breakpoint at 720px widens the card to icon + body
+   + actions, and 1024px turns the toolbar into one row.
+   ========================================================================== */
+
+/* --- hero ---------------------------------------------------------------- */
+
+.resources-hero {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: var(--space-6);
+}
+
+.resources-hero::before {
+  content: "";
+  position: absolute;
+  inset: -40% 40% auto -20%;
+  height: 32rem;
+  background: radial-gradient(circle at 30% 30%, var(--orb-1), transparent 62%);
+  filter: blur(46px);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: var(--z-canvas);
+}
+
+.resources-hero__inner {
+  position: relative;
+  z-index: var(--z-raised);
+  max-width: 62ch;
+}
+
+.resources-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+  color: var(--text-secondary);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.resources-summary__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+/* --- toolbar ------------------------------------------------------------- */
+
+.resources-toolbar {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.resources-toolbar__chips {
+  min-width: 0;
+}
+
+@media (min-width: 700px) {
+  .resources-toolbar {
+    /* Search + sort share the first row; the chip row spans the full width so
+       it keeps working when the manifest grows new categories. */
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "search sort"
+      "chips chips";
+    align-items: center;
+    gap: var(--space-4) var(--space-3);
+  }
+
+  .resources-toolbar__search {
+    grid-area: search;
+    max-width: 26rem;
+  }
+
+  .resources-toolbar__sort {
+    grid-area: sort;
+    min-width: 11rem;
+  }
+
+  .resources-toolbar__chips {
+    grid-area: chips;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* --- list + groups ------------------------------------------------------- */
+
+.resources-list {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.resource-group {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.resource-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.resource-group__head h2 {
+  margin: 0;
+}
+
+.resource-group__grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 900px) {
+  .resource-group__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* A category with a single download stretches instead of leaving a hole. */
+  .resource-group__grid > .resource-card:only-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --- card ---------------------------------------------------------------- */
+
+.resource-card {
+  /* Row 1 grows so the action row always sits on the card's bottom edge —
+     keeps a 2-up grid of unequal descriptions visually aligned. */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  gap: var(--space-3) var(--space-4);
+}
+
+.resource-card__icon {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  transition: transform var(--dur-3) var(--ease-spring),
+    background-color var(--dur-2) var(--ease-out);
+}
+
+.resource-card__icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.resource-card:hover .resource-card__icon,
+.resource-card:focus-within .resource-card__icon {
+  transform: translateY(-2px) scale(1.04);
+  background: var(--accent-soft-strong);
+}
+
+.resource-card__body {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.resource-card__body .card__title {
+  margin: 0;
+}
+
+.resource-card__body .card__text {
+  margin: 0;
+}
+
+.resource-card__body .card__meta {
+  margin: 0;
+}
+
+.resource-card__size {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* components.css draws a `·` before every meta item after the first; inside a
+   pill that dot would sit within the border, so drop it for the format badge. */
+.resource-card .card__meta > .badge::before {
+  content: none;
+}
+
+.resource-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  grid-column: 1 / -1;
+  margin-top: var(--space-1);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.resource-card__actions .btn {
+  flex: 1 1 auto;
+  justify-content: center;
+  min-height: 40px;
+}
+
+@media (min-width: 720px) {
+  .resource-card__actions .btn {
+    flex: 0 0 auto;
+  }
+}
+
+/* --- closing note -------------------------------------------------------- */
+
+.resources-note {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--grad-accent-soft), var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+
+.resources-note__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--accent-text);
+}
+
+.resources-note__icon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.resources-note__body {
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--container-narrow);
+}
+
+.resources-note__body h2 {
+  margin: 0;
+}
+
+.resources-note__body p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--step--1);
+  line-height: var(--leading-relaxed);
+}
+
+.resources-note__body code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+@media (min-width: 720px) {
+  .resources-note {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-5);
+    padding: var(--space-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resource-card__icon,
+  .resource-card:hover .resource-card__icon,
+  .resource-card:focus-within .resource-card__icon {
+    transform: none;
+    transition: none;
+  }
+}

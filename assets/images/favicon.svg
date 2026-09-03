@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="InsightsMastery Academy">
+  <defs>
+    <linearGradient id="im-fav" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="0.55" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#im-fav)"/>
+  <g fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7.5 9.5A2 2 0 0 1 9.5 7.5H24v17H9.5a2 2 0 0 0-2 2z"/>
+    <path d="M11.5 20.5v-3M15.5 20.5v-6M19.5 20.5v-9"/>
+  </g>
+</svg>

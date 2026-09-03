@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Intelligence with DAX — InsightsMastery Academy</title>
+<style>
+  :root{
+    --brand:#c05621; --brand-dark:#8a3b16; --accent:#2c7a7b;
+    --ink:#1f2933; --muted:#52616b; --line:#eee0d6; --bg:#fbf6f2;
+    --code-bg:#2d1a10; --code-ink:#f3e6da; --note-bg:#fbeee3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .page{max-width:900px;margin:0 auto;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  header.cover{background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;padding:56px 48px}
+  header.cover .kicker{letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;opacity:.85;margin:0}
+  header.cover .sub{letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;opacity:.75;margin:4px 0 22px}
+  header.cover h1{font-size:2.3rem;margin:0 0 12px;line-height:1.15}
+  header.cover p{margin:8px 0;opacity:.92;max-width:68ch}
+  header.cover a{color:#ffe;text-decoration:underline}
+  header.cover .foot{margin-top:24px;font-style:italic;font-size:.85rem;opacity:.8}
+  main{padding:36px 48px 56px}
+  h2{color:var(--brand-dark);border-bottom:2px solid var(--line);padding-bottom:6px;margin-top:44px;font-size:1.5rem}
+  h3{color:var(--brand);margin-top:26px;font-size:1.12rem}
+  h4{color:var(--muted);margin:18px 0 6px;font-size:1rem}
+  a{color:var(--brand)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:var(--brand);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:var(--bg)}
+  caption{caption-side:bottom;font-style:italic;color:var(--muted);font-size:.82rem;padding-top:8px}
+  .note{background:var(--note-bg);border-left:4px solid var(--brand);padding:12px 16px;margin:16px 0;border-radius:4px}
+  .note .tag{display:block;font-weight:700;color:var(--brand-dark);margin-bottom:4px}
+  pre{background:var(--code-bg);color:var(--code-ink);padding:16px 18px;border-radius:6px;overflow:auto;font-size:.86rem;line-height:1.5}
+  code{font-family:"Cascadia Code",Consolas,"Courier New",monospace}
+  ul,ol{padding-left:22px}
+  li{margin:4px 0}
+  nav.toc{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:18px 26px}
+  nav.toc ol{margin:0}
+  footer{background:var(--brand-dark);color:#fff;text-align:center;padding:26px 20px;font-size:.85rem}
+  footer strong{display:block;font-size:1rem;margin-bottom:6px}
+  footer em{opacity:.85}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="cover">
+  <p class="kicker">InsightsMastery Academy</p>
+  <p class="sub">Learning Handbook</p>
+  <h1>Time Intelligence with DAX</h1>
+  <p>Complete reference of DAX time intelligence functions with practical examples for Power BI.</p>
+  <p>Aligned with Microsoft Learn documentation — Time intelligence functions (DAX):<br>
+  <a href="https://learn.microsoft.com/en-us/dax/time-intelligence-functions-dax">https://learn.microsoft.com/en-us/dax/time-intelligence-functions-dax</a></p>
+  <p class="foot">Power BI Desktop &bull; Analysis Services &bull; DAX &bull; www.insightsmastry.in</p>
+</header>
+<main>
+
+<nav class="toc" aria-label="Table of contents">
+  <h2 style="margin-top:0;border:none">Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Introduction &amp; Prerequisites</a></li>
+    <li><a href="#s2">Date Table Requirements</a></li>
+    <li><a href="#s3">Function Categories Overview</a></li>
+    <li><a href="#s4">Period-to-Date Functions (TOTAL / DATES)</a></li>
+    <li><a href="#s5">Period Shift Functions (DATEADD, SAMEPERIODLASTYEAR, PARALLELPERIOD)</a></li>
+    <li><a href="#s6">Previous / Next Period Functions</a></li>
+    <li><a href="#s7">Start / End of Period Functions</a></li>
+    <li><a href="#s8">Opening &amp; Closing Balance Functions</a></li>
+    <li><a href="#s9">Range Functions (DATESBETWEEN, DATESINPERIOD)</a></li>
+    <li><a href="#s10">Practical Patterns &amp; Complete Examples</a></li>
+    <li><a href="#s11">Common Pitfalls &amp; Best Practices</a></li>
+    <li><a href="#s12">Quick Reference Table</a></li>
+    <li><a href="#s13">Official Reference</a></li>
+  </ol>
+</nav>
+
+<section id="s1">
+  <h2>1. Introduction &amp; Prerequisites</h2>
+  <p>Data Analysis Expressions (DAX) includes <strong>time intelligence functions</strong> that enable you to manipulate data using time periods—days, weeks, months, quarters, and years—and then build and compare calculations over those periods. This handbook is aligned with the official Microsoft Learn documentation: <strong>Time intelligence functions (DAX)</strong>. Before using any time-intelligence function you <strong>must</strong> mark a table that contains a continuous date column as a <strong>Date Table</strong> in the model.</p>
+  <div class="note"><span class="tag">Prerequisite checklist</span>
+    <ul>
+      <li>A dedicated Date table with one row per day and no gaps</li>
+      <li>Date column of Date (or DateTime at 00:00) type with unique values</li>
+      <li>Table marked as Date Table (Table tools → Mark as date table)</li>
+      <li>Relationship from fact date columns to the Date table</li>
+      <li>Auto date/time disabled for cleaner models</li>
+    </ul>
+  </div>
+</section>
+
+<section id="s2">
+  <h2>2. Date Table Requirements</h2>
+  <p>Microsoft requires the following for time intelligence to work correctly:</p>
+  <ul>
+    <li>All dates must be present for the years required (contiguous, no gaps).</li>
+    <li>The Date table should start on January 1 and end on December 31 of the relevant years (or cover full fiscal years).</li>
+    <li>A column of Date or DateTime type with unique values (usually named Date).</li>
+    <li>The table must be marked as a date table when the relationship is not based on the Date column itself.</li>
+  </ul>
+  <h3>Recommended Date table (DAX)</h3>
+  <pre><code>DateTable =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2020, 1, 1 ), DATE ( 2026, 12, 31 ) ),
+    "Year",       YEAR ( [Date] ),
+    "Month Number", MONTH ( [Date] ),
+    "Month Name", FORMAT ( [Date], "MMMM" ),
+    "Quarter",    "Q" &amp; FORMAT ( [Date], "Q" ),
+    "Year-Month", FORMAT ( [Date], "YYYY-MM" ),
+    "Weekday",    FORMAT ( [Date], "dddd" )
+)</code></pre>
+  <p>After creating the table: mark it as Date Table, create a many-to-one relationship from Sales[OrderDate] (or similar) to DateTable[Date], and use DateTable[Date] in all time intelligence expressions.</p>
+</section>
+
+<section id="s3">
+  <h2>3. Function Categories Overview</h2>
+  <p>Microsoft groups time intelligence functions by purpose. Understanding the groups helps you choose the right function quickly.</p>
+  <table>
+    <caption>Table 1 — Function categories (Microsoft Learn)</caption>
+    <thead><tr><th>Category</th><th>Key Functions</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>Period-to-Date</td><td>TOTALYTD, TOTALQTD, TOTALMTD, TOTALWTD, DATESYTD, DATESQTD, DATESMTD, DATESWTD</td><td>Cumulative values from the start of the period up to the current date in context.</td></tr>
+      <tr><td>Period Shift</td><td>DATEADD, SAMEPERIODLASTYEAR, PARALLELPERIOD</td><td>Move the current set of dates forward or backward by a number of intervals.</td></tr>
+      <tr><td>Previous / Next</td><td>PREVIOUSYEAR/QUARTER/MONTH/WEEK/DAY, NEXTYEAR/…</td><td>Return the entire previous or next calendar period relative to the current context.</td></tr>
+      <tr><td>Start / End of Period</td><td>STARTOFYEAR/QUARTER/MONTH/WEEK, ENDOFYEAR/…</td><td>Return the first or last date of the period that contains the current context.</td></tr>
+      <tr><td>Opening / Closing Balance</td><td>OPENINGBALANCEYEAR/…, CLOSINGBALANCEYEAR/…</td><td>Evaluate an expression on the first or last date of a period (typical for inventory, balances).</td></tr>
+      <tr><td>Custom Ranges</td><td>DATESBETWEEN, DATESINPERIOD, FIRSTDATE, LASTDATE</td><td>Build arbitrary continuous date ranges or extract boundary dates.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s4">
+  <h2>4. Period-to-Date Functions</h2>
+  <p>These functions return either a table of dates from the start of the period to the current date, or directly evaluate an expression over that range.</p>
+  <h3>TOTALYTD / DATESYTD</h3>
+  <p><strong>TOTALYTD</strong> evaluates an expression for the year-to-date. <strong>DATESYTD</strong> returns the table of dates that can be used inside CALCULATE.</p>
+  <pre><code>// Syntax (Microsoft Learn)
+TOTALYTD ( &lt;expression&gt;, &lt;dates&gt; [, &lt;filter&gt;] [, &lt;year_end_date&gt;] )
+DATESYTD ( &lt;dates&gt; [, &lt;year_end_date&gt;] )
+
+// Example — Sales Year-to-Date
+Sales YTD =
+TOTALYTD ( [Total Sales], DateTable[Date] )
+
+// Equivalent with CALCULATE
+Sales YTD =
+CALCULATE ( [Total Sales], DATESYTD ( DateTable[Date] ) )
+
+// Fiscal year ending 30 June
+Sales Fiscal YTD =
+TOTALYTD ( [Total Sales], DateTable[Date], "6/30" )</code></pre>
+  <h3>TOTALQTD / DATESQTD and TOTALMTD / DATESMTD</h3>
+  <pre><code>Sales QTD = TOTALQTD ( [Total Sales], DateTable[Date] )
+Sales MTD = TOTALMTD ( [Total Sales], DateTable[Date] )
+
+// Week-to-date (when week start is configured)
+Sales WTD = TOTALWTD ( [Total Sales], DateTable[Date] )</code></pre>
+  <div class="note"><span class="tag">When to use TOTAL* vs DATES*</span>Use TOTALYTD / TOTALQTD / TOTALMTD when you only need the aggregated value. Use DATESYTD / DATESQTD / DATESMTD inside CALCULATE when you need to combine the period filter with other filters or modifiers.</div>
+</section>
+
+<section id="s5">
+  <h2>5. Period Shift Functions</h2>
+  <h3>DATEADD</h3>
+  <p>Returns a table of dates shifted forward or backward by a specified number of intervals (DAY, MONTH, QUARTER, YEAR) from the dates in the current context.</p>
+  <pre><code>// Syntax
+DATEADD ( &lt;dates&gt;, &lt;number_of_intervals&gt;, &lt;interval&gt; )
+
+// Sales in the same period last year (shift -1 year)
+Sales Prior Year =
+CALCULATE ( [Total Sales], DATEADD ( DateTable[Date], -1, YEAR ) )
+
+// Sales previous month
+Sales Prior Month =
+CALCULATE ( [Total Sales], DATEADD ( DateTable[Date], -1, MONTH ) )
+
+// Sales two quarters ago
+Sales 2Q Ago =
+CALCULATE ( [Total Sales], DATEADD ( DateTable[Date], -2, QUARTER ) )</code></pre>
+  <h3>SAMEPERIODLASTYEAR</h3>
+  <p>Specialized shortcut: returns dates shifted exactly one year back. Equivalent to DATEADD (…, -1, YEAR) for most calendar scenarios.</p>
+  <pre><code>Sales SPLY =
+CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( DateTable[Date] ) )
+
+// Year-over-Year growth
+Sales YoY Growth % =
+DIVIDE ( [Total Sales] - [Sales SPLY], [Sales SPLY] )</code></pre>
+  <h3>PARALLELPERIOD</h3>
+  <p>Returns a period parallel to the dates in the current context, shifted by a number of intervals. The result always covers full months/quarters/years.</p>
+  <pre><code>// Full previous quarter (not the same day range shifted)
+Sales Parallel Prior Quarter =
+CALCULATE ( [Total Sales], PARALLELPERIOD ( DateTable[Date], -1, QUARTER ) )</code></pre>
+  <div class="note"><span class="tag">DATEADD vs PARALLELPERIOD</span>DATEADD preserves the shape of the selection (e.g. 15 days stay 15 days). PARALLELPERIOD expands to the full parallel period (e.g. selecting March returns the whole previous quarter when shifting by quarter). Choose based on business need.</div>
+</section>
+
+<section id="s6">
+  <h2>6. Previous / Next Period Functions</h2>
+  <p>These helper functions return the entire previous or next calendar period based on the first (or last) date in the current context.</p>
+  <h3>Previous period</h3>
+  <pre><code>Sales Previous Year    = CALCULATE ( [Total Sales], PREVIOUSYEAR ( DateTable[Date] ) )
+Sales Previous Quarter = CALCULATE ( [Total Sales], PREVIOUSQUARTER ( DateTable[Date] ) )
+Sales Previous Month   = CALCULATE ( [Total Sales], PREVIOUSMONTH ( DateTable[Date] ) )
+Sales Previous Week    = CALCULATE ( [Total Sales], PREVIOUSWEEK ( DateTable[Date] ) )
+Sales Previous Day     = CALCULATE ( [Total Sales], PREVIOUSDAY ( DateTable[Date] ) )</code></pre>
+  <h3>Next period</h3>
+  <pre><code>Sales Next Year    = CALCULATE ( [Total Sales], NEXTYEAR ( DateTable[Date] ) )
+Sales Next Quarter = CALCULATE ( [Total Sales], NEXTQUARTER ( DateTable[Date] ) )
+Sales Next Month   = CALCULATE ( [Total Sales], NEXTMONTH ( DateTable[Date] ) )
+Sales Next Week    = CALCULATE ( [Total Sales], NEXTWEEK ( DateTable[Date] ) )
+Sales Next Day     = CALCULATE ( [Total Sales], NEXTDAY ( DateTable[Date] ) )</code></pre>
+  <p>PREVIOUS* functions are useful when you want the complete prior calendar period rather than a shifted copy of the current selection.</p>
+</section>
+
+<section id="s7">
+  <h2>7. Start / End of Period Functions</h2>
+  <p>These return a single date: the first or last date of the week/month/quarter/year that contains the current context.</p>
+  <pre><code>// Start of periods
+Start of Year    = STARTOFYEAR ( DateTable[Date] )
+Start of Quarter = STARTOFQUARTER ( DateTable[Date] )
+Start of Month   = STARTOFMONTH ( DateTable[Date] )
+Start of Week    = STARTOFWEEK ( DateTable[Date] )
+
+// End of periods
+End of Year    = ENDOFYEAR ( DateTable[Date] )
+End of Quarter = ENDOFQUARTER ( DateTable[Date] )
+End of Month   = ENDOFMONTH ( DateTable[Date] )
+End of Week    = ENDOFWEEK ( DateTable[Date] )
+
+// Example: Sales from start of year to end of selected month
+Sales Full Months YTD =
+CALCULATE (
+    [Total Sales],
+    DATESBETWEEN (
+        DateTable[Date],
+        STARTOFYEAR ( DateTable[Date] ),
+        ENDOFMONTH ( DateTable[Date] )
+    )
+)</code></pre>
+</section>
+
+<section id="s8">
+  <h2>8. Opening &amp; Closing Balance Functions</h2>
+  <p>Ideal for inventory, account balances, headcount, or any semi-additive measure that should be evaluated on the first or last day of a period rather than summed across days.</p>
+  <pre><code>// Closing balance of inventory at month end
+Inventory Closing Month =
+CLOSINGBALANCEMONTH ( SUM ( Inventory[UnitsOnHand] ), DateTable[Date] )
+
+// Opening balance of the year
+Inventory Opening Year =
+OPENINGBALANCEYEAR ( SUM ( Inventory[UnitsOnHand] ), DateTable[Date] )
+
+// Available functions:
+// OPENINGBALANCEWEEK / MONTH / QUARTER / YEAR
+// CLOSINGBALANCEWEEK / MONTH / QUARTER / YEAR</code></pre>
+  <div class="note"><span class="tag">Semi-additive measures</span>Do not use SUM for balances across time. Use CLOSINGBALANCE* or LASTDATE patterns so the measure shows the value on the last day of the selected period.</div>
+</section>
+
+<section id="s9">
+  <h2>9. Range Functions</h2>
+  <h3>DATESBETWEEN</h3>
+  <p>Returns all dates from a start date to an end date (inclusive).</p>
+  <pre><code>// Sales between two fixed dates
+Sales In Range =
+CALCULATE (
+    [Total Sales],
+    DATESBETWEEN ( DateTable[Date], DATE ( 2024, 3, 1 ), DATE ( 2024, 5, 31 ) )
+)</code></pre>
+  <h3>DATESINPERIOD</h3>
+  <p>Returns a set of dates that begins with a start date and continues for a specified number of intervals (DAY, MONTH, QUARTER, YEAR).</p>
+  <pre><code>// Rolling 12 months ending at the last date in context
+Sales Rolling 12M =
+CALCULATE (
+    [Total Sales],
+    DATESINPERIOD ( DateTable[Date], MAX ( DateTable[Date] ), -12, MONTH )
+)
+
+// Last 30 days
+Sales Last 30 Days =
+CALCULATE (
+    [Total Sales],
+    DATESINPERIOD ( DateTable[Date], MAX ( DateTable[Date] ), -30, DAY )
+)</code></pre>
+  <h3>FIRSTDATE / LASTDATE</h3>
+  <pre><code>First Date in Context = FIRSTDATE ( DateTable[Date] )
+Last Date in Context  = LASTDATE ( DateTable[Date] )</code></pre>
+</section>
+
+<section id="s10">
+  <h2>10. Practical Patterns &amp; Complete Examples</h2>
+  <p>Start with a simple base measure, then layer time intelligence on top. Always prefer measures over calculated columns for these calculations.</p>
+  <h3>Base measure</h3>
+  <pre><code>Total Sales = SUM ( Sales[SalesAmount] )</code></pre>
+  <h3>Core time intelligence set</h3>
+  <pre><code>Sales YTD =
+TOTALYTD ( [Total Sales], DateTable[Date] )
+
+Sales PY =
+CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( DateTable[Date] ) )
+
+Sales YoY % =
+DIVIDE ( [Total Sales] - [Sales PY], [Sales PY] )
+
+Sales MTD =
+TOTALMTD ( [Total Sales], DateTable[Date] )
+
+Sales PM =
+CALCULATE ( [Total Sales], DATEADD ( DateTable[Date], -1, MONTH ) )
+
+Sales Rolling 12 Months =
+CALCULATE (
+    [Total Sales],
+    DATESINPERIOD ( DateTable[Date], MAX ( DateTable[Date] ), -12, MONTH )
+)</code></pre>
+  <h3>Comparing multiple periods in one visual</h3>
+  <pre><code>// Useful for KPI cards or tables
+Sales Current        = [Total Sales]
+Sales Prior Year     = [Sales PY]
+Sales YTD Current    = [Sales YTD]
+Sales YTD Prior Year =
+CALCULATE ( [Sales YTD], SAMEPERIODLASTYEAR ( DateTable[Date] ) )</code></pre>
+</section>
+
+<section id="s11">
+  <h2>11. Common Pitfalls &amp; Best Practices</h2>
+  <h3>Pitfalls</h3>
+  <ul>
+    <li>Using a fact table date column instead of a marked Date table → blank or incorrect results.</li>
+    <li>Gaps in the Date table (missing days) → time intelligence returns unexpected blanks.</li>
+    <li>Forgetting to mark the table as Date Table.</li>
+    <li>Leaving Auto Date/Time enabled (creates hidden tables and confusion).</li>
+    <li>Applying time intelligence to calculated columns instead of measures.</li>
+    <li>Mixing fiscal and calendar logic without explicit year_end_date or fiscal columns.</li>
+  </ul>
+  <h3>Best practices</h3>
+  <ul>
+    <li>Always create and mark a dedicated Date table; disable Auto Date/Time.</li>
+    <li>Write a base measure first, then build time intelligence measures on top of it.</li>
+    <li>Prefer TOTALYTD / SAMEPERIODLASTYEAR / DATEADD over equivalent FILTER(ALL(…)) patterns for performance.</li>
+    <li>Use VAR / RETURN to avoid recalculating the same measure multiple times.</li>
+    <li>Test with known values (e.g. a single month and the same month last year) before publishing.</li>
+    <li>Document fiscal year-end conventions in the model.</li>
+  </ul>
+  <div class="note"><span class="tag">Blank results checklist</span>If a time intelligence measure returns blank: (1) Date table marked? (2) No gaps in dates? (3) Date column type is Date? (4) Relationship exists between fact and Date table?</div>
+</section>
+
+<section id="s12">
+  <h2>12. Quick Reference Table</h2>
+  <table>
+    <caption>Table 2 — Quick reference (aligned with Microsoft Learn)</caption>
+    <thead><tr><th>Function</th><th>Returns</th><th>Typical use</th></tr></thead>
+    <tbody>
+      <tr><td>TOTALYTD / DATESYTD</td><td>YTD value / dates</td><td>Year-to-date totals</td></tr>
+      <tr><td>TOTALQTD / DATESQTD</td><td>QTD value / dates</td><td>Quarter-to-date</td></tr>
+      <tr><td>TOTALMTD / DATESMTD</td><td>MTD value / dates</td><td>Month-to-date</td></tr>
+      <tr><td>TOTALWTD / DATESWTD</td><td>WTD value / dates</td><td>Week-to-date</td></tr>
+      <tr><td>DATEADD</td><td>Shifted dates table</td><td>Any relative period</td></tr>
+      <tr><td>SAMEPERIODLASTYEAR</td><td>Dates -1 year</td><td>YoY comparison</td></tr>
+      <tr><td>PARALLELPERIOD</td><td>Full parallel period</td><td>Prior full quarter/year</td></tr>
+      <tr><td>PREVIOUSYEAR / MONTH …</td><td>Entire prior period</td><td>Full previous calendar period</td></tr>
+      <tr><td>NEXTYEAR / MONTH …</td><td>Entire next period</td><td>Full next calendar period</td></tr>
+      <tr><td>STARTOF* / ENDOF*</td><td>Single boundary date</td><td>Period boundaries</td></tr>
+      <tr><td>OPENINGBALANCE* / CLOSINGBALANCE*</td><td>Value on first/last day</td><td>Inventory, balances</td></tr>
+      <tr><td>DATESBETWEEN</td><td>Custom date range</td><td>Fixed start–end filter</td></tr>
+      <tr><td>DATESINPERIOD</td><td>Interval-based range</td><td>Rolling N months/days</td></tr>
+      <tr><td>FIRSTDATE / LASTDATE</td><td>First / last date in context</td><td>Boundary helpers</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s13">
+  <h2>13. Official Reference</h2>
+  <p>This handbook is designed to complement the official documentation. Always refer to Microsoft Learn for the latest syntax, parameter details, and remarks.</p>
+  <h3>Primary source</h3>
+  <p>Time intelligence functions (DAX): <a href="https://learn.microsoft.com/en-us/dax/time-intelligence-functions-dax">https://learn.microsoft.com/en-us/dax/time-intelligence-functions-dax</a></p>
+  <p>Individual function pages (DATEADD, TOTALYTD, SAMEPERIODLASTYEAR, etc.) contain additional examples, remarks on calendar-based time intelligence, and behavior notes. Related Microsoft Learn topics: Create date tables in Power BI Desktop, Use DAX time intelligence functions (training module), Mark as date table.</p>
+</section>
+
+</main>
+<footer>
+  <strong>InsightsMastery Academy</strong>
+  Time Intelligence Handbook — DAX<br>
+  <em>Build accurate period comparisons. Trust your numbers. &bull; www.insightsmastry.in</em>
+</footer>
+</div>
+</body>
+</html>

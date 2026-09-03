@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Connectivity in Power BI — InsightsMastery Academy</title>
+<style>
+  :root{
+    --brand:#0b6e4f; --brand-dark:#084c37; --accent:#f2b134;
+    --ink:#1f2933; --muted:#52616b; --line:#e2e8ee; --bg:#f6f8fa;
+    --code-bg:#1e293b; --code-ink:#e2e8f0; --note-bg:#eef7f3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .page{max-width:900px;margin:0 auto;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  header.cover{background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;padding:56px 48px}
+  header.cover .kicker{letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;opacity:.85;margin:0}
+  header.cover .sub{letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;opacity:.75;margin:4px 0 22px}
+  header.cover h1{font-size:2.4rem;margin:0 0 12px;line-height:1.15}
+  header.cover p{margin:6px 0;opacity:.92}
+  header.cover .foot{margin-top:26px;font-style:italic;font-size:.85rem;opacity:.8}
+  main{padding:36px 48px 56px}
+  h2{color:var(--brand-dark);border-bottom:2px solid var(--line);padding-bottom:6px;margin-top:44px;font-size:1.5rem}
+  h3{color:var(--brand);margin-top:28px;font-size:1.15rem}
+  h4{color:var(--muted);margin:20px 0 6px;font-size:1rem;text-transform:none}
+  a{color:var(--brand)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:var(--brand);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:var(--bg)}
+  caption{caption-side:bottom;font-style:italic;color:var(--muted);font-size:.82rem;padding-top:8px}
+  .note{background:var(--note-bg);border-left:4px solid var(--brand);padding:12px 16px;margin:16px 0;border-radius:4px}
+  .note .tag{display:block;font-weight:700;color:var(--brand-dark);margin-bottom:4px}
+  pre{background:var(--code-bg);color:var(--code-ink);padding:16px 18px;border-radius:6px;overflow:auto;font-size:.86rem;line-height:1.5}
+  code{font-family:"Cascadia Code",Consolas,"Courier New",monospace}
+  ul,ol{padding-left:22px}
+  li{margin:4px 0}
+  nav.toc{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:18px 26px}
+  nav.toc ol{margin:0}
+  footer{background:var(--brand-dark);color:#fff;text-align:center;padding:26px 20px;font-size:.85rem}
+  footer strong{display:block;font-size:1rem;margin-bottom:6px}
+  footer em{opacity:.85}
+  .checklist{list-style:none;padding-left:0}
+  .checklist li{padding-left:26px;position:relative}
+  .checklist li::before{content:"\2610";position:absolute;left:0;color:var(--brand);font-size:1.05rem}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="cover">
+  <p class="kicker">InsightsMastery Academy</p>
+  <p class="sub">Learning Handbook</p>
+  <h1>Data Connectivity in Power BI</h1>
+  <p>Connect Excel &bull; CSV &bull; Folder &bull; SQL Server &bull; Semantic Model</p>
+  <p>Step-by-step examples for Power BI Desktop</p>
+  <p>Practical guide with clear steps, best practices, and ready-to-use patterns for reliable data loading.</p>
+  <p class="foot">Power BI Desktop &bull; Power Query &bull; Get Data &bull; www.insightsmastry.in</p>
+</header>
+<main>
+
+<nav class="toc" aria-label="Table of contents">
+  <h2 style="margin-top:0;border:none">Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Introduction — Get Data in Power BI Desktop</a></li>
+    <li><a href="#s2">Connect to Excel Workbooks</a></li>
+    <li><a href="#s3">Connect to CSV / Text Files</a></li>
+    <li><a href="#s4">Connect to a Folder (Combine Multiple Files)</a></li>
+    <li><a href="#s5">Connect to SQL Server</a></li>
+    <li><a href="#s6">Connect to a Power BI Semantic Model (Live)</a></li>
+    <li><a href="#s7">After Loading — Prepare for Time Intelligence</a></li>
+    <li><a href="#s8">Comparison &amp; When to Use Which Connector</a></li>
+    <li><a href="#s9">Common Issues &amp; Best Practices</a></li>
+    <li><a href="#s10">Quick Reference Checklist</a></li>
+  </ol>
+</nav>
+
+<section id="s1">
+  <h2>1. Introduction — Get Data in Power BI Desktop</h2>
+  <p>Almost every Power BI solution starts with <strong>Get data</strong>. From the Home ribbon you choose a connector, authenticate, select objects in the Navigator, then either <strong>Load</strong> the data or <strong>Transform Data</strong> in Power Query Editor before it enters the model. This handbook covers the five most common enterprise and learning scenarios:</p>
+  <ul>
+    <li><strong>Excel</strong> — single workbook with sheets or tables</li>
+    <li><strong>CSV / Text</strong> — flat files, often daily exports</li>
+    <li><strong>Folder</strong> — many similar files that should be combined automatically</li>
+    <li><strong>SQL Server</strong> — relational database (Import or DirectQuery)</li>
+    <li><strong>Power BI Semantic Model</strong> — live connection to an existing published model</li>
+  </ul>
+  <h3>How to open Get Data</h3>
+  <p>In Power BI Desktop, on the <strong>Home</strong> tab, click the <strong>Get data</strong> button (or the small dropdown arrow next to it). Common sources appear in a short list; choose <strong>More…</strong> to open the full Get Data dialog with categories (File, Database, Power Platform, Azure, Online Services, Other).</p>
+  <div class="note"><span class="tag">Screenshot cue — Get Data</span>Home ribbon → Data group → Get data. You will see Excel, SQL Server, and Power BI semantic models as quick buttons. Clicking More… opens the full connector list where Folder and Text/CSV also appear.</div>
+</section>
+
+<section id="s2">
+  <h2>2. Connect to Excel Workbooks</h2>
+  <p>Use the Excel connector when your data lives in .xlsx or .xlsm files. Prefer Excel <strong>Tables</strong> (Insert → Table) over plain ranges — tables keep headers and expand automatically.</p>
+  <h4>Step 1: Start the connector</h4>
+  <p>Home → <strong>Get data</strong> → <strong>Excel workbook</strong> (or Get data → More → File → Excel workbook → Connect). Browse to the .xlsx / .xlsm file and click Open.</p>
+  <h4>Step 2: Navigator — choose objects</h4>
+  <p>The Navigator window lists sheets and any Excel Tables inside the workbook. Check the box next to each table or sheet you need. Prefer objects with the Table icon. Preview appears on the right. Click <strong>Transform Data</strong> to clean first, or <strong>Load</strong> to bring data straight into the model.</p>
+  <h4>Step 3: Example scenario</h4>
+  <p>File: Sales_2024.xlsx containing tables Sales, Products, Customers. Select all three tables → Transform Data → set correct data types (especially Date columns) → Close &amp; Apply.</p>
+  <h3>Best practices for Excel</h3>
+  <ul>
+    <li>Convert ranges to Excel Tables before connecting (Ctrl+T).</li>
+    <li>Give tables meaningful names (Sales, DimProduct) instead of Table1, Table2.</li>
+    <li>Keep one fact table and dimension tables in the same workbook for simple models.</li>
+    <li>Avoid merged cells and total rows inside the data area.</li>
+    <li>For files on OneDrive / SharePoint, you can also use the Web connector with the file URL.</li>
+  </ul>
+</section>
+
+<section id="s3">
+  <h2>3. Connect to CSV / Text Files</h2>
+  <p>CSV files are common for system exports. Power BI's Text/CSV connector detects delimiter, encoding, and headers automatically in most cases.</p>
+  <h4>Step 1: Start the connector</h4>
+  <p>Home → <strong>Get data</strong> → <strong>Text/CSV</strong>. Select the .csv (or .txt) file → Open.</p>
+  <h4>Step 2: Preview &amp; settings</h4>
+  <p>A preview dialog appears. Confirm File Origin (encoding), Delimiter (Comma, Tab, etc.), and Data Type Detection. If headers are wrong, change "Data Type Detection" or click Transform Data to fix in Power Query. Click <strong>Load</strong> or <strong>Transform Data</strong>.</p>
+  <h4>Step 3: Example scenario</h4>
+  <p>Daily export: Orders_20240315.csv with columns OrderID, OrderDate, CustomerID, Amount. Connect → confirm comma delimiter and UTF-8 → Transform Data → change OrderDate to Date type → Close &amp; Apply. Later create a Date table and relate OrderDate to it for time intelligence.</p>
+  <div class="note"><span class="tag">Screenshot cue — Text/CSV dialog</span>After selecting the file you see a preview grid, File Origin dropdown, Delimiter dropdown, and buttons Load / Transform Data. Always verify the first row is treated as headers.</div>
+  <div class="note"><span class="tag">Encoding &amp; locale</span>If dates or numbers look wrong (e.g. 03/04/2024 interpreted as March instead of April), open Transform Data and use Data Type → Using Locale… or set the correct locale in the source step.</div>
+</section>
+
+<section id="s4">
+  <h2>4. Connect to a Folder (Combine Multiple Files)</h2>
+  <p>When you receive a new CSV or Excel file every day/week with the same structure, point Power BI at the <strong>folder</strong> instead of individual files. Power Query can combine all files automatically and will pick up new files on refresh.</p>
+  <h4>Step 1: Start the Folder connector</h4>
+  <p>Home → <strong>Get data</strong> → More… → File → <strong>Folder</strong> → Connect. Browse to (or paste) the folder path that contains the files → OK.</p>
+  <h4>Step 2: Choose how to proceed</h4>
+  <p>You see a list of files (Name, Extension, Date modified, etc.). Prefer <strong>Combine &amp; Transform Data</strong> — this creates a sample query and combines all matching files. Alternatively: Combine &amp; Load (straight to model) or Transform Data (work with the file list first).</p>
+  <h4>Step 3: Combine files experience</h4>
+  <p>Power Query shows a sample file. Select the correct sheet/table/object that exists in every file. Click OK. Power Query generates helper queries (Transform Sample File, Parameter, etc.) and a final combined table. Rename the final query (e.g. Sales Combined) and clean data types, then Close &amp; Apply.</p>
+  <h4>Step 4: Example scenario</h4>
+  <p>Folder: C:\Data\DailySales\ containing Sales_2024-03-01.csv, Sales_2024-03-02.csv, … All files have identical columns. Connect to Folder → Combine &amp; Transform Data → select the CSV sample → OK. After refresh, any new CSV dropped into the folder is automatically included.</p>
+  <div class="note"><span class="tag">Folder combine rules</span>All files must share the same format and column structure. If some files differ, first Transform Data, filter the file list (e.g. only .csv, exclude temp files), then combine. Subfolders are included by default.</div>
+</section>
+
+<section id="s5">
+  <h2>5. Connect to SQL Server</h2>
+  <p>The SQL Server connector supports both <strong>Import</strong> (data copied into the Power BI model) and <strong>DirectQuery</strong> (queries run live against the database). Choose Import for most analytical models; use DirectQuery when you need near-real-time data or very large tables.</p>
+  <h4>Step 1: Start the connector</h4>
+  <p>Home → <strong>Get data</strong> → <strong>SQL Server</strong> (or More… → Database → SQL Server database). Enter Server name (e.g. sql-prod.contoso.com or localhost\SQLEXPRESS). Optionally enter Database name. Choose Data Connectivity mode: <strong>Import</strong> or <strong>DirectQuery</strong> → OK.</p>
+  <h4>Step 2: Authentication</h4>
+  <p>Select authentication: Windows, Database (SQL login), or Organizational account (Microsoft Entra ID) if supported. Enter credentials and set the level (e.g. this server) → Connect. If the connection is unencrypted you may see a warning — accept only on trusted networks or configure encryption.</p>
+  <h4>Step 3: Navigator</h4>
+  <p>Expand the database → select the tables or views you need. You can also use Advanced options → SQL statement to write a native query. Click Transform Data (recommended) or Load.</p>
+  <h4>Step 4: Example scenario</h4>
+  <p>Server: analytics-sql.company.local, Database: SalesDW. Import mode. Select FactInternetSales, DimDate, DimProduct, DimCustomer. In Power Query set DateKey columns to Date type where appropriate, then Close &amp; Apply. Create relationships and mark DimDate as the Date table for time intelligence.</p>
+  <h3>Import vs DirectQuery (quick guide)</h3>
+  <table>
+    <caption>Table 1 — Import vs DirectQuery</caption>
+    <thead><tr><th>Aspect</th><th>Import</th><th>DirectQuery</th></tr></thead>
+    <tbody>
+      <tr><td>Data location</td><td>Copied into .pbix model</td><td>Stays in SQL Server</td></tr>
+      <tr><td>Performance</td><td>Fast in-memory</td><td>Depends on database &amp; network</td></tr>
+      <tr><td>Refresh</td><td>Scheduled / manual refresh needed</td><td>Always current</td></tr>
+      <tr><td>Model size</td><td>Limited by memory</td><td>No size limit in model</td></tr>
+      <tr><td>DAX &amp; modeling</td><td>Full features</td><td>Some limitations</td></tr>
+      <tr><td>Best for</td><td>Most reports &amp; time intelligence</td><td>Real-time / huge facts</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s6">
+  <h2>6. Connect to a Power BI Semantic Model (Live)</h2>
+  <p>Instead of importing raw data, you can connect live to an existing published semantic model. This is the recommended pattern for self-service: one central model, many reports. You get all tables, measures, and hierarchies; RLS is enforced.</p>
+  <h4>Step 1: Start the connector</h4>
+  <p>Home → <strong>Get data</strong> → <strong>Power BI semantic models</strong> (or the dedicated Power BI semantic models button on the Home ribbon). Sign in if prompted.</p>
+  <h4>Step 2: Data hub / OneLake catalog</h4>
+  <p>A list of semantic models you have Build permission on appears. Filter by My data, Endorsed, or search by name. Select the model → <strong>Connect</strong>.</p>
+  <h4>Step 3: Live connection result</h4>
+  <p>Power BI Desktop shows "Connected live to the Power BI semantic model: [Name]". Fields pane lists tables and measures from the model. You cannot edit the model structure in this mode. Build visuals and reports. Changes to the central model appear after refresh of the live connection.</p>
+  <h4>Step 4: Example scenario</h4>
+  <p>Central model "Enterprise Sales" is published in workspace Finance Analytics and certified. Analysts open Power BI Desktop → Get data → Power BI semantic models → select Enterprise Sales → Connect. They build department reports without duplicating data or DAX.</p>
+  <div class="note"><span class="tag">Screenshot cue — Semantic models</span>After choosing Power BI semantic models you see the Data hub with search, filters (My data / Endorsed), and model cards showing name, owner, workspace, and endorsement badges. Click Connect on the chosen model.</div>
+  <div class="note"><span class="tag">Live connection limits</span>In a pure live connection you cannot add new tables from other sources or change relationships. To combine a live model with other data you need a composite model (DirectQuery to the semantic model + Import other sources) — advanced scenario.</div>
+</section>
+
+<section id="s7">
+  <h2>7. After Loading — Prepare for Time Intelligence</h2>
+  <p>Once data is loaded from any of the sources above, good modeling makes time intelligence reliable.</p>
+  <ul>
+    <li>Ensure every fact table has a proper Date column (Date type, not text).</li>
+    <li>Create or load a dedicated <strong>Date table</strong> (contiguous dates, no gaps).</li>
+    <li>Mark the Date table: select it → Table tools → Mark as date table → choose the Date column.</li>
+    <li>Create a relationship from Fact[Date] to DateTable[Date] (many-to-one).</li>
+    <li>Disable Auto date/time (File → Options → Data Load) to avoid hidden date tables.</li>
+    <li>Then write measures such as TOTALYTD, SAMEPERIODLASTYEAR, DATEADD using DateTable[Date].</li>
+  </ul>
+  <h4>Minimal Date table (DAX) after any connection</h4>
+  <pre><code>DateTable =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2020, 1, 1 ), DATE ( 2026, 12, 31 ) ),
+    "Year",         YEAR ( [Date] ),
+    "Month Number", MONTH ( [Date] ),
+    "Month Name",   FORMAT ( [Date], "MMMM" ),
+    "Quarter",      "Q" &amp; FORMAT ( [Date], "Q" )
+)
+// Mark as date table and relate to your fact date column</code></pre>
+</section>
+
+<section id="s8">
+  <h2>8. Comparison &amp; When to Use Which Connector</h2>
+  <table>
+    <caption>Table 2 — Choosing the right connector</caption>
+    <thead><tr><th>Source</th><th>Best when…</th><th>Watch out for…</th></tr></thead>
+    <tbody>
+      <tr><td>Excel</td><td>Small–medium curated workbooks, prototypes</td><td>Merged cells, no tables, large files</td></tr>
+      <tr><td>CSV / Text</td><td>System exports, simple flat files</td><td>Encoding, delimiter, locale of dates</td></tr>
+      <tr><td>Folder</td><td>Many same-structure files over time</td><td>Inconsistent columns across files</td></tr>
+      <tr><td>SQL Server</td><td>Enterprise databases, large volumes</td><td>Credentials, gateway, Import vs DQ choice</td></tr>
+      <tr><td>Semantic Model</td><td>Reuse certified models, governed self-service</td><td>Need Build permission; live limits</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s9">
+  <h2>9. Common Issues &amp; Best Practices</h2>
+  <h3>Common issues</h3>
+  <ul>
+    <li>Wrong data types after load → always check in Power Query (especially dates and numbers).</li>
+    <li>CSV dates appear as text → use Change Type with locale or Date.From.</li>
+    <li>Folder combine fails → files have different columns; filter or standardize first.</li>
+    <li>SQL connection fails → check firewall, gateway, encryption, and credentials.</li>
+    <li>Semantic model not listed → you need Build permission on that model.</li>
+    <li>Refresh fails for local files → use OneDrive/SharePoint or a gateway for scheduled refresh in the service.</li>
+  </ul>
+  <h3>Best practices</h3>
+  <ul>
+    <li>Prefer Transform Data over Load so you can clean types and names before the model.</li>
+    <li>Name queries clearly (FactSales, DimProduct) immediately.</li>
+    <li>Remove unused columns early to keep the model small.</li>
+    <li>For production, move from local Excel/CSV to Folder + SharePoint or to a database.</li>
+    <li>Document the source and refresh expectations for each query.</li>
+    <li>After loading, build a proper Date table before writing time intelligence measures.</li>
+  </ul>
+</section>
+
+<section id="s10">
+  <h2>10. Quick Reference Checklist</h2>
+  <h4>Before you click Get data</h4>
+  <ul class="checklist">
+    <li>Know the source type (file, folder, database, existing model)</li>
+    <li>Have credentials / path / server name ready</li>
+    <li>Prefer tables over raw sheets in Excel</li>
+    <li>Decide Import vs DirectQuery for databases</li>
+  </ul>
+  <h4>While connecting</h4>
+  <ul class="checklist">
+    <li>Use Navigator to select only needed objects</li>
+    <li>Prefer Transform Data to fix types and names</li>
+    <li>Confirm headers and sample rows look correct</li>
+  </ul>
+  <h4>After Close &amp; Apply</h4>
+  <ul class="checklist">
+    <li>Check Model view relationships</li>
+    <li>Create / mark Date table for time intelligence</li>
+    <li>Hide technical columns from Report view</li>
+    <li>Write base measures then time intelligence measures</li>
+    <li>Test refresh</li>
+  </ul>
+</section>
+
+</main>
+<footer>
+  <strong>InsightsMastery Academy</strong>
+  Data Connectivity Handbook — Power BI<br>
+  <em>Connect cleanly. Model once. Analyze with confidence. &bull; www.insightsmastry.in</em>
+</footer>
+</div>
+</body>
+</html>

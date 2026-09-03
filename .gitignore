@@ -1,0 +1,23 @@
+# Dependencies (the site has none — this only guards accidental installs)
+node_modules/
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Tooling scratch
+graphify-out/
+.ruflo/
+.claude-flow/
+.swarm/
+.vscode/
+.idea/
+
+# NOTE: content/manifest.json is intentionally NOT ignored. It is committed so
+# GitHub Pages can serve the site straight from the branch root, without the
+# build workflow having to run first.

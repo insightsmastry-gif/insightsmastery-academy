@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Intelligence, Data Modeling &amp; Power Query — InsightsMastery Academy</title>
+<style>
+  :root{
+    --brand:#5b2a86; --brand-dark:#3f1c5e; --accent:#f2b134;
+    --ink:#1f2933; --muted:#52616b; --line:#e5e0ee; --bg:#f7f5fb;
+    --code-bg:#241436; --code-ink:#e9e2f5; --note-bg:#f1ecf8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .page{max-width:900px;margin:0 auto;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  header.cover{background:linear-gradient(135deg,var(--brand),var(--brand-dark));color:#fff;padding:56px 48px}
+  header.cover .kicker{letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;opacity:.85;margin:0}
+  header.cover .sub{letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;opacity:.75;margin:4px 0 22px}
+  header.cover h1{font-size:2.1rem;margin:0 0 6px;line-height:1.15}
+  header.cover h1 span{display:block;font-size:1.2rem;font-weight:400;opacity:.9}
+  header.cover p{margin:14px 0 0;opacity:.92;max-width:68ch}
+  header.cover .foot{margin-top:24px;font-style:italic;font-size:.85rem;opacity:.8}
+  main{padding:36px 48px 56px}
+  h2{color:var(--brand-dark);border-bottom:2px solid var(--line);padding-bottom:6px;margin-top:44px;font-size:1.5rem}
+  h3{color:var(--brand);margin-top:28px;font-size:1.15rem}
+  h4{color:var(--muted);margin:20px 0 6px;font-size:1rem}
+  a{color:var(--brand)}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:var(--brand);color:#fff;font-weight:600}
+  tbody tr:nth-child(even){background:var(--bg)}
+  caption{caption-side:bottom;font-style:italic;color:var(--muted);font-size:.82rem;padding-top:8px}
+  .note{background:var(--note-bg);border-left:4px solid var(--brand);padding:12px 16px;margin:16px 0;border-radius:4px}
+  .note .tag{display:block;font-weight:700;color:var(--brand-dark);margin-bottom:4px}
+  pre{background:var(--code-bg);color:var(--code-ink);padding:16px 18px;border-radius:6px;overflow:auto;font-size:.86rem;line-height:1.5}
+  code{font-family:"Cascadia Code",Consolas,"Courier New",monospace}
+  ul,ol{padding-left:22px}
+  li{margin:4px 0}
+  nav.toc{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:18px 26px}
+  nav.toc ol{margin:0}
+  nav.toc ol ol{margin-top:4px}
+  .checklist{list-style:none;padding-left:0}
+  .checklist li{padding-left:26px;position:relative}
+  .checklist li::before{content:"\2610";position:absolute;left:0;color:var(--brand);font-size:1.05rem}
+  footer{background:var(--brand-dark);color:#fff;text-align:center;padding:26px 20px;font-size:.85rem}
+  footer strong{display:block;font-size:1rem;margin-bottom:6px}
+  footer em{opacity:.85}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="cover">
+  <p class="kicker">InsightsMastery Academy</p>
+  <p class="sub">Learning Handbook</p>
+  <h1>Time Intelligence on Power BI &amp; Data Modeling<span>with Data Cleaning Concepts in Power Query Transform</span></h1>
+  <p>A practical guide to building robust semantic models, mastering DAX time intelligence, and cleaning data effectively with Power Query.</p>
+  <p class="foot">Power BI Desktop &bull; DAX &bull; Power Query (M) &bull; www.insightsmastry.in</p>
+</header>
+<main>
+
+<nav class="toc" aria-label="Table of contents">
+  <h2 style="margin-top:0;border:none">Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Introduction to the Handbook</a></li>
+    <li><a href="#s2">Data Modeling Fundamentals in Power BI</a>
+      <ol>
+        <li><a href="#s2-1">Star Schema Design</a></li>
+        <li><a href="#s2-2">Fact Tables vs Dimension Tables</a></li>
+        <li><a href="#s2-3">Relationships, Cardinality &amp; Cross-Filter Direction</a></li>
+        <li><a href="#s2-4">Modeling Best Practices</a></li>
+      </ol>
+    </li>
+    <li><a href="#s3">Time Intelligence in Power BI</a>
+      <ol>
+        <li><a href="#s3-1">Why a Dedicated Date Table Matters</a></li>
+        <li><a href="#s3-2">Creating a Proper Date Table (DAX &amp; Power Query)</a></li>
+        <li><a href="#s3-3">Marking as Date Table &amp; Disabling Auto Date/Time</a></li>
+        <li><a href="#s3-4">Core Time Intelligence DAX Functions</a></li>
+        <li><a href="#s3-5">Common Patterns: YTD, QTD, Prior Period, Growth</a></li>
+        <li><a href="#s3-6">Fiscal Calendars &amp; Advanced Scenarios</a></li>
+      </ol>
+    </li>
+    <li><a href="#s4">Data Cleaning with Power Query Transform</a>
+      <ol>
+        <li><a href="#s4-1">Power Query Overview &amp; Data Profiling</a></li>
+        <li><a href="#s4-2">Essential Cleaning Transformations</a></li>
+        <li><a href="#s4-3">Working with Dates, Text &amp; Numbers</a></li>
+        <li><a href="#s4-4">Unpivot, Fill, Conditional Columns &amp; Parameters</a></li>
+        <li><a href="#s4-5">Best Practices for Maintainable Queries</a></li>
+      </ol>
+    </li>
+    <li><a href="#s5">Putting It All Together – Recommended Workflow</a></li>
+    <li><a href="#s6">Quick Reference Cheatsheet</a></li>
+    <li><a href="#s7">Further Learning Resources</a></li>
+  </ol>
+</nav>
+
+<section id="s1">
+  <h2>1. Introduction to the Handbook</h2>
+  <p>This handbook is designed for Power BI practitioners who want a solid, practical foundation in three interconnected areas: <strong>data modeling</strong>, <strong>time intelligence</strong>, and <strong>data cleaning with Power Query</strong>. These skills form the backbone of reliable, performant, and maintainable Power BI solutions. Poor modeling leads to incorrect results and slow reports. Missing or incomplete date tables break time intelligence. Messy source data creates fragile queries that fail on refresh. By mastering these three topics together, you build solutions that scale and remain trustworthy.</p>
+  <p><strong>Who this is for:</strong> Analysts, BI developers, and data professionals working with Power BI Desktop who already know the basics of importing data and creating simple visuals, and who are ready to move to professional-grade models and calculations.</p>
+  <div class="note"><span class="tag">How to use this handbook</span>Read chapters sequentially the first time. Later, use the Quick Reference Cheatsheet (Chapter 6) and the code examples as a ready-to-copy toolkit when building new models.</div>
+</section>
+
+<section id="s2">
+  <h2>2. Data Modeling Fundamentals in Power BI</h2>
+  <p>A semantic model is the heart of every Power BI report. Good modeling makes DAX simpler, visuals faster, and results correct. The industry-standard approach for analytical models is the <strong>star schema</strong>.</p>
+
+  <h3 id="s2-1">2.1 Star Schema Design</h3>
+  <p>In a star schema, a central <strong>fact table</strong> (containing measurable events such as sales transactions) is surrounded by <strong>dimension tables</strong> (descriptive context such as Date, Product, Customer, Store). Filters flow from dimensions to the fact table. This design is preferred because:</p>
+  <ul>
+    <li>It is easy for users and the engine to understand.</li>
+    <li>Filter propagation is predictable and efficient.</li>
+    <li>DAX measures become simpler and more reusable.</li>
+    <li>It scales better than highly normalized (snowflake) or flat tables for analytics.</li>
+  </ul>
+
+  <h3 id="s2-2">2.2 Fact Tables vs Dimension Tables</h3>
+  <p><strong>Fact tables</strong> store events or transactions. They contain foreign keys to dimensions and numeric columns (measures) that can be aggregated (sum, count, average). Rows grow rapidly over time. <strong>Dimension tables</strong> describe the business entities. They have a unique key (the "one" side of relationships) and attributes used for filtering, grouping, and labeling (e.g., Product Name, Category, Customer City).</p>
+  <table>
+    <caption>Table 1 — Fact vs Dimension characteristics</caption>
+    <thead><tr><th>Aspect</th><th>Fact Table</th><th>Dimension Table</th></tr></thead>
+    <tbody>
+      <tr><td>Purpose</td><td>Record events / measures</td><td>Provide descriptive context</td></tr>
+      <tr><td>Grain</td><td>One row per transaction / event</td><td>One row per entity</td></tr>
+      <tr><td>Keys</td><td>Foreign keys + optional surrogate</td><td>Primary / unique key</td></tr>
+      <tr><td>Columns</td><td>Numeric measures + keys</td><td>Attributes (text, categories)</td></tr>
+      <tr><td>Size</td><td>Usually large / growing</td><td>Relatively small / stable</td></tr>
+      <tr><td>Relationship side</td><td>Many side (*)</td><td>One side (1)</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s2-3">2.3 Relationships, Cardinality &amp; Cross-Filter Direction</h3>
+  <p>Relationships define how filters travel between tables. Power BI supports four cardinality types:</p>
+  <ul>
+    <li><strong>One-to-many (1:*)</strong> / <strong>Many-to-one (*:1)</strong> — The most common and preferred pattern. Dimension (one) → Fact (many).</li>
+    <li><strong>One-to-one (1:1)</strong> — Rare; usually better to merge tables when possible.</li>
+    <li><strong>Many-to-many (*:*)</strong> — Possible but often better solved with a bridge (junction) table for clarity and performance.</li>
+  </ul>
+  <p><strong>Cross-filter direction</strong> controls whether filters flow only one way (Single — recommended for star schemas) or both ways (Both). Bidirectional filtering can create ambiguity and performance issues; use it sparingly and only when necessary. Only one relationship between two tables can be <strong>active</strong>. Additional relationships can exist as inactive and be activated in specific measures with the <strong>USERELATIONSHIP</strong> function.</p>
+
+  <h3 id="s2-4">2.4 Modeling Best Practices</h3>
+  <ul>
+    <li>Prefer star schema over flat or highly normalized models for analytics.</li>
+    <li>Hide foreign key columns and technical columns from the report view.</li>
+    <li>Create explicit measures (do not rely only on implicit column aggregations).</li>
+    <li>Use whole-number surrogate keys where possible for relationships.</li>
+    <li>Disable Auto Date/Time and create your own Date table (see Chapter 3).</li>
+    <li>Keep dimension tables clean and free of unnecessary columns.</li>
+    <li>Document the model grain and key business rules.</li>
+  </ul>
+  <div class="note"><span class="tag">Avoid Many-to-Many when possible</span>Many-to-many relationships and bidirectional filters often hide model problems. Introduce a bridge table or rethink the grain instead of relying on *:* cardinality.</div>
+</section>
+
+<section id="s3">
+  <h2>3. Time Intelligence in Power BI</h2>
+  <p>Time intelligence allows you to compare periods (year-over-year, month-to-date, prior quarter, etc.). DAX provides a rich set of time intelligence functions, but they only work correctly when the model contains a proper <strong>Date table</strong>.</p>
+
+  <h3 id="s3-1">3.1 Why a Dedicated Date Table Matters</h3>
+  <p>Fact tables usually contain only dates on which events occurred. Weekends, holidays, or days with zero sales create gaps. Time intelligence functions require a continuous sequence of dates with no gaps. A dedicated Date (Calendar) table solves this. Benefits of a proper Date table:</p>
+  <ul>
+    <li>Enables all built-in time intelligence DAX functions.</li>
+    <li>Provides consistent Year, Quarter, Month, Week attributes across the model.</li>
+    <li>Supports fiscal calendars and custom periods.</li>
+    <li>Improves performance compared with Auto Date/Time hidden tables.</li>
+    <li>Gives a single source of truth for time-related filtering and grouping.</li>
+  </ul>
+
+  <h3 id="s3-2">3.2 Creating a Proper Date Table (DAX &amp; Power Query)</h3>
+  <p>You can create a Date table with DAX or with Power Query. Both approaches are valid; many teams prefer Power Query for reusability across projects.</p>
+  <h4>DAX example (recommended starting point):</h4>
+  <pre><code>DateTable =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2020, 1, 1 ), DATE ( 2026, 12, 31 ) ),
+    "Year",           YEAR ( [Date] ),
+    "Month Number",   MONTH ( [Date] ),
+    "Month Name",     FORMAT ( [Date], "MMMM" ),
+    "Month Short",    FORMAT ( [Date], "MMM" ),
+    "Quarter",        "Q" &amp; FORMAT ( [Date], "Q" ),
+    "Year-Quarter",   FORMAT ( [Date], "YYYY" ) &amp; " Q" &amp; FORMAT ( [Date], "Q" ),
+    "Year-Month",     FORMAT ( [Date], "YYYY-MM" ),
+    "Day",            DAY ( [Date] ),
+    "Weekday",        FORMAT ( [Date], "dddd" ),
+    "Weekday Number", WEEKDAY ( [Date], 2 )
+)</code></pre>
+  <p>Alternatively, use <strong>CALENDARAUTO()</strong> to automatically detect min/max dates from the model, then enrich with ADDCOLUMNS. For production models, prefer an explicit start and end year so the table does not unexpectedly expand.</p>
+  <h4>Power Query (M) sketch:</h4>
+  <pre><code>let
+    StartDate   = #date(2020, 1, 1),
+    EndDate     = #date(2026, 12, 31),
+    DayCount    = Duration.Days(EndDate - StartDate) + 1,
+    DateList    = List.Dates(StartDate, DayCount, #duration(1, 0, 0, 0)),
+    ToTable     = Table.FromList(DateList, Splitter.SplitByNothing(), {"Date"}),
+    ChangedType = Table.TransformColumnTypes(ToTable, {{"Date", type date}}),
+    AddYear     = Table.AddColumn(ChangedType, "Year", each Date.Year([Date]), Int64.Type),
+    AddMonth    = Table.AddColumn(AddYear, "Month Number", each Date.Month([Date]), Int64.Type)
+    // ... continue adding Month Name, Quarter, etc.
+in
+    AddMonth</code></pre>
+
+  <h3 id="s3-3">3.3 Marking as Date Table &amp; Disabling Auto Date/Time</h3>
+  <p>After creating the Date table:</p>
+  <ul>
+    <li>Select the Date table → Table tools → <strong>Mark as date table</strong> → choose the Date column.</li>
+    <li>Create a relationship from each fact table's date column to DateTable[Date] (many-to-one).</li>
+    <li>In File → Options → Data Load → uncheck <strong>Auto date/time</strong> (or disable it for the current file). This prevents Power BI from creating hidden date tables that bloat the model.</li>
+  </ul>
+  <div class="note"><span class="tag">Date table requirements for time intelligence</span>The Date column must contain unique, contiguous dates (no gaps), cover full years (or full fiscal years), be of Date (or DateTime with time = 00:00) type, and the table must be marked as a Date table.</div>
+
+  <h3 id="s3-4">3.4 Core Time Intelligence DAX Functions</h3>
+  <p>These functions return a table of dates that can be used inside CALCULATE to shift or expand the filter context:</p>
+  <table>
+    <caption>Table 2 — Key time intelligence functions</caption>
+    <thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>DATESYTD / TOTALYTD</td><td>Year-to-date dates or cumulative calculation</td></tr>
+      <tr><td>DATESQTD / TOTALQTD</td><td>Quarter-to-date</td></tr>
+      <tr><td>DATESMTD / TOTALMTD</td><td>Month-to-date</td></tr>
+      <tr><td>SAMEPERIODLASTYEAR</td><td>Same dates in the previous year</td></tr>
+      <tr><td>DATEADD</td><td>Shift dates by a number of intervals (day/month/quarter/year)</td></tr>
+      <tr><td>PARALLELPERIOD</td><td>Move to a parallel period of the same length</td></tr>
+      <tr><td>DATESINPERIOD</td><td>Dates in a period of specified length ending/starting at a date</td></tr>
+      <tr><td>PREVIOUSYEAR / MONTH / …</td><td>Entire previous year, month, etc.</td></tr>
+      <tr><td>NEXTYEAR / MONTH / …</td><td>Entire next year, month, etc.</td></tr>
+      <tr><td>CLOSINGBALANCEMONTH / …</td><td>Value at the end of the period</td></tr>
+      <tr><td>OPENINGBALANCEMONTH / …</td><td>Value at the start of the period</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="s3-5">3.5 Common Patterns: YTD, QTD, Prior Period, Growth</h3>
+  <h4>Base measure (always start with one):</h4>
+  <pre><code>Total Sales = SUM ( Sales[SalesAmount] )</code></pre>
+  <h4>Year-to-Date:</h4>
+  <pre><code>Sales YTD = TOTALYTD ( [Total Sales], DateTable[Date] )
+// or
+Sales YTD = CALCULATE ( [Total Sales], DATESYTD ( DateTable[Date] ) )</code></pre>
+  <h4>Prior Year (same period last year):</h4>
+  <pre><code>Sales PY = CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( DateTable[Date] ) )</code></pre>
+  <h4>Year-over-Year Growth:</h4>
+  <pre><code>Sales YoY Growth =
+VAR CurrentSales = [Total Sales]
+VAR PriorSales   = [Sales PY]
+RETURN
+    DIVIDE ( CurrentSales - PriorSales, PriorSales )</code></pre>
+  <h4>Month-to-Date and Prior Month:</h4>
+  <pre><code>Sales MTD = TOTALMTD ( [Total Sales], DateTable[Date] )
+
+Sales PM =
+CALCULATE (
+    [Total Sales],
+    DATEADD ( DateTable[Date], -1, MONTH )
+)</code></pre>
+  <p>Always use measures (not calculated columns) for these calculations so they respond correctly to filter context from slicers and visuals.</p>
+
+  <h3 id="s3-6">3.6 Fiscal Calendars &amp; Advanced Scenarios</h3>
+  <p>Many organizations use fiscal years that do not end on 31 December. Add Fiscal Year, Fiscal Quarter, and Fiscal Month columns to your Date table. For DATESYTD you can supply the year-end date:</p>
+  <pre><code>Sales Fiscal YTD =
+CALCULATE ( [Total Sales], DATESYTD ( DateTable[Date], "6/30" ) )  // year ends 30 June</code></pre>
+  <p>For complex calendars (4-4-5, 4-5-4 retail calendars), build explicit period mappings in the Date table rather than relying only on built-in functions.</p>
+  <div class="note"><span class="tag">Performance tip</span>Prefer the built-in time intelligence functions (DATESYTD, SAMEPERIODLASTYEAR, etc.) over equivalent FILTER ( ALL ( DateTable ) … ) patterns. They are optimized for the storage engine. Use VAR/RETURN to avoid recalculating the same measure multiple times.</div>
+</section>
+
+<section id="s4">
+  <h2>4. Data Cleaning with Power Query Transform</h2>
+  <p>Power Query (the Transform Data experience) is where you shape and clean data before it lands in the model. Clean data early — in the query — so the model stays simple and measures remain reliable.</p>
+
+  <h3 id="s4-1">4.1 Power Query Overview &amp; Data Profiling</h3>
+  <p>Every transformation you apply becomes a step in the Applied Steps pane. Steps are recorded in the M language and replayed on every refresh. This makes cleaning repeatable and auditable. Turn on data profiling to understand quality issues quickly:</p>
+  <ul>
+    <li>View → Data Preview → Column quality, Column distribution, Column profile.</li>
+    <li>By default profiling uses the top 1,000 rows; switch to "entire data set" when needed for accurate statistics.</li>
+    <li>Look for unexpected nulls, errors, high cardinality, or skewed distributions.</li>
+  </ul>
+
+  <h3 id="s4-2">4.2 Essential Cleaning Transformations</h3>
+  <p>Common operations you will use on almost every query:</p>
+  <ul>
+    <li><strong>Remove Columns / Choose Columns</strong> — Keep only what the model needs. Fewer columns = smaller model and faster refresh.</li>
+    <li><strong>Remove Rows</strong> — Remove top/bottom rows, blank rows, errors, or duplicates.</li>
+    <li><strong>Use First Row as Headers</strong> — Promote the correct header row after removing title/junk rows.</li>
+    <li><strong>Change Type</strong> — Set proper data types early (Date, Whole Number, Decimal, Text). Wrong types break relationships and calculations.</li>
+    <li><strong>Replace Values / Replace Errors</strong> — Standardize codes, fix known bad values, or convert errors to null.</li>
+    <li><strong>Filter Rows</strong> — Exclude irrelevant records (test data, cancelled orders, etc.) at the source of the query.</li>
+    <li><strong>Split Column</strong> — Split by delimiter, by number of characters, or by positions.</li>
+    <li><strong>Merge Columns</strong> — Combine fields when a single key or label is needed.</li>
+    <li><strong>Fill Down / Fill Up</strong> — Propagate values into null cells (common with hierarchical exports).</li>
+    <li><strong>Unpivot Columns</strong> — Turn wide (cross-tab) data into a tall, analytic-friendly shape.</li>
+  </ul>
+
+  <h3 id="s4-3">4.3 Working with Dates, Text &amp; Numbers</h3>
+  <p><strong>Dates:</strong> Ensure the column is typed as Date (or Date/Time). Use Transform → Date to extract Year, Month, Day, Start of Month, etc. If dates arrive as text, use locale-aware parsing or custom column formulas.</p>
+  <p><strong>Text:</strong> Trim and Clean (Transform → Format) remove leading/trailing spaces and non-printable characters. Lowercase / Uppercase / Capitalize Each Word help standardize values used in relationships or lookups.</p>
+  <p><strong>Numbers:</strong> Remove currency symbols and thousand separators via Replace Values before changing type to Decimal Number or Fixed Decimal Number. Fixed Decimal (currency) is preferred for money to avoid floating-point issues.</p>
+
+  <h3 id="s4-4">4.4 Unpivot, Fill, Conditional Columns &amp; Parameters</h3>
+  <p><strong>Unpivot</strong> is essential when source data has months or categories spread across columns. Select the columns to unpivot → Transform → Unpivot Columns. You obtain Attribute (former column name) and Value columns that can be cleaned further. <strong>Fill Down</strong> is useful for hierarchical reports where category names appear only on the first row of a group.</p>
+  <p><strong>Conditional Column</strong> (Add Column → Conditional Column) or a Custom Column with if-then-else logic lets you create buckets, flags, or cleaned categories without writing complex M. <strong>Parameters</strong> make queries flexible: file path, server name, date range, or environment. Combine parameters with "Close &amp; Apply" testing so refresh works when source locations change.</p>
+
+  <h3 id="s4-5">4.5 Best Practices for Maintainable Queries</h3>
+  <ul>
+    <li>Name steps meaningfully (not just "Changed Type1"). Good names document intent.</li>
+    <li>Remove unused columns as early as practical to reduce memory pressure.</li>
+    <li>Prefer native database queries or query folding when connecting to SQL sources so filters and projections run on the server.</li>
+    <li>Use reference queries or staging queries for shared cleaning logic instead of duplicating steps.</li>
+    <li>Keep a clear separation: staging (raw cleaning) → dimension/fact shaping → load.</li>
+    <li>Test refresh after structural changes to the source.</li>
+    <li>Document complex steps with comments in the Advanced Editor (// comment).</li>
+  </ul>
+  <div class="note"><span class="tag">Query folding reminder</span>When connecting to relational sources, many transformations can fold (be pushed to the source). Operations that break folding (certain custom functions, some text operations after a non-foldable step) force Power Query to pull more data locally. Check the Query Dependencies view and "View Native Query" when performance matters.</div>
+</section>
+
+<section id="s5">
+  <h2>5. Putting It All Together – Recommended Workflow</h2>
+  <p>A reliable end-to-end process looks like this:</p>
+  <ol>
+    <li><strong>Profile &amp; clean in Power Query</strong> — Fix types, remove junk, standardize text, handle nulls and errors, unpivot if needed, and keep only required columns.</li>
+    <li><strong>Shape dimensions and facts</strong> — Create clean dimension tables with unique keys and fact tables at the correct grain. Add any surrogate keys required.</li>
+    <li><strong>Build the Date table</strong> — Contiguous dates, rich attributes, marked as Date table. Disable Auto Date/Time.</li>
+    <li><strong>Create relationships</strong> — Prefer many-to-one from facts to dimensions, single cross-filter direction, one active relationship per pair of tables.</li>
+    <li><strong>Write base measures</strong> — Then layer time intelligence measures on top of them.</li>
+    <li><strong>Validate</strong> — Check totals against source, test YTD/PY calculations with known values, verify filter behavior across pages.</li>
+    <li><strong>Optimize &amp; document</strong> — Hide technical columns, add descriptions, review model size and refresh duration.</li>
+  </ol>
+  <div class="note"><span class="tag">Golden rule</span>Clean and model first; write DAX second. Most calculation problems are actually modeling or data-quality problems in disguise.</div>
+</section>
+
+<section id="s6">
+  <h2>6. Quick Reference Cheatsheet</h2>
+  <h4>Date Table (minimum viable)</h4>
+  <pre><code>DateTable =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2020, 1, 1 ), DATE ( 2026, 12, 31 ) ),
+    "Year",         YEAR ( [Date] ),
+    "Month Number", MONTH ( [Date] ),
+    "Month Name",   FORMAT ( [Date], "MMMM" ),
+    "Quarter",      "Q" &amp; FORMAT ( [Date], "Q" )
+)
+// Then: Mark as date table + relate facts to DateTable[Date]</code></pre>
+  <h4>Essential Time Intelligence Measures</h4>
+  <pre><code>Total Sales = SUM ( Sales[SalesAmount] )
+Sales YTD   = TOTALYTD ( [Total Sales], DateTable[Date] )
+Sales PY    = CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( DateTable[Date] ) )
+Sales YoY % = DIVIDE ( [Total Sales] - [Sales PY], [Sales PY] )
+Sales MTD   = TOTALMTD ( [Total Sales], DateTable[Date] )
+Sales PM    = CALCULATE ( [Total Sales], DATEADD ( DateTable[Date], -1, MONTH ) )</code></pre>
+  <h4>Power Query Cleaning Checklist</h4>
+  <ul class="checklist">
+    <li>Column quality / distribution reviewed</li>
+    <li>Correct headers promoted</li>
+    <li>Junk / blank / error rows removed</li>
+    <li>Data types set correctly (especially Date and numeric)</li>
+    <li>Text trimmed and cleaned</li>
+    <li>Unneeded columns removed</li>
+    <li>Duplicates handled where business rules require it</li>
+    <li>Wide data unpivoted if necessary</li>
+    <li>Steps named clearly</li>
+    <li>Query folds (when using relational sources)</li>
+  </ul>
+  <h4>Modeling Checklist</h4>
+  <ul class="checklist">
+    <li>Star schema (facts in the middle, dimensions around)</li>
+    <li>Single active many-to-one relationships</li>
+    <li>Date table marked and Auto Date/Time disabled</li>
+    <li>Measures created for all key metrics</li>
+    <li>Technical columns hidden from report view</li>
+    <li>No unnecessary bidirectional filters</li>
+  </ul>
+</section>
+
+<section id="s7">
+  <h2>7. Further Learning Resources</h2>
+  <p>Official and community resources worth bookmarking:</p>
+  <ul>
+    <li>Microsoft Learn — Power BI documentation (Transform &amp; Model data, DAX, relationships).</li>
+    <li>DAX Guide (dax.guide) — Definitive reference for every DAX function including time intelligence.</li>
+    <li>SQLBI — Articles and videos on star schema, time intelligence patterns, and calculation groups.</li>
+    <li>Power Query M language reference — For advanced transformations and custom functions.</li>
+    <li>Community forums (Microsoft Fabric Community, Reddit r/PowerBI) — Real-world problem solving.</li>
+  </ul>
+  <p>Practice is the fastest teacher: take a messy export, clean it in Power Query, build a star schema with a proper Date table, write YTD and YoY measures, and validate the numbers. Repeat with fiscal calendars and multiple fact tables until the patterns become second nature.</p>
+</section>
+
+</main>
+<footer>
+  <strong>InsightsMastery Academy</strong>
+  End of Learning Handbook — Time Intelligence &bull; Data Modeling &bull; Power Query<br>
+  <em>Build clean models. Write reliable measures. Refresh with confidence. &bull; www.insightsmastry.in</em>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://insightsmastry-gif.github.io/insightsmastery-academy/sitemap.xml

@@ -1,0 +1,754 @@
+{
+  "generatedAt": "2026-09-03T21:01:18.862Z",
+  "site": {
+    "noteCount": 4,
+    "resourceCount": 6,
+    "totalWords": 7432,
+    "totalMinutes": 35,
+    "totalBytes": 1082646,
+    "categories": [
+      "Data Connectivity",
+      "Data Modeling",
+      "DAX",
+      "Power Query",
+      "Setup & SOP",
+      "SQL Server"
+    ],
+    "tags": [
+      "Data Cleaning",
+      "Data Modeling",
+      "DAX",
+      "DAX Studio",
+      "Get Data",
+      "Installation",
+      "Power BI",
+      "Power Query",
+      "Setup",
+      "SOP",
+      "SQL Server",
+      "SSMS",
+      "Tabular Editor",
+      "Time Intelligence",
+      "Transform"
+    ],
+    "lastUpdated": "2026-09-03T19:57:48.527Z"
+  },
+  "notes": [
+    {
+      "slug": "data-connectivity-in-power-bi",
+      "file": "notes/InsightsMastery_PowerBI_Data_Connectivity_Handbook.html",
+      "href": "note.html?note=data-connectivity-in-power-bi",
+      "title": "Data Connectivity in Power BI",
+      "kicker": "InsightsMastery Academy",
+      "description": "Step-by-step patterns for connecting Power BI Desktop to Excel, CSV, folders, SQL Server and shared semantic models, with the best practices that keep refreshes reliable.",
+      "category": "Data Connectivity",
+      "tags": [
+        "Power BI",
+        "Power Query",
+        "Get Data",
+        "SQL Server"
+      ],
+      "words": 1901,
+      "minutes": 9,
+      "readingTime": "9 min read",
+      "bytes": 19829,
+      "modified": "2026-09-03T19:53:05.071Z",
+      "sections": 10,
+      "headings": [
+        {
+          "id": "1-introduction-get-data-in-power-bi-desktop",
+          "text": "1. Introduction — Get Data in Power BI Desktop",
+          "level": 2
+        },
+        {
+          "id": "how-to-open-get-data",
+          "text": "How to open Get Data",
+          "level": 3
+        },
+        {
+          "id": "2-connect-to-excel-workbooks",
+          "text": "2. Connect to Excel Workbooks",
+          "level": 2
+        },
+        {
+          "id": "best-practices-for-excel",
+          "text": "Best practices for Excel",
+          "level": 3
+        },
+        {
+          "id": "3-connect-to-csv-text-files",
+          "text": "3. Connect to CSV / Text Files",
+          "level": 2
+        },
+        {
+          "id": "4-connect-to-a-folder-combine-multiple-files",
+          "text": "4. Connect to a Folder (Combine Multiple Files)",
+          "level": 2
+        },
+        {
+          "id": "5-connect-to-sql-server",
+          "text": "5. Connect to SQL Server",
+          "level": 2
+        },
+        {
+          "id": "import-vs-directquery-quick-guide",
+          "text": "Import vs DirectQuery (quick guide)",
+          "level": 3
+        },
+        {
+          "id": "6-connect-to-a-power-bi-semantic-model-live",
+          "text": "6. Connect to a Power BI Semantic Model (Live)",
+          "level": 2
+        },
+        {
+          "id": "7-after-loading-prepare-for-time-intelligence",
+          "text": "7. After Loading — Prepare for Time Intelligence",
+          "level": 2
+        },
+        {
+          "id": "8-comparison-when-to-use-which-connector",
+          "text": "8. Comparison & When to Use Which Connector",
+          "level": 2
+        },
+        {
+          "id": "9-common-issues-best-practices",
+          "text": "9. Common Issues & Best Practices",
+          "level": 2
+        },
+        {
+          "id": "common-issues",
+          "text": "Common issues",
+          "level": 3
+        },
+        {
+          "id": "best-practices",
+          "text": "Best practices",
+          "level": 3
+        },
+        {
+          "id": "10-quick-reference-checklist",
+          "text": "10. Quick Reference Checklist",
+          "level": 2
+        }
+      ],
+      "pdf": "pdfs/InsightsMastery_PowerBI_Data_Connectivity_Handbook.pdf"
+    },
+    {
+      "slug": "sop-install-sql-server-2022-developer-edition-ssms",
+      "file": "notes/SOP_Install_SQL_Server_2022_Developer_SSMS.html",
+      "href": "note.html?note=sop-install-sql-server-2022-developer-edition-ssms",
+      "title": "SOP — Install SQL Server 2022 Developer Edition & SSMS",
+      "kicker": "Standard Operating Procedure",
+      "description": "A controlled, enterprise-grade procedure for installing Microsoft SQL Server 2022 Developer Edition and the accompanying SQL Server Management Studio on Windows workstations and servers for development, test, and…",
+      "category": "SQL Server",
+      "tags": [
+        "SQL Server",
+        "SSMS",
+        "Installation",
+        "SOP"
+      ],
+      "words": 1571,
+      "minutes": 7,
+      "readingTime": "7 min read",
+      "bytes": 19904,
+      "modified": "2026-09-03T19:54:26.936Z",
+      "sections": 12,
+      "headings": [
+        {
+          "id": "1-purpose",
+          "text": "1. Purpose",
+          "level": 2
+        },
+        {
+          "id": "2-scope",
+          "text": "2. Scope",
+          "level": 2
+        },
+        {
+          "id": "in-scope",
+          "text": "In Scope",
+          "level": 3
+        },
+        {
+          "id": "out-of-scope",
+          "text": "Out of Scope",
+          "level": 3
+        },
+        {
+          "id": "3-definitions-abbreviations",
+          "text": "3. Definitions & Abbreviations",
+          "level": 2
+        },
+        {
+          "id": "4-prerequisites-system-requirements",
+          "text": "4. Prerequisites & System Requirements",
+          "level": 2
+        },
+        {
+          "id": "4-1-hardware-minimums-sql-server-2022",
+          "text": "4.1 Hardware Minimums (SQL Server 2022)",
+          "level": 3
+        },
+        {
+          "id": "4-2-software-requirements",
+          "text": "4.2 Software Requirements",
+          "level": 3
+        },
+        {
+          "id": "4-3-pre-installation-checklist",
+          "text": "4.3 Pre-Installation Checklist",
+          "level": 3
+        },
+        {
+          "id": "5-roles-and-responsibilities",
+          "text": "5. Roles and Responsibilities",
+          "level": 2
+        },
+        {
+          "id": "6-procedure-download-sql-server-2022-developer-edition",
+          "text": "6. Procedure – Download SQL Server 2022 Developer Edition",
+          "level": 2
+        },
+        {
+          "id": "step-6-1-obtain-the-installer",
+          "text": "Step 6.1 – Obtain the Installer",
+          "level": 3
+        },
+        {
+          "id": "7-procedure-install-sql-server-2022-developer-edition",
+          "text": "7. Procedure – Install SQL Server 2022 Developer Edition",
+          "level": 2
+        },
+        {
+          "id": "step-7-1-launch-setup",
+          "text": "Step 7.1 – Launch Setup",
+          "level": 3
+        },
+        {
+          "id": "step-7-2-sql-server-installation-center",
+          "text": "Step 7.2 – SQL Server Installation Center",
+          "level": 3
+        },
+        {
+          "id": "step-7-3-edition-selection",
+          "text": "Step 7.3 – Edition Selection",
+          "level": 3
+        },
+        {
+          "id": "step-7-4-license-terms",
+          "text": "Step 7.4 – License Terms",
+          "level": 3
+        },
+        {
+          "id": "step-7-5-microsoft-update-recommended",
+          "text": "Step 7.5 – Microsoft Update (Recommended)",
+          "level": 3
+        },
+        {
+          "id": "step-7-6-install-rules",
+          "text": "Step 7.6 – Install Rules",
+          "level": 3
+        },
+        {
+          "id": "step-7-7-feature-selection",
+          "text": "Step 7.7 – Feature Selection",
+          "level": 3
+        },
+        {
+          "id": "step-7-8-instance-configuration",
+          "text": "Step 7.8 – Instance Configuration",
+          "level": 3
+        },
+        {
+          "id": "step-7-9-server-configuration-service-accounts",
+          "text": "Step 7.9 – Server Configuration (Service Accounts)",
+          "level": 3
+        },
+        {
+          "id": "step-7-10-database-engine-configuration",
+          "text": "Step 7.10 – Database Engine Configuration",
+          "level": 3
+        },
+        {
+          "id": "step-7-11-ready-to-install-completion",
+          "text": "Step 7.11 – Ready to Install & Completion",
+          "level": 3
+        },
+        {
+          "id": "8-procedure-install-sql-server-management-studio-ssms",
+          "text": "8. Procedure – Install SQL Server Management Studio (SSMS)",
+          "level": 2
+        },
+        {
+          "id": "step-8-1-download-ssms-22",
+          "text": "Step 8.1 – Download SSMS 22",
+          "level": 3
+        },
+        {
+          "id": "step-8-2-install-ssms",
+          "text": "Step 8.2 – Install SSMS",
+          "level": 3
+        },
+        {
+          "id": "9-post-installation-verification",
+          "text": "9. Post-Installation Verification",
+          "level": 2
+        },
+        {
+          "id": "step-9-1-connect-with-ssms",
+          "text": "Step 9.1 – Connect with SSMS",
+          "level": 3
+        },
+        {
+          "id": "step-9-2-validate-services",
+          "text": "Step 9.2 – Validate Services",
+          "level": 3
+        },
+        {
+          "id": "step-9-3-optional-apply-latest-cumulative-update",
+          "text": "Step 9.3 – Optional: Apply Latest Cumulative Update",
+          "level": 3
+        },
+        {
+          "id": "step-9-4-record-the-installation",
+          "text": "Step 9.4 – Record the Installation",
+          "level": 3
+        },
+        {
+          "id": "10-troubleshooting-common-issues",
+          "text": "10. Troubleshooting Common Issues",
+          "level": 2
+        },
+        {
+          "id": "11-references",
+          "text": "11. References",
+          "level": 2
+        },
+        {
+          "id": "12-document-history",
+          "text": "12. Document History",
+          "level": 2
+        }
+      ],
+      "pdf": "pdfs/SOP_Install_SQL_Server_2022_Developer_SSMS.pdf"
+    },
+    {
+      "slug": "time-intelligence-with-dax",
+      "file": "notes/InsightsMastery_Time_Intelligence_DAX_Handbook.html",
+      "href": "note.html?note=time-intelligence-with-dax",
+      "title": "Time Intelligence with DAX",
+      "kicker": "InsightsMastery Academy",
+      "description": "Complete reference of DAX time intelligence functions with practical examples for Power BI.",
+      "category": "DAX",
+      "tags": [
+        "DAX",
+        "Time Intelligence",
+        "Power BI"
+      ],
+      "words": 1532,
+      "minutes": 7,
+      "readingTime": "7 min read",
+      "bytes": 20995,
+      "modified": "2026-09-03T19:57:48.527Z",
+      "sections": 13,
+      "headings": [
+        {
+          "id": "1-introduction-prerequisites",
+          "text": "1. Introduction & Prerequisites",
+          "level": 2
+        },
+        {
+          "id": "2-date-table-requirements",
+          "text": "2. Date Table Requirements",
+          "level": 2
+        },
+        {
+          "id": "recommended-date-table-dax",
+          "text": "Recommended Date table (DAX)",
+          "level": 3
+        },
+        {
+          "id": "3-function-categories-overview",
+          "text": "3. Function Categories Overview",
+          "level": 2
+        },
+        {
+          "id": "4-period-to-date-functions",
+          "text": "4. Period-to-Date Functions",
+          "level": 2
+        },
+        {
+          "id": "totalytd-datesytd",
+          "text": "TOTALYTD / DATESYTD",
+          "level": 3
+        },
+        {
+          "id": "totalqtd-datesqtd-and-totalmtd-datesmtd",
+          "text": "TOTALQTD / DATESQTD and TOTALMTD / DATESMTD",
+          "level": 3
+        },
+        {
+          "id": "5-period-shift-functions",
+          "text": "5. Period Shift Functions",
+          "level": 2
+        },
+        {
+          "id": "dateadd",
+          "text": "DATEADD",
+          "level": 3
+        },
+        {
+          "id": "sameperiodlastyear",
+          "text": "SAMEPERIODLASTYEAR",
+          "level": 3
+        },
+        {
+          "id": "parallelperiod",
+          "text": "PARALLELPERIOD",
+          "level": 3
+        },
+        {
+          "id": "6-previous-next-period-functions",
+          "text": "6. Previous / Next Period Functions",
+          "level": 2
+        },
+        {
+          "id": "previous-period",
+          "text": "Previous period",
+          "level": 3
+        },
+        {
+          "id": "next-period",
+          "text": "Next period",
+          "level": 3
+        },
+        {
+          "id": "7-start-end-of-period-functions",
+          "text": "7. Start / End of Period Functions",
+          "level": 2
+        },
+        {
+          "id": "8-opening-closing-balance-functions",
+          "text": "8. Opening & Closing Balance Functions",
+          "level": 2
+        },
+        {
+          "id": "9-range-functions",
+          "text": "9. Range Functions",
+          "level": 2
+        },
+        {
+          "id": "datesbetween",
+          "text": "DATESBETWEEN",
+          "level": 3
+        },
+        {
+          "id": "datesinperiod",
+          "text": "DATESINPERIOD",
+          "level": 3
+        },
+        {
+          "id": "firstdate-lastdate",
+          "text": "FIRSTDATE / LASTDATE",
+          "level": 3
+        },
+        {
+          "id": "10-practical-patterns-complete-examples",
+          "text": "10. Practical Patterns & Complete Examples",
+          "level": 2
+        },
+        {
+          "id": "base-measure",
+          "text": "Base measure",
+          "level": 3
+        },
+        {
+          "id": "core-time-intelligence-set",
+          "text": "Core time intelligence set",
+          "level": 3
+        },
+        {
+          "id": "comparing-multiple-periods-in-one-visual",
+          "text": "Comparing multiple periods in one visual",
+          "level": 3
+        },
+        {
+          "id": "11-common-pitfalls-best-practices",
+          "text": "11. Common Pitfalls & Best Practices",
+          "level": 2
+        },
+        {
+          "id": "pitfalls",
+          "text": "Pitfalls",
+          "level": 3
+        },
+        {
+          "id": "best-practices",
+          "text": "Best practices",
+          "level": 3
+        },
+        {
+          "id": "12-quick-reference-table",
+          "text": "12. Quick Reference Table",
+          "level": 2
+        },
+        {
+          "id": "13-official-reference",
+          "text": "13. Official Reference",
+          "level": 2
+        },
+        {
+          "id": "primary-source",
+          "text": "Primary source",
+          "level": 3
+        }
+      ],
+      "pdf": "pdfs/InsightsMastery_Time_Intelligence_DAX_Handbook.pdf"
+    },
+    {
+      "slug": "time-intelligence-data-modeling-power-query",
+      "file": "notes/PowerBI_Learning_Handbook_Data_Modeling_PowerQuery.html",
+      "href": "note.html?note=time-intelligence-data-modeling-power-query",
+      "title": "Time Intelligence, Data Modeling & Power Query",
+      "kicker": "InsightsMastery Academy",
+      "description": "A practical guide to building robust semantic models, mastering DAX time intelligence, and cleaning data effectively with Power Query.",
+      "category": "Data Modeling",
+      "tags": [
+        "Data Modeling",
+        "Power Query",
+        "DAX",
+        "Time Intelligence"
+      ],
+      "words": 2428,
+      "minutes": 12,
+      "readingTime": "12 min read",
+      "bytes": 27594,
+      "modified": "2026-09-03T19:56:16.825Z",
+      "sections": 7,
+      "headings": [
+        {
+          "id": "1-introduction-to-the-handbook",
+          "text": "1. Introduction to the Handbook",
+          "level": 2
+        },
+        {
+          "id": "2-data-modeling-fundamentals-in-power-bi",
+          "text": "2. Data Modeling Fundamentals in Power BI",
+          "level": 2
+        },
+        {
+          "id": "s2-1",
+          "text": "2.1 Star Schema Design",
+          "level": 3
+        },
+        {
+          "id": "s2-2",
+          "text": "2.2 Fact Tables vs Dimension Tables",
+          "level": 3
+        },
+        {
+          "id": "s2-3",
+          "text": "2.3 Relationships, Cardinality & Cross-Filter Direction",
+          "level": 3
+        },
+        {
+          "id": "s2-4",
+          "text": "2.4 Modeling Best Practices",
+          "level": 3
+        },
+        {
+          "id": "3-time-intelligence-in-power-bi",
+          "text": "3. Time Intelligence in Power BI",
+          "level": 2
+        },
+        {
+          "id": "s3-1",
+          "text": "3.1 Why a Dedicated Date Table Matters",
+          "level": 3
+        },
+        {
+          "id": "s3-2",
+          "text": "3.2 Creating a Proper Date Table (DAX & Power Query)",
+          "level": 3
+        },
+        {
+          "id": "s3-3",
+          "text": "3.3 Marking as Date Table & Disabling Auto Date/Time",
+          "level": 3
+        },
+        {
+          "id": "s3-4",
+          "text": "3.4 Core Time Intelligence DAX Functions",
+          "level": 3
+        },
+        {
+          "id": "s3-5",
+          "text": "3.5 Common Patterns: YTD, QTD, Prior Period, Growth",
+          "level": 3
+        },
+        {
+          "id": "s3-6",
+          "text": "3.6 Fiscal Calendars & Advanced Scenarios",
+          "level": 3
+        },
+        {
+          "id": "4-data-cleaning-with-power-query-transform",
+          "text": "4. Data Cleaning with Power Query Transform",
+          "level": 2
+        },
+        {
+          "id": "s4-1",
+          "text": "4.1 Power Query Overview & Data Profiling",
+          "level": 3
+        },
+        {
+          "id": "s4-2",
+          "text": "4.2 Essential Cleaning Transformations",
+          "level": 3
+        },
+        {
+          "id": "s4-3",
+          "text": "4.3 Working with Dates, Text & Numbers",
+          "level": 3
+        },
+        {
+          "id": "s4-4",
+          "text": "4.4 Unpivot, Fill, Conditional Columns & Parameters",
+          "level": 3
+        },
+        {
+          "id": "s4-5",
+          "text": "4.5 Best Practices for Maintainable Queries",
+          "level": 3
+        },
+        {
+          "id": "5-putting-it-all-together-recommended-workflow",
+          "text": "5. Putting It All Together – Recommended Workflow",
+          "level": 2
+        },
+        {
+          "id": "6-quick-reference-cheatsheet",
+          "text": "6. Quick Reference Cheatsheet",
+          "level": 2
+        },
+        {
+          "id": "7-further-learning-resources",
+          "text": "7. Further Learning Resources",
+          "level": 2
+        }
+      ],
+      "pdf": "pdfs/PowerBI_Learning_Handbook_Data_Modeling_PowerQuery.pdf"
+    }
+  ],
+  "resources": [
+    {
+      "slug": "install-sop-power-bi-dax-studio-tabular-editor",
+      "file": "pdfs/InsightsMastery_Install_SOP_PowerBI_DAXStudio_TabularEditor.pdf",
+      "href": "pdfs/InsightsMastery_Install_SOP_PowerBI_DAXStudio_TabularEditor.pdf",
+      "title": "Install SOP Power BI DAX Studio Tabular Editor",
+      "description": "Installation SOP for the Power BI toolchain: Power BI Desktop, DAX Studio and Tabular Editor, including post-install checks.",
+      "category": "Setup & SOP",
+      "tags": [
+        "Setup",
+        "Power BI",
+        "DAX Studio",
+        "Tabular Editor"
+      ],
+      "bytes": 126306,
+      "size": "123 KB",
+      "modified": "2026-09-03T19:52:15.781Z",
+      "ext": "pdf",
+      "note": null
+    },
+    {
+      "slug": "power-bi-data-connectivity-handbook",
+      "file": "pdfs/InsightsMastery_PowerBI_Data_Connectivity_Handbook.pdf",
+      "href": "pdfs/InsightsMastery_PowerBI_Data_Connectivity_Handbook.pdf",
+      "title": "Power BI Data Connectivity Handbook",
+      "description": "Printable companion to the data connectivity handbook — Excel, CSV, folder, SQL Server and semantic model sources in one file.",
+      "category": "Data Connectivity",
+      "tags": [
+        "Power BI",
+        "Power Query",
+        "Get Data"
+      ],
+      "bytes": 132191,
+      "size": "129 KB",
+      "modified": "2026-09-03T19:47:24.182Z",
+      "ext": "pdf",
+      "note": "data-connectivity-in-power-bi"
+    },
+    {
+      "slug": "power-bi-learning-handbook-data-modeling-power-query",
+      "file": "pdfs/PowerBI_Learning_Handbook_Data_Modeling_PowerQuery.pdf",
+      "href": "pdfs/PowerBI_Learning_Handbook_Data_Modeling_PowerQuery.pdf",
+      "title": "Power BI Learning Handbook Data Modeling Power Query",
+      "description": "Full learning handbook on semantic modeling, DAX time intelligence and Power Query data cleaning, formatted for print.",
+      "category": "Data Modeling",
+      "tags": [
+        "Data Modeling",
+        "Power Query",
+        "DAX"
+      ],
+      "bytes": 138306,
+      "size": "135 KB",
+      "modified": "2026-09-03T19:45:46.696Z",
+      "ext": "pdf",
+      "note": "time-intelligence-data-modeling-power-query"
+    },
+    {
+      "slug": "power-query-transform-data-cleaning-handbook",
+      "file": "pdfs/InsightsMastery_PowerQuery_Transform_Data_Cleaning_Handbook.pdf",
+      "href": "pdfs/InsightsMastery_PowerQuery_Transform_Data_Cleaning_Handbook.pdf",
+      "title": "Power Query Transform Data Cleaning Handbook",
+      "description": "Power Query field guide: the Transform tab, column shaping and the data-cleaning steps that survive a refresh.",
+      "category": "Power Query",
+      "tags": [
+        "Power Query",
+        "Data Cleaning",
+        "Transform"
+      ],
+      "bytes": 126604,
+      "size": "124 KB",
+      "modified": "2026-09-03T19:57:35.362Z",
+      "ext": "pdf",
+      "note": null
+    },
+    {
+      "slug": "sop-install-sql-server-2022-developer-ssms",
+      "file": "pdfs/SOP_Install_SQL_Server_2022_Developer_SSMS.pdf",
+      "href": "pdfs/SOP_Install_SQL_Server_2022_Developer_SSMS.pdf",
+      "title": "SOP Install SQL Server 2022 Developer SSMS",
+      "description": "Controlled procedure for installing SQL Server 2022 Developer Edition with SQL Server Management Studio on Windows.",
+      "category": "SQL Server",
+      "tags": [
+        "SQL Server",
+        "SSMS",
+        "Installation",
+        "SOP"
+      ],
+      "bytes": 334307,
+      "size": "326 KB",
+      "modified": "2026-09-03T19:47:01.739Z",
+      "ext": "pdf",
+      "note": "sop-install-sql-server-2022-developer-edition-ssms"
+    },
+    {
+      "slug": "time-intelligence-dax-handbook",
+      "file": "pdfs/InsightsMastery_Time_Intelligence_DAX_Handbook.pdf",
+      "href": "pdfs/InsightsMastery_Time_Intelligence_DAX_Handbook.pdf",
+      "title": "Time Intelligence DAX Handbook",
+      "description": "Print-ready reference for the DAX time intelligence functions, with the formula patterns used across the handbook.",
+      "category": "DAX",
+      "tags": [
+        "DAX",
+        "Time Intelligence"
+      ],
+      "bytes": 136610,
+      "size": "133 KB",
+      "modified": "2026-09-03T19:45:38.029Z",
+      "ext": "pdf",
+      "note": "time-intelligence-with-dax"
+    }
+  ]
+}
