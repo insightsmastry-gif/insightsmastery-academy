@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-09-03T21:01:18.862Z",
+  "generatedAt": "2026-09-03T21:27:05.740Z",
   "site": {
     "noteCount": 4,
-    "resourceCount": 6,
+    "resourceCount": 9,
     "totalWords": 7432,
     "totalMinutes": 35,
-    "totalBytes": 1082646,
+    "totalBytes": 3013425,
     "categories": [
       "Data Connectivity",
       "Data Modeling",
       "DAX",
+      "General",
       "Power Query",
       "Setup & SOP",
       "SQL Server"
@@ -31,7 +32,7 @@
       "Time Intelligence",
       "Transform"
     ],
-    "lastUpdated": "2026-09-03T19:57:48.527Z"
+    "lastUpdated": "2026-09-03T21:27:02.357Z"
   },
   "notes": [
     {
@@ -642,6 +643,38 @@
   ],
   "resources": [
     {
+      "slug": "dax-formulas-notes-by-satish-dhawale",
+      "file": "pdfs/DAX Formulas Notes by Satish Dhawale.pdf",
+      "href": "pdfs/DAX Formulas Notes by Satish Dhawale.pdf",
+      "title": "DAX Formulas Notes By Satish Dhawale",
+      "description": "DAX Formulas Notes By Satish Dhawale — downloadable PDF (795 KB).",
+      "category": "DAX",
+      "tags": [
+        "DAX"
+      ],
+      "bytes": 814168,
+      "size": "795 KB",
+      "modified": "2026-09-03T21:27:02.351Z",
+      "ext": "pdf",
+      "note": null
+    },
+    {
+      "slug": "filter-dax-functions-sop-for-students",
+      "file": "pdfs/Filter_DAX_Functions_SOP_for_Students.pdf",
+      "href": "pdfs/Filter_DAX_Functions_SOP_for_Students.pdf",
+      "title": "Filter DAX Functions SOP For Students",
+      "description": "Filter DAX Functions SOP For Students — downloadable PDF (489 KB).",
+      "category": "Setup & SOP",
+      "tags": [
+        "SOP"
+      ],
+      "bytes": 500537,
+      "size": "489 KB",
+      "modified": "2026-09-03T21:27:02.355Z",
+      "ext": "pdf",
+      "note": null
+    },
+    {
       "slug": "install-sop-power-bi-dax-studio-tabular-editor",
       "file": "pdfs/InsightsMastery_Install_SOP_PowerBI_DAXStudio_TabularEditor.pdf",
       "href": "pdfs/InsightsMastery_Install_SOP_PowerBI_DAXStudio_TabularEditor.pdf",
@@ -695,6 +728,20 @@
       "modified": "2026-09-03T19:45:46.696Z",
       "ext": "pdf",
       "note": "time-intelligence-data-modeling-power-query"
+    },
+    {
+      "slug": "power-bi-mastery-carriculam",
+      "file": "pdfs/Power BI Mastery_Carriculam.pdf",
+      "href": "pdfs/Power BI Mastery_Carriculam.pdf",
+      "title": "Power BI Mastery Carriculam",
+      "description": "Power BI Mastery Carriculam — downloadable PDF (602 KB).",
+      "category": "General",
+      "tags": [],
+      "bytes": 616074,
+      "size": "602 KB",
+      "modified": "2026-09-03T21:27:02.357Z",
+      "ext": "pdf",
+      "note": null
     },
     {
       "slug": "power-query-transform-data-cleaning-handbook",

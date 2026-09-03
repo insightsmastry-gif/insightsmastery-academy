@@ -21,13 +21,27 @@ export class ContentError extends Error {
 let cache = null;
 
 /**
+ * Resolve any repo-relative path (e.g. 'content/manifest.json', 'notes/x.html')
+ * relative to the site root, using this module's own location as the anchor.
+ * This prevents 404s when the site is opened without trailing slashes or in sub-paths.
+ */
+export function resolveAssetUrl(relativePath) {
+  const clean = String(relativePath || '').replace(/^\/+/, '');
+  try {
+    return new URL(`../../${clean}`, import.meta.url).href;
+  } catch {
+    return clean;
+  }
+}
+
+/**
  * Fetch + cache the content manifest.
- * @param {{ base?: string }} [options] base path prefix (reader pages use "" too — all pages sit at the site root)
+ * @param {{ base?: string }} [options] optional explicit base override
  * @returns {Promise<import('./types.js').Manifest>}
  */
 export async function loadManifest(options = {}) {
   if (cache) return cache;
-  const url = `${options.base ?? ''}${MANIFEST_URL}`;
+  const url = options.base ? `${options.base}${MANIFEST_URL}` : resolveAssetUrl(MANIFEST_URL);
   let response;
   try {
     response = await fetch(url, { cache: 'no-cache' });
@@ -41,7 +55,7 @@ export async function loadManifest(options = {}) {
     });
   }
   if (!response.ok) {
-    throw new ContentError(`Content manifest returned HTTP ${response.status}.`);
+    throw new ContentError(`Content manifest returned HTTP ${response.status} (tried ${url}).`);
   }
   let data;
   try {

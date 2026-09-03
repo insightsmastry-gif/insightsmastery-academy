@@ -13,6 +13,7 @@ import {
   formatDate,
   loadManifest,
   readingLabel,
+  resolveAssetUrl,
   slugify,
 } from './content.js';
 import { copyText, toast } from './ui.js';
@@ -165,8 +166,9 @@ function sanitiseNote(html) {
 
 async function fetchNote(file) {
   let response;
+  const targetUrl = resolveAssetUrl(file);
   try {
-    response = await fetch(file, { cache: 'no-cache' });
+    response = await fetch(targetUrl, { cache: 'no-cache' });
   } catch (error) {
     throw new ContentError('Could not download this note.', {
       cause: error,
