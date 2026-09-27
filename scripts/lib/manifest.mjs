@@ -1,8 +1,8 @@
 /**
  * Content manifest: every note in `notes/` and every PDF in `pdfs/`, with
- * metadata derived from the files themselves plus optional overrides from
- * `content.config.json`. "Last updated" comes from git history, so dates survive
- * a fresh CI checkout.
+ * metadata derived from the files themselves, TypeSafe labels (category, level,
+ * tags) and optional overrides from `content.config.json`. "Last updated" comes
+ * from git history, so dates survive a fresh CI checkout.
  */
 
 import { execFile } from 'node:child_process';
@@ -10,6 +10,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { promisify } from 'node:util';
 
+import { LEVELS, NO_CATEGORY, labelItems } from './labels.mjs';
 import { parseNote } from './note.mjs';
 import { clamp, formatSize, linkKey, slugify, titleFromStem } from './text.mjs';
 
@@ -19,6 +20,17 @@ export const NOTES_DIR = 'notes';
 export const RESOURCES_DIR = 'pdfs';
 const CONFIG_FILE = 'content.config.json';
 const DEFAULT_CATEGORY = 'General';
+
+/**
+ * Label policy. Thresholds gate how much a TypeSafe judgment must be trusted
+ * before it overrides the filename rules; tune them against real uploads.
+ */
+const POLICY = {
+  categoryConfidence: 0.5,
+  levelConfidence: 0.4,
+  tagProbability: 0.7,
+  maxTags: 5,
+};
 
 /** ISO date of the last commit touching `file`; mtime when the file is not committed yet. */
 async function lastModified(root, relative) {
@@ -33,6 +45,10 @@ async function lastModified(root, relative) {
   return { iso: stats.mtime.toISOString(), fromGit: false };
 }
 
+const cleanTags = (tags) => [
+  ...new Set((Array.isArray(tags) ? tags : []).filter((tag) => typeof tag === 'string' && tag.trim()).map((tag) => tag.trim())),
+];
+
 export async function loadConfig(root) {
   let parsed = {};
   try {
@@ -44,35 +60,71 @@ export async function loadConfig(root) {
   if (typeof siteUrl !== 'string' || !/^https?:\/\/.+\/$/.test(siteUrl)) {
     throw new Error(`${CONFIG_FILE} must set site.url to an absolute URL ending in "/"`);
   }
-  return {
+  const config = {
     site: { url: siteUrl, name: parsed.site?.name ?? 'InsightsMastery Academy' },
+    categories: parsed.categories && typeof parsed.categories === 'object' ? parsed.categories : {},
     defaults: parsed.defaults ?? {},
     rules: Array.isArray(parsed.rules) ? parsed.rules : [],
     notes: parsed.notes ?? {},
     resources: parsed.resources ?? {},
   };
+  // Tag vocabulary for labelling: every tag the config already uses.
+  config.tagVocabulary = cleanTags([
+    ...config.rules.flatMap((rule) => rule.tags ?? []),
+    ...Object.values(config.notes).flatMap((entry) => entry.tags ?? []),
+    ...Object.values(config.resources).flatMap((entry) => entry.tags ?? []),
+  ]).sort((a, b) => a.localeCompare(b));
+  return config;
 }
 
-/** Overrides win, then the first matching rule, then the configured default. */
-function resolveMeta(config, bucket, fileName) {
-  const entry = config[bucket][fileName] ?? {};
-  const rule =
+function entryFor(config, bucket, fileName) {
+  return config[bucket][fileName] ?? {};
+}
+
+function ruleFor(config, fileName) {
+  return (
     config.rules.find(
       (candidate) =>
         typeof candidate?.match === 'string' && fileName.toLowerCase().includes(candidate.match.toLowerCase())
-    ) ?? {};
-  const category = entry.category ?? rule.category ?? config.defaults.category ?? DEFAULT_CATEGORY;
-  const tags = (entry.tags ?? rule.tags ?? config.defaults.tags ?? [])
-    .filter((tag) => typeof tag === 'string' && tag.trim())
-    .map((tag) => tag.trim());
+    ) ?? {}
+  );
+}
+
+/**
+ * Category, tags and level for one file. Precedence per field:
+ * config entry → confident TypeSafe answer → first matching rule → default.
+ */
+function classify(config, bucket, fileName, labels) {
+  const entry = entryFor(config, bucket, fileName);
+  const rule = ruleFor(config, fileName);
+
+  const tsCategory =
+    labels &&
+    labels.category.choice !== NO_CATEGORY &&
+    labels.category.confidence >= POLICY.categoryConfidence &&
+    Object.hasOwn(config.categories, labels.category.choice)
+      ? labels.category.choice
+      : null;
+  const category = entry.category ?? tsCategory ?? rule.category ?? config.defaults.category ?? DEFAULT_CATEGORY;
+
+  const tsTags = labels
+    ? Object.entries(labels.tags)
+        .filter(([, probability]) => probability >= POLICY.tagProbability)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, POLICY.maxTags)
+        .map(([tag]) => tag)
+    : [];
+  const tags = cleanTags(entry.tags ?? (tsTags.length ? tsTags : null) ?? rule.tags ?? config.defaults.tags);
+
+  const levelIndex = labels && labels.level.confidence >= POLICY.levelConfidence ? Math.round(labels.level.score) : -1;
+  const level =
+    typeof entry.level === 'string' && entry.level.trim() ? entry.level.trim() : (LEVELS[levelIndex]?.label ?? null);
+
   return {
-    meta: {
-      category,
-      tags: [...new Set(tags)],
-      description: typeof entry.description === 'string' ? entry.description.trim() : '',
-      title: typeof entry.title === 'string' ? entry.title.trim() : '',
-    },
-    usedDefault: !entry.category && !rule.category,
+    category,
+    tags,
+    level,
+    usedDefault: !entry.category && !tsCategory && !rule.category,
   };
 }
 
@@ -113,18 +165,18 @@ async function buildNotes(root, files, config, warnings) {
         lastModified(root, relative),
       ]);
       const parsed = parseNote(html);
-      const { meta, usedDefault } = resolveMeta(config, 'notes', file);
-      if (usedDefault) warnings.push(`${relative} has no category — using "${meta.category}"`);
+      const entry = entryFor(config, 'notes', file);
       if (!modified.fromGit) warnings.soft.push(`${relative} is not committed — using its file time`);
-      const title = meta.title || parsed.title;
       return {
         slug: '',
+        fileName: file,
         source: relative,
-        title,
+        title: (typeof entry.title === 'string' && entry.title.trim()) || parsed.title,
         kicker: parsed.kicker,
-        description: meta.description ? clamp(meta.description) : parsed.description,
-        category: meta.category,
-        tags: meta.tags,
+        description: typeof entry.description === 'string' && entry.description.trim() ? clamp(entry.description.trim()) : parsed.description,
+        category: '',
+        tags: [],
+        level: null,
         words: parsed.words,
         minutes: parsed.minutes,
         bytes: stats.size,
@@ -132,6 +184,7 @@ async function buildNotes(root, files, config, warnings) {
         sections: parsed.sections,
         headings: parsed.headings,
         bodyHtml: parsed.bodyHtml,
+        excerpt: parsed.excerpt,
         pdf: null,
       };
     })
@@ -151,20 +204,22 @@ async function buildResources(root, files, config, warnings) {
   for (const file of files) {
     const relative = `${RESOURCES_DIR}/${file}`;
     const [stats, modified] = await Promise.all([stat(path.join(root, relative)), lastModified(root, relative)]);
-    const { meta, usedDefault } = resolveMeta(config, 'resources', file);
-    if (usedDefault) warnings.push(`${relative} has no category — using "${meta.category}"`);
+    const entry = entryFor(config, 'resources', file);
     if (!modified.fromGit) warnings.soft.push(`${relative} is not committed — using its file time`);
-    const title = meta.title || titleFromStem(path.basename(file, path.extname(file)));
+    const title = (typeof entry.title === 'string' && entry.title.trim()) || titleFromStem(path.basename(file, path.extname(file)));
     resources.push({
       slug: uniqueSlug(slugify(title), used, file),
+      fileName: file,
       file: relative,
       href: relative,
       title,
-      description: meta.description
-        ? clamp(meta.description)
-        : `${title} — downloadable PDF (${formatSize(stats.size)}).`,
-      category: meta.category,
-      tags: meta.tags,
+      description:
+        typeof entry.description === 'string' && entry.description.trim()
+          ? clamp(entry.description.trim())
+          : `${title} — downloadable PDF (${formatSize(stats.size)}).`,
+      category: '',
+      tags: [],
+      level: null,
       bytes: stats.size,
       size: formatSize(stats.size),
       modified: modified.iso,
@@ -182,8 +237,58 @@ function crossLink(notes, resources) {
     if (!note) continue;
     resource.note = note.slug;
     resource.noteHref = note.href;
+    resource.twin = note;
     note.pdf = resource.file;
   }
+}
+
+/** What TypeSafe sees. A PDF with a note twin is judged on the note's text. */
+function noteEvidence(note) {
+  return {
+    document: {
+      kind: 'handbook',
+      title: note.title,
+      description: note.description,
+      headings: note.headings.map((heading) => heading.text).slice(0, 80),
+      opening_text: note.excerpt,
+    },
+  };
+}
+
+function resourceEvidence(resource) {
+  if (resource.twin) return noteEvidence(resource.twin);
+  return {
+    document: {
+      kind: 'downloadable PDF (only its file name and description are available)',
+      title: resource.title,
+      file_name: resource.fileName,
+      description: resource.description,
+    },
+  };
+}
+
+async function applyLabels(root, config, notes, resources, warnings) {
+  const items = [
+    ...notes.map((note) => ({ id: note.source, state: noteEvidence(note) })),
+    ...resources.map((resource) => ({ id: resource.file, state: resourceEvidence(resource) })),
+  ];
+  const { answers, stats } = await labelItems(root, items, {
+    categories: config.categories,
+    tags: config.tagVocabulary,
+    notes: warnings.soft,
+  });
+  if (stats.skipped) warnings.soft.push(stats.skipped);
+
+  const assign = (item, bucket, id) => {
+    const result = classify(config, bucket, item.fileName, answers.get(id));
+    item.category = result.category;
+    item.tags = result.tags;
+    item.level = result.level;
+    if (result.usedDefault) warnings.push(`${id} has no category — using "${result.category}"`);
+  };
+  notes.forEach((note) => assign(note, 'notes', note.source));
+  resources.forEach((resource) => assign(resource, 'resources', resource.file));
+  return stats;
 }
 
 function summarise(notes, resources) {
@@ -203,13 +308,14 @@ function summarise(notes, resources) {
     totalBytes: [...notes, ...resources].reduce((sum, item) => sum + item.bytes, 0),
     categories: [...categories].sort((a, b) => a.localeCompare(b)),
     tags: [...tags].sort((a, b) => a.localeCompare(b)),
+    levels: LEVELS.map((level) => level.label),
     lastUpdated,
   };
 }
 
 /**
- * @returns {{ config, notes, resources, site, warnings: string[] & { soft: string[] } }}
- * `notes[]` still carry `bodyHtml`/`source`; strip them with `publicManifest()`.
+ * @returns {{ config, notes, resources, site, labelStats, warnings: string[] & { soft: string[] } }}
+ * Notes/resources still carry build-only fields; strip them with `publicManifest()`.
  */
 export async function buildContent(root) {
   const config = await loadConfig(root);
@@ -227,18 +333,19 @@ export async function buildContent(root) {
   const notes = await buildNotes(root, noteFiles ?? [], config, warnings);
   const resources = await buildResources(root, resourceFiles ?? [], config, warnings);
   crossLink(notes, resources);
+  const labelStats = await applyLabels(root, config, notes, resources, warnings);
 
   const byTitle = (a, b) => a.title.localeCompare(b.title);
   notes.sort(byTitle);
   resources.sort(byTitle);
-  return { config, notes, resources, site: summarise(notes, resources), warnings };
+  return { config, notes, resources, site: summarise(notes, resources), labelStats, warnings };
 }
 
-/** The JSON the browser loads: no article bodies, no source paths. */
+/** The JSON the browser loads: no article bodies, source paths or build-only fields. */
 export function publicManifest({ notes, resources, site }) {
   return {
     site,
-    notes: notes.map(({ bodyHtml, source, ...note }) => note),
-    resources,
+    notes: notes.map(({ bodyHtml, source, fileName, excerpt, ...note }) => note),
+    resources: resources.map(({ fileName, twin, ...resource }) => resource),
   };
 }

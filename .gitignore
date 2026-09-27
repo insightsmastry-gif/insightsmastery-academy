@@ -1,6 +1,8 @@
 # Build output (`npm run build`) — never committed; CI rebuilds it on every deploy
 _site/
 .site-staging-*/
+# TypeSafe label cache (persisted in CI with actions/cache)
+.cache/
 content/
 
 # Dependencies

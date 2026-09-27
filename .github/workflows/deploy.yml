@@ -35,8 +35,19 @@ jobs:
       - name: Install build tools
         run: npm ci
 
+      # TypeSafe answers are cached by content hash, so each file is judged once.
+      - name: Restore TypeSafe label cache
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: typesafe-labels-${{ github.run_id }}
+          restore-keys: typesafe-labels-
+
       - name: Build and verify _site
         run: npm run verify
+        env:
+          # Optional: without it the build falls back to the rules in content.config.json.
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

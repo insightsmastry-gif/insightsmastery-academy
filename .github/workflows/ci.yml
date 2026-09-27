@@ -28,5 +28,16 @@ jobs:
         run: npm ci
 
       # Builds _site/ and fails on broken links, missing CSP, bad JSON-LD or leaked private files.
+      # TypeSafe answers are cached by content hash, so each file is judged once.
+      - name: Restore TypeSafe label cache
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: typesafe-labels-${{ github.run_id }}
+          restore-keys: typesafe-labels-
+
       - name: Build and verify site
         run: npm run verify
+        env:
+          # Optional: without it the build falls back to the rules in content.config.json.
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}

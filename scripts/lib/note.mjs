@@ -16,6 +16,7 @@ import { clamp, countWords, slugify } from './text.mjs';
 const WORDS_PER_MINUTE = 210;
 /** Code blocks are skimmed, not read: weight `<pre>` text at 40%. */
 const CODE_WEIGHT = 0.4;
+const EXCERPT_LIMIT = 2400;
 
 /** Source chrome that never belongs in the reader body. */
 const STRIP = [
@@ -149,5 +150,7 @@ export function parseNote(html) {
     words,
     minutes: Math.max(1, Math.round(words / WORDS_PER_MINUTE)),
     bodyHtml: body.html(),
+    /** Opening prose, whitespace-collapsed — evidence for build-time labelling. */
+    excerpt: proseText.replace(/\s+/g, ' ').trim().slice(0, EXCERPT_LIMIT),
   };
 }

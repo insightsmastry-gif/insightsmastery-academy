@@ -35,9 +35,10 @@ const dom = {
   clear: document.querySelector('[data-search-clear]'),
   chips: document.querySelector('[data-category-filter]'),
   sort: document.querySelector('[data-sort-select]'),
+  level: document.querySelector('[data-level-select]'),
 };
 
-const state = { query: '', category: '', sort: DEFAULT_SORT };
+const state = { query: '', category: '', level: '', sort: DEFAULT_SORT };
 let notes = [];
 let site = null;
 
@@ -48,6 +49,7 @@ function readUrlState() {
   state.query = params.get('q') ?? '';
   const category = params.get('category') ?? '';
   state.category = category;
+  state.level = params.get('level') ?? '';
   const sort = params.get('sort') ?? '';
   state.sort = Object.hasOwn(SORTS, sort) ? sort : DEFAULT_SORT;
 }
@@ -56,6 +58,7 @@ function writeUrlState() {
   const params = new URLSearchParams();
   if (state.query.trim()) params.set('q', state.query.trim());
   if (state.category) params.set('category', state.category);
+  if (state.level) params.set('level', state.level);
   if (state.sort !== DEFAULT_SORT) params.set('sort', state.sort);
   const search = params.toString();
   history.replaceState(null, '', `${window.location.pathname}${search ? `?${search}` : ''}`);
@@ -67,12 +70,14 @@ function visibleNotes() {
   const compare = SORTS[state.sort] ?? SORTS[DEFAULT_SORT];
   return notes
     .filter((note) => !state.category || note.category === state.category)
+    .filter((note) => !state.level || note.level === state.level)
     .filter((note) =>
       matchesQuery(state.query, [
         note.title,
         note.description,
         note.kicker,
         note.category,
+        note.level ?? '',
         ...(note.tags ?? []),
         ...(note.headings ?? []).map((heading) => heading.text),
       ])
@@ -104,6 +109,7 @@ function cardHtml(note) {
   return `<article class="card card--interactive note-card" data-reveal>
   <div class="note-card__head">
     <span class="badge badge--accent">${escapeHtml(note.category ?? 'Handbook')}</span>
+    ${note.level ? `<span class="badge badge--muted note-card__level">${escapeHtml(note.level)}</span>` : ''}
     <span class="note-card__sections">${escapeHtml(String(note.sections || 0))} sections</span>
   </div>
   <h2 class="card__title">${title}</h2>
@@ -120,11 +126,10 @@ function cardHtml(note) {
 
 function emptyHtml() {
   const term = state.query.trim();
+  const scope = [state.level, state.category].filter(Boolean).map(escapeHtml).join(' · ');
   const detail = term
-    ? `Nothing matches &ldquo;${highlight(escapeHtml(term), term)}&rdquo;${
-        state.category ? ` in ${escapeHtml(state.category)}` : ''
-      }.`
-    : `There are no notes in ${escapeHtml(state.category)} yet.`;
+    ? `Nothing matches &ldquo;${highlight(escapeHtml(term), term)}&rdquo;${scope ? ` in ${scope}` : ''}.`
+    : `There are no notes in ${scope} yet.`;
   return `<div class="empty">
   <span class="empty__icon" aria-hidden="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
@@ -166,6 +171,16 @@ function render() {
   observeReveals(dom.grid);
 }
 
+function renderLevels() {
+  if (!dom.level) return;
+  const used = new Set(notes.map((note) => note.level).filter(Boolean));
+  const levels = (site?.levels ?? []).filter((level) => used.has(level));
+  dom.level.innerHTML = `<option value="">All levels</option>${levels
+    .map((level) => `<option value="${escapeHtml(level)}">${escapeHtml(level)}</option>`)
+    .join('')}`;
+  dom.level.closest('.select-wrap').hidden = levels.length === 0;
+}
+
 function renderChips() {
   if (!dom.chips) return;
   const counts = new Map();
@@ -190,6 +205,7 @@ function renderChips() {
 function syncControls() {
   if (dom.search) dom.search.value = state.query;
   if (dom.sort) dom.sort.value = state.sort;
+  if (dom.level) dom.level.value = state.level;
   const hasValue = Boolean(state.query);
   dom.searchWrap?.classList.toggle('has-value', hasValue);
   if (dom.clear) dom.clear.hidden = !hasValue;
@@ -242,10 +258,16 @@ function bindEvents() {
     commit();
   });
 
+  dom.level?.addEventListener('change', () => {
+    state.level = dom.level.value;
+    commit();
+  });
+
   dom.grid?.addEventListener('click', (event) => {
     if (!event.target.closest('[data-clear-filters]')) return;
     state.query = '';
     state.category = '';
+    state.level = '';
     state.sort = DEFAULT_SORT;
     commit();
     dom.search?.focus();
@@ -271,7 +293,11 @@ async function boot() {
     if (state.category && !notes.some((note) => note.category === state.category)) {
       state.category = '';
     }
+    if (state.level && !notes.some((note) => note.level === state.level)) {
+      state.level = '';
+    }
     renderChips();
+    renderLevels();
     bindEvents();
     commit();
   } catch (error) {

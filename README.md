@@ -7,9 +7,9 @@ framework, no runtime dependencies.
 
 **Live:** <https://insightsmastry-gif.github.io/insightsmastery-academy/>
 
-- Plain HTML + CSS + ES modules in the browser. The build (Node 20+) uses two
-  dev dependencies: `cheerio` (HTML parsing) and `sanitize-html` (allowlist
-  sanitiser).
+- Plain HTML + CSS + ES modules in the browser. The build (Node 20+) uses three
+  dev dependencies: `cheerio` (HTML parsing), `sanitize-html` (allowlist
+  sanitiser) and `@typesafe-ai/sdk` (automatic labels).
 - Every handbook is prerendered to its own page (`notes/<slug>/`) with its own
   title, description, Open Graph tags and JSON-LD — readable and indexable
   without JavaScript.
@@ -75,32 +75,61 @@ download links back to the note.
 ## Metadata — `content.config.json`
 
 `site.url` (absolute, ending in `/`) is required: canonical URLs, the sitemap,
-`robots.txt` and the local preview's base path come from it. Everything else is
-optional; use it to set what a file cannot tell us — `category`, `tags`,
-`description`, or an explicit `title`:
+`robots.txt` and the local preview's base path come from it. `categories` lists
+the library's categories with a one-line description each — the automatic
+labelling below chooses from them. Everything else is optional; use it to pin
+what should not be inferred — `category`, `tags`, `level`, `description`, or an
+explicit `title`:
 
 ```json
 {
   "site": { "url": "https://insightsmastry-gif.github.io/insightsmastery-academy/", "name": "InsightsMastery Academy" },
+  "categories": { "DAX": "Writing DAX: measures, CALCULATE and filter context, …" },
   "defaults": { "category": "General" },
   "rules": [
     { "match": "power_query", "category": "Power Query", "tags": ["Power Query"] }
   ],
-  "notes":     { "My_New_Handbook.html": { "category": "DAX", "tags": ["DAX"] } },
+  "notes":     { "My_New_Handbook.html": { "category": "DAX", "tags": ["DAX"], "level": "Beginner" } },
   "resources": { "My_New_Handbook.pdf":  { "description": "Printable version." } }
 }
 ```
 
-Resolution order: exact filename entry → first matching `rules[].match`
-(case-insensitive substring of the filename) → `defaults.category`. The build
-prints a `!` warning (a GitHub Actions annotation in CI) for every file that
-fell through to the default category. Warnings never block a deploy: an
-uploaded file is always published.
+Resolution order, per field: exact filename entry → automatic label (when
+confident enough) → first matching `rules[].match` (case-insensitive substring
+of the filename) → `defaults.category`. The build prints a `!` warning (a GitHub
+Actions annotation in CI) for every file that fell through to the default
+category. Warnings never block a deploy: an uploaded file is always published.
+
+## Automatic labels (TypeSafe)
+
+New uploads are categorised, tagged and levelled without editing the config.
+At build time `scripts/lib/labels.mjs` sends each file's evidence — title,
+description, headings and opening text for notes; a note twin's text, or else
+the file name and description, for PDFs — to TypeSafe's System One API with one
+request per file:
+
+| Question | Type | Used when |
+|---|---|---|
+| Which `categories` entry does it mainly teach (or none)? | Choice | confidence ≥ 0.5 and not "none" |
+| Beginner / Intermediate / Advanced | Score | confidence ≥ 0.4 (nearest level) |
+| Is `<tag>` a main topic? — one per tag used anywhere in the config | Noul | probability ≥ 0.7, top 5 |
+
+Thresholds live in `POLICY` in `scripts/lib/manifest.mjs`. Levels appear as
+badges and as a "level" filter in the notes library (`?level=Beginner`).
+
+- **Key:** `TYPESAFE_API_KEY` — a repository secret for the workflows, an
+  environment variable locally. Without it, or if the API fails, the build
+  logs a note and uses the config rules; publishing never depends on the API.
+- **Cache:** answers are stored in `.cache/typesafe-labels.json`, keyed by a hash
+  of the exact evidence and questions, so each file is judged once. CI keeps the
+  cache between runs with `actions/cache`; editing a file (or the categories/tag
+  vocabulary) re-labels only what changed. Bump `QUESTIONS_VERSION` in
+  `labels.mjs` after changing the question wording.
 
 ## Local development
 
 ```bash
-npm ci             # once: installs the two build tools
+npm ci             # once: installs the build tools
 npm start          # build, serve http://localhost:4173/insightsmastery-academy/, rebuild on save
 npm run build      # build _site/
 npm run check      # validate content only, write nothing

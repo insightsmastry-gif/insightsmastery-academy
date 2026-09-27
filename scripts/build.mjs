@@ -201,7 +201,9 @@ function noteMetaHtml(note) {
     .join('');
   const tags = note.tags.map((tag) => `<li class="tag">${escapeHtml(tag)}</li>`).join('');
   return `<p class="eyebrow">${escapeHtml(note.kicker || 'Handbook')}</p>
-<div class="reader-meta__row"><span class="badge badge--accent">${escapeHtml(note.category)}</span></div>
+<div class="reader-meta__row"><span class="badge badge--accent">${escapeHtml(note.category)}</span>${
+    note.level ? `<span class="badge badge--muted">${escapeHtml(note.level)}</span>` : ''
+  }</div>
 <h1 class="reader-meta__title">${escapeHtml(note.title)}</h1>
 <p class="lede reader-meta__lede">${escapeHtml(note.description)}</p>
 <p class="card__meta reader-meta__stats">${stats}</p>
@@ -253,6 +255,7 @@ async function renderNotePage(template, content, index, context) {
       keywords: note.tags.join(', '),
       wordCount: note.words,
       timeRequired: `PT${note.minutes}M`,
+      ...(note.level ? { proficiencyLevel: note.level } : {}),
       inLanguage: 'en',
       author: { '@type': 'Organization', name: config.site.name, url: config.site.url },
       publisher: { '@type': 'Organization', name: config.site.name, url: config.site.url },
@@ -406,8 +409,17 @@ export async function buildSite() {
     await writeOut('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${content.config.site.url}sitemap.xml\n`);
     await writeOut('.nojekyll', '');
 
-    await rm(OUT, { recursive: true, force: true });
-    await rename(staging, OUT);
+    // Windows briefly locks directories that a server or indexer is reading; retry the swap.
+    for (let attempt = 1; ; attempt += 1) {
+      try {
+        await rm(OUT, { recursive: true, force: true, maxRetries: 5 });
+        await rename(staging, OUT);
+        break;
+      } catch (error) {
+        if (attempt >= 10 || !['EPERM', 'EBUSY', 'ENOTEMPTY', 'EEXIST'].includes(error.code)) throw error;
+        await new Promise((resolve) => setTimeout(resolve, 100 * attempt));
+      }
+    }
   } catch (error) {
     await rm(staging, { recursive: true, force: true });
     throw error;
@@ -428,6 +440,8 @@ function report(content, { check }) {
     console.log(process.env.GITHUB_ACTIONS ? `::warning::${warning}` : `  ! ${warning}`);
   }
   for (const note of warnings.soft) console.log(`  · ${note}`);
+  const { cached, fetched } = content.labelStats;
+  console.log(`  typesafe    ${fetched} labelled now · ${cached} from cache`);
   console.log(check ? '  --check: nothing written' : `  → ${OUT_DIR}/`);
 }
 
