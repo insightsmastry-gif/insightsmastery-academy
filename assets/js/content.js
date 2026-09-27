@@ -14,7 +14,7 @@ export class ContentError extends Error {
     super(message);
     this.name = 'ContentError';
     this.cause = cause;
-    this.hint = hint ?? 'Run `npm start` (or `npm run build`) to generate _site/content/manifest.json.';
+    this.hint = hint ?? 'Please refresh the page. If this keeps happening, email hello@insightsmastry.in.';
   }
 }
 
