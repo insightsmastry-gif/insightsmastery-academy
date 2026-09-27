@@ -17,29 +17,36 @@ concurrency:
 
 jobs:
   build:
-    name: Build content manifest
+    name: Build site
     runs-on: ubuntu-latest
     steps:
+      # Full history: "last updated" dates come from each file's last commit.
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      # The site has zero dependencies, so there is nothing to install.
-      - name: Build manifest from notes/ and pdfs/
-        run: npm run build
+      - name: Install build tools
+        run: npm ci
+
+      - name: Build and verify _site
+        run: npm run verify
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
   deploy:
     name: Deploy

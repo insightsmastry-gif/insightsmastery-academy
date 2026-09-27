@@ -118,10 +118,8 @@ function cardHtml(resource) {
   const tags = (resource.tags ?? [])
     .map((tag) => `<li class="tag">${highlight(escapeHtml(tag), q)}</li>`)
     .join('');
-  const readOnline = resource.note
-    ? `<a class="btn btn--ghost btn--sm" href="note.html?note=${encodeURIComponent(
-        resource.note
-      )}">Read online</a>`
+  const readOnline = resource.noteHref
+    ? `<a class="btn btn--ghost btn--sm" href="${escapeHtml(resource.noteHref)}">Read online</a>`
     : '';
 
   return `<article class="card card--interactive resource-card" data-reveal>

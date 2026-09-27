@@ -111,7 +111,7 @@ function cardHtml(note) {
   ${tags ? `<ul class="tag-list">${tags}</ul>` : ''}
   <p class="card__meta">${meta}</p>
   <div class="card__footer">
-    <a class="card__link" href="${escapeHtml(note.href || `note.html?note=${note.slug}`)}"
+    <a class="card__link" href="${escapeHtml(note.href)}"
        aria-label="Read ${escapeHtml(note.title)}">Read the handbook</a>
     ${pdf}
   </div>

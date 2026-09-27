@@ -18,9 +18,8 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/components.css">
@@ -101,8 +100,8 @@
   <section class="section section--tight" aria-labelledby="how-title">
     <div class="container container--narrow about-prose">
       <h2 class="h2" id="how-title">How it works</h2>
-      <p>Every page you see is a plain HTML file. There is no CMS, no database and no server-side rendering: a build script walks <code>notes/</code> and <code>pdfs/</code>, reads each file's title, headings, tags, word count and size, and writes a single <code>content/manifest.json</code>.</p>
-      <p>The browser fetches that manifest once and renders the library, the search results, the download list and the counters from it. That is why adding a handbook needs no code change — and why the whole site keeps working if JavaScript is slow: the content itself is static HTML.</p>
+      <p>Every page you see is a plain HTML file. There is no CMS, no database and no server-side rendering: a build script walks <code>notes/</code> and <code>pdfs/</code>, turns each handbook into its own sanitised page, and writes a single <code>content/manifest.json</code> with every title, heading, tag, word count and size.</p>
+      <p>The browser fetches that manifest once and renders the library, the search results, the download list and the counters from it. That is why adding a handbook needs no code change — and why every handbook still reads fine with JavaScript switched off: its content is static HTML.</p>
       <p>There is no backend anywhere. Nothing you type is transmitted to a server we control, no analytics script runs, no cookie is set beyond the theme preference stored locally in your own browser. The feedback form below composes an email in your mail app; you stay in control of pressing send.</p>
     </div>
   </section>
@@ -153,11 +152,11 @@
       <h2 class="h2" id="stack-title">The stack</h2>
       <p class="muted">Deliberately unfashionable, which is why it will still build in five years.</p>
       <ul class="about-list">
-        <li>Hand-written HTML, CSS and ES modules — no framework, no bundler, no npm dependencies.</li>
-        <li>A single Node build script that generates <code>content/manifest.json</code> from the content folders.</li>
-        <li>GitHub Actions for the build, GitHub Pages for hosting, plain relative URLs throughout.</li>
+        <li>Hand-written HTML, CSS and ES modules — no framework and no runtime dependencies.</li>
+        <li>A small Node build that prerenders every handbook, generates <code>content/manifest.json</code> and the sitemap, and checks every link before publishing.</li>
+        <li>GitHub Actions for the build, GitHub Pages for hosting, and a strict Content-Security-Policy on every page.</li>
         <li>Design tokens for both themes, motion that respects <code>prefers-reduced-motion</code>, and WCAG 2.1 AA contrast.</li>
-        <li>No trackers, no cookies, no fonts beyond a single Google Fonts stylesheet.</li>
+        <li>No trackers, no cookies, no third-party requests — even the fonts are self-hosted.</li>
       </ul>
     </div>
   </section>

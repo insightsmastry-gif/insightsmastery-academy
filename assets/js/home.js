@@ -45,7 +45,7 @@ function fillStats(site) {
 // --- latest notes ------------------------------------------------------------
 
 function noteCard(note) {
-  const href = `note.html?note=${encodeURIComponent(note.slug)}`;
+  const href = escapeHtml(note.href);
   const meta = [readingLabel(note.minutes), formatRelative(note.modified)]
     .filter(Boolean)
     .map((bit) => `<span>${escapeHtml(bit)}</span>`)
