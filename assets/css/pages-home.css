@@ -34,61 +34,51 @@
   background: linear-gradient(to bottom, transparent, var(--bg));
 }
 
+/* Quiet brand wash, like the parent site's hero — no motion. */
 .orb {
   position: absolute;
   border-radius: var(--radius-full);
-  filter: blur(60px);
-  opacity: 0.9;
-  will-change: transform;
-  animation: float-slow 22s var(--ease-in-out) infinite alternate;
+  filter: blur(70px);
 }
 
 .orb--1 {
-  inset-block-start: -14%;
-  inset-inline-start: -12%;
-  inline-size: min(62vw, 460px);
-  block-size: min(62vw, 460px);
-  background: radial-gradient(circle at 35% 35%, var(--orb-1), transparent 68%);
+  inset-block-start: -20%;
+  inset-inline-start: 10%;
+  inline-size: min(70vw, 620px);
+  block-size: min(70vw, 620px);
+  background: radial-gradient(circle, var(--orb-1), transparent 70%);
 }
 
 .orb--2 {
-  inset-block-start: 18%;
-  inset-inline-end: -18%;
-  inline-size: min(70vw, 520px);
-  block-size: min(70vw, 520px);
-  background: radial-gradient(circle at 60% 40%, var(--orb-2), transparent 70%);
-  animation-duration: 28s;
-  animation-delay: -6s;
+  inset-block-start: 5%;
+  inset-inline-end: 0;
+  inline-size: min(60vw, 520px);
+  block-size: min(60vw, 520px);
+  background: radial-gradient(circle, var(--orb-2), transparent 70%);
 }
 
 .orb--3 {
-  inset-block-end: -22%;
-  inset-inline-start: 26%;
-  inline-size: min(58vw, 420px);
-  block-size: min(58vw, 420px);
-  background: radial-gradient(circle at 45% 55%, var(--orb-3), transparent 70%);
-  animation-duration: 34s;
-  animation-delay: -13s;
-}
-
-@keyframes float-slow {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  to {
-    transform: translate3d(4%, -6%, 0) scale(1.12);
-  }
+  display: none;
 }
 
 .grid-lines {
-  position: absolute;
-  inset: 0;
-  background-image:
-    repeating-linear-gradient(to right, var(--grid-line) 0 1px, transparent 1px 72px),
-    repeating-linear-gradient(to bottom, var(--grid-line) 0 1px, transparent 1px 72px);
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, var(--slate-900) 30%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, var(--slate-900) 30%, transparent 100%);
+  display: none;
 }
+
+/* The parent site's "Trusted by…" pill. */
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-xs);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: var(--step--2);
+  font-weight: 500;
+}
+.hero__badge > svg { width: 12px; height: 12px; }
 
 .hero__content {
   position: relative;
@@ -113,29 +103,29 @@
   gap: var(--space-3);
 }
 
+/* Divided stat strip: a 1px grid gap over a border-coloured backdrop. */
 .hero__stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-3);
+  gap: 1px;
   inline-size: 100%;
+  max-inline-size: 48rem;
   margin-block-start: var(--space-5);
-  padding: var(--space-5) var(--space-4);
-  border: 1px solid var(--glass-border);
+  overflow: hidden;
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  box-shadow: var(--shadow-md);
+  background: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero__stats .stat {
+  padding: var(--space-5) var(--space-3);
+  background: var(--surface);
 }
 
 @media (min-width: 48em) {
   .hero {
     padding-block: var(--space-11) var(--space-10);
-  }
-
-  .hero__stats {
-    gap: var(--space-6);
-    padding: var(--space-6) var(--space-7);
   }
 }
 

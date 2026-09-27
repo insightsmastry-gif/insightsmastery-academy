@@ -1,22 +1,21 @@
 /**
- * Theme controller — dark/light with system detection + persistence.
+ * Theme controller — light (the parent site's look) by default, dark on request.
  *
  * The initial theme is applied by an inline head snippet on every page (to
  * avoid a flash of the wrong theme). This module owns everything after that:
- * toggle wiring, system-preference following, cross-tab sync.
+ * toggle wiring and cross-tab sync.
  *
- * Storage key: "im-theme" -> "light" | "dark" | absent (= follow system)
+ * Storage key: "im-theme" -> "light" | "dark" | absent (= light)
  */
 
 const STORAGE_KEY = 'im-theme';
-const media = window.matchMedia('(prefers-color-scheme: dark)');
 
 /** @returns {"light"|"dark"} the theme currently painted */
 export function getTheme() {
   return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
 }
 
-/** @returns {"light"|"dark"|null} explicit user choice, null when following system */
+/** @returns {"light"|"dark"|null} explicit user choice, null when none was made */
 export function getStoredTheme() {
   try {
     const value = localStorage.getItem(STORAGE_KEY);
@@ -30,7 +29,7 @@ function paint(theme) {
   const root = document.documentElement;
   root.dataset.theme = theme;
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', theme === 'dark' ? '#070b14' : '#f8fafc');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0b1220' : '#f8fafc');
   document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
     button.setAttribute('aria-pressed', String(theme === 'dark'));
     button.setAttribute(
@@ -74,16 +73,6 @@ export function toggleTheme() {
   return next;
 }
 
-/** Drop the explicit choice and follow the OS again. */
-export function useSystemTheme() {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch {
-    /* ignore */
-  }
-  paint(media.matches ? 'dark' : 'light');
-}
-
 function onToggleClick(event) {
   const trigger = event.target.closest('[data-theme-toggle]');
   if (!trigger) return;
@@ -92,16 +81,11 @@ function onToggleClick(event) {
 }
 
 // --- wire up -----------------------------------------------------------------
-paint(getStoredTheme() ?? (media.matches ? 'dark' : 'light'));
+paint(getStoredTheme() ?? 'light');
 document.addEventListener('click', onToggleClick);
-
-// Follow the OS only while the user has made no explicit choice.
-media.addEventListener('change', (event) => {
-  if (getStoredTheme() === null) paint(event.matches ? 'dark' : 'light');
-});
 
 // Keep tabs in sync.
 window.addEventListener('storage', (event) => {
   if (event.key !== STORAGE_KEY) return;
-  paint(getStoredTheme() ?? (media.matches ? 'dark' : 'light'));
+  paint(getStoredTheme() ?? 'light');
 });

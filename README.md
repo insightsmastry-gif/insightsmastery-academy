@@ -13,8 +13,11 @@ framework, no runtime dependencies.
 - Every handbook is prerendered to its own page (`notes/<slug>/`) with its own
   title, description, Open Graph tags and JSON-LD — readable and indexable
   without JavaScript.
-- Light/dark themes, client-side search over titles, descriptions, tags and
-  headings, keyboard shortcuts (can be switched off), and reduced-motion support.
+- Styled as a sub-site of <https://www.insightsmastry.in/>: same logo, banner
+  header, cyan/teal palette, Outfit + Inter type. Light by default (the parent
+  site's look) with an optional dark theme; client-side search over titles,
+  descriptions, tags and headings; keyboard shortcuts (can be switched off);
+  reduced-motion support.
 
 ## Project tree
 
@@ -26,7 +29,7 @@ pdfs/                      downloads (.pdf) — the content
 content.config.json        site URL + optional metadata (categories, tags, descriptions)
 assets/css/                fonts, tokens, base, components, prose, per-page styles
 assets/js/                 theme · content · ui · keys + per-page modules
-assets/fonts/              self-hosted Inter + JetBrains Mono (SIL OFL)
+assets/fonts/              self-hosted Outfit, Inter + JetBrains Mono (SIL OFL)
 scripts/build.mjs          builds _site/ (manifest, pages, note pages, sitemap)
 scripts/check-site.mjs     verifies _site/ (links, CSP, JSON-LD, leaks)
 scripts/dev-server.mjs     local preview of _site/ with rebuild-on-save
@@ -197,7 +200,8 @@ button in the header); the choice is stored in `localStorage` (`im-shortcuts`).
   `aria-live` on result counts, hit targets ≥ 40 px, everything keyboard reachable.
 - `prefers-reduced-motion: reduce` disables reveal and counter animations;
   animations otherwise touch only `transform`/`opacity`.
-- Theme is painted before first paint from `localStorage`, so there is no flash.
+- Theme is painted before first paint from `localStorage` (light unless the
+  reader chose dark), so there is no flash.
   Content is hidden for the fade-in only when JavaScript runs (`html.js`); with
   JavaScript off, or if a module fails to load, every page stays readable, and
   the notes and downloads lists fall back to plain links.
