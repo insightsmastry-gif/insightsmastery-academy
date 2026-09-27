@@ -172,6 +172,8 @@
   grid-template-columns: auto 1fr;
   gap: var(--space-4);
   align-items: start;
+  /* Equal-height grid items must not spread their rows apart. */
+  align-content: start;
 }
 
 .step__num {

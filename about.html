@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About &amp; feedback — InsightsMastery Academy</title>
-<meta name="description" content="How InsightsMastery Academy is built: a build-time content manifest, no backend, no tracking. See what is inside the library and send feedback in one click.">
+<meta name="description" content="Free Power BI, DAX, Power Query and SQL Server handbooks from InsightsMastery Academy instructors. See what is in the library and send us feedback.">
 <meta name="theme-color" content="#f8fafc">
 <meta name="color-scheme" content="light dark">
 <link rel="canonical" href="https://notes.insightsmastry.in/about.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="InsightsMastery Academy">
 <meta property="og:title" content="About &amp; feedback — InsightsMastery Academy">
-<meta property="og:description" content="How InsightsMastery Academy is built: a build-time content manifest, no backend, no tracking. See what is inside the library and send feedback in one click.">
+<meta property="og:description" content="Free Power BI, DAX, Power Query and SQL Server handbooks from InsightsMastery Academy instructors. See what is in the library and send us feedback.">
 <meta property="og:url" content="https://notes.insightsmastry.in/about.html">
 <meta property="og:image" content="https://notes.insightsmastry.in/assets/images/og-cover.jpg">
 <meta property="og:image:width" content="1200">
@@ -98,17 +98,17 @@
     </div>
     <div class="container container--narrow hero__content">
       <p class="eyebrow">About</p>
-      <h1 class="display-2">A library that maintains <span class="text-gradient">itself</span></h1>
-      <p class="lede">InsightsMastery Academy is a folder of Power BI handbooks with a website wrapped around it. Add a file, push it, and the site knows about it — that is the entire product.</p>
+      <h1 class="display-2">Handbooks from the <span class="text-gradient">InsightsMastery classroom</span></h1>
+      <p class="lede">The notes our instructors use to teach Power BI, DAX, Power Query and SQL Server — shared free so you can learn at your own pace, before, during or after a program.</p>
     </div>
   </section>
 
   <section class="section section--tight" aria-labelledby="how-title">
     <div class="container container--narrow about-prose">
-      <h2 class="h2" id="how-title">How it works</h2>
-      <p>Every page you see is a plain HTML file. There is no CMS, no database and no server-side rendering: a build script walks <code>notes/</code> and <code>pdfs/</code>, turns each handbook into its own sanitised page, and writes a single <code>content/manifest.json</code> with every title, heading, tag, word count and size.</p>
-      <p>The browser fetches that manifest once and renders the library, the search results, the download list and the counters from it. That is why adding a handbook needs no code change — and why every handbook still reads fine with JavaScript switched off: its content is static HTML.</p>
-      <p>There is no backend anywhere. Nothing you type is transmitted to a server we control, no analytics script runs, no cookie is set beyond the theme preference stored locally in your own browser. The feedback form below composes an email in your mail app; you stay in control of pressing send.</p>
+      <h2 class="h2" id="how-title">Who writes these notes</h2>
+      <p>Every handbook is written and maintained by InsightsMastery Academy instructors — practitioners who build Power BI models and SQL Server solutions for clients. The examples come from real reports, and each handbook is revised as we teach it and as the tools change.</p>
+      <p>Use them as a reference while you work, as revision for a class, or as a free way to see how we teach before you <a href="https://www.insightsmastry.in/courses" rel="noopener">join a program</a>. For hands-on practice with real datasets, try the <a href="https://project.insightsmastry.in/" rel="noopener">Power BI projects</a>.</p>
+      <p>Reading is private: there are no accounts, no analytics and no cookies beyond your theme preference, which stays in your own browser.</p>
     </div>
   </section>
 
@@ -153,26 +153,12 @@
     </div>
   </section>
 
-  <section class="section section--tight" aria-labelledby="stack-title">
-    <div class="container container--narrow about-prose">
-      <h2 class="h2" id="stack-title">The stack</h2>
-      <p class="muted">Deliberately unfashionable, which is why it will still build in five years.</p>
-      <ul class="about-list">
-        <li>Hand-written HTML, CSS and ES modules — no framework and no runtime dependencies.</li>
-        <li>A small Node build that prerenders every handbook, generates <code>content/manifest.json</code> and the sitemap, and checks every link before publishing.</li>
-        <li>GitHub Actions for the build, GitHub Pages for hosting, and a strict Content-Security-Policy on every page.</li>
-        <li>Design tokens for both themes, motion that respects <code>prefers-reduced-motion</code>, and WCAG 2.1 AA contrast.</li>
-        <li>No trackers, no cookies, no third-party requests — even the fonts are self-hosted.</li>
-      </ul>
-    </div>
-  </section>
-
   <section class="section section--tight" id="feedback" aria-labelledby="feedback-title">
     <div class="container container--narrow">
       <div class="section__head" data-reveal>
         <p class="eyebrow">Feedback</p>
         <h2 class="h2" id="feedback-title">Found a mistake, or want a handbook on something?</h2>
-        <p class="lede">This form has no backend. It composes the message in your own mail app so you can read it before it leaves your machine.</p>
+        <p class="lede">Tell us which handbook and section — or which topic you'd like covered next. The form opens a pre-filled email in your mail app, so you can review it before sending.</p>
       </div>
 
       <form class="feedback-form" data-feedback-form novalidate>
@@ -203,9 +189,8 @@
 
         <div class="feedback-form__actions">
           <button class="btn btn--primary" type="submit">Compose the email</button>
-          <a class="btn btn--outline" href="https://github.com/insightsmastry-gif/insightsmastery-academy/issues/new" rel="noopener">Open a GitHub issue</a>
         </div>
-        <p class="feedback-form__note">Nothing is sent from this page. Submitting opens your mail client with the message pre-filled, addressed to hello@insightsmastry.in.</p>
+        <p class="feedback-form__note">Messages go to hello@insightsmastry.in.</p>
       </form>
     </div>
   </section>
@@ -238,7 +223,7 @@
         </span>
         <span class="brand__sub">Academy</span>
       </a>
-      <p class="muted">Power BI, DAX, Power Query and SQL Server handbooks — written for practitioners, published as a fast static site.</p>
+      <p class="muted">Power BI, DAX, Power Query and SQL Server handbooks from InsightsMastery instructors — free to read online or download as PDFs.</p>
     </div>
     <nav class="site-footer__nav" aria-label="Footer">
       <p class="site-footer__heading">Learn</p>
@@ -254,11 +239,11 @@
       <a href="https://www.insightsmastry.in/admission" rel="noopener">Apply for admission</a>
       <a href="https://www.insightsmastry.in/billing" rel="noopener">Bills &amp; payments</a>
     </nav>
-    <nav class="site-footer__nav" aria-label="Project">
-      <p class="site-footer__heading">Project</p>
-      <a href="https://github.com/insightsmastry-gif/insightsmastery-academy" rel="noopener">GitHub repository</a>
-      <a href="https://github.com/insightsmastry-gif/insightsmastery-academy/issues/new" rel="noopener">Report an issue</a>
-      <a href="about.html#feedback">Send feedback</a>
+    <nav class="site-footer__nav" aria-label="Help">
+      <p class="site-footer__heading">Help</p>
+      <a href="about.html">About these notes</a>
+      <a href="about.html#feedback">Report a mistake</a>
+      <a href="mailto:hello@insightsmastry.in">Contact us</a>
     </nav>
   </div>
   <div class="container site-footer__legal">
