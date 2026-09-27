@@ -1,6 +1,7 @@
 /* ==========================================================================
    InsightsMastery Academy — design tokens
-   Single source of truth for color, type, space, motion, elevation.
+   Mirrors the parent site (www.insightsmastry.in): slate neutrals, cyan/teal
+   brand, Outfit display type over Inter, 8–12px radii, quiet shadows.
    Light theme = :root defaults. Dark theme = [data-theme="dark"].
    ========================================================================== */
 
@@ -8,6 +9,8 @@
   /* --- Font families ----------------------------------------------------- */
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Outfit", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
   --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, SFMono-Regular,
     Consolas, "Liberation Mono", monospace;
 
@@ -26,9 +29,9 @@
   --leading-snug: 1.35;
   --leading-normal: 1.6;
   --leading-relaxed: 1.75;
-  --tracking-tight: -0.02em;
+  --tracking-tight: -0.025em;
   --tracking-wide: 0.02em;
-  --tracking-eyebrow: 0.16em;
+  --tracking-eyebrow: 0.1em;
 
   /* --- Space scale ------------------------------------------------------- */
   --space-1: 0.25rem;
@@ -46,16 +49,16 @@
 
   /* --- Radii ------------------------------------------------------------- */
   --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 999px;
 
   /* --- Layout ------------------------------------------------------------ */
-  --container: 1180px;
+  --container: 1152px;
   --container-narrow: 760px;
-  --header-h: 68px;
+  --header-h: 80px;
   --reader-measure: 72ch;
 
   /* --- Motion ------------------------------------------------------------ */
@@ -76,21 +79,23 @@
   --z-overlay: 300;
   --z-toast: 400;
 
-  /* --- Brand ramp (accent = indigo/violet) ------------------------------- */
-  --indigo-50: #eef2ff;
-  --indigo-100: #e0e7ff;
-  --indigo-200: #c7d2fe;
-  --indigo-300: #a5b4fc;
-  --indigo-400: #818cf8;
-  --indigo-500: #6366f1;
-  --indigo-600: #4f46e5;
-  --indigo-700: #4338ca;
-  --indigo-800: #3730a3;
-  --indigo-900: #312e81;
+  /* --- Brand ramp (parent site: cyan + deep teal) ------------------------ */
+  --cyan-50: #ecfeff;
+  --cyan-100: #cffafe;
+  --cyan-200: #a5f3fc;
+  --cyan-300: #67e8f9;
+  --cyan-400: #22d3ee;
+  --cyan-500: #06b6d4;
+  --cyan-600: #0891b2;
+  --cyan-700: #0e7490;
+  --cyan-800: #155e75;
+  --cyan-900: #164e63;
+  --teal-deep: #166387;
+  /* The parent site's header banner. */
+  --banner-gradient: linear-gradient(89.43deg, #5b9bb9 0.84%, #70acc8 30.78%, #599ab8 65.8%, #166387 85.55%);
 
   /* --- Neutral ramp (slate) --------------------------------------------- */
   --slate-0: #ffffff;
-  --slate-25: #fcfcfd;
   --slate-50: #f8fafc;
   --slate-100: #f1f5f9;
   --slate-200: #e2e8f0;
@@ -101,7 +106,6 @@
   --slate-700: #334155;
   --slate-800: #1e293b;
   --slate-900: #0f172a;
-  --slate-950: #080d17;
 
   /* --- Semantic surface / text (LIGHT) ---------------------------------- */
   --bg: var(--slate-50);
@@ -109,21 +113,21 @@
   --surface: var(--slate-0);
   --surface-2: var(--slate-50);
   --surface-3: var(--slate-100);
-  --surface-inset: #f4f6fb;
-  --border: #e6eaf2;
-  --border-strong: #d3dae7;
+  --surface-inset: var(--slate-50);
+  --border: var(--slate-200);
+  --border-strong: var(--slate-300);
   --text: var(--slate-900);
-  --text-secondary: var(--slate-700);
+  --text-secondary: var(--slate-600);
   --text-muted: var(--slate-500);
   --text-subtle: var(--slate-400);
   --text-inverse: var(--slate-0);
 
-  --accent: var(--indigo-600);
-  --accent-hover: var(--indigo-700);
-  --accent-text: var(--indigo-700);
-  --accent-soft: var(--indigo-50);
-  --accent-soft-strong: var(--indigo-100);
-  --accent-border: var(--indigo-200);
+  --accent: var(--cyan-600);
+  --accent-hover: var(--cyan-500);
+  --accent-text: var(--cyan-700);
+  --accent-soft: var(--cyan-50);
+  --accent-soft-strong: var(--cyan-100);
+  --accent-border: var(--cyan-100);
   --accent-contrast: #ffffff;
 
   --success: #047857;
@@ -136,33 +140,27 @@
   --info-soft: #f0f9ff;
 
   /* --- Glass / gradients (LIGHT) ---------------------------------------- */
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-bg-strong: rgba(255, 255, 255, 0.88);
-  --glass-border: rgba(15, 23, 42, 0.08);
-  --glass-blur: 16px;
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-bg-strong: rgba(255, 255, 255, 0.97);
+  --glass-border: var(--slate-200);
+  --glass-blur: 12px;
 
-  --grad-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
-  --grad-accent-soft: linear-gradient(
-    135deg,
-    rgba(99, 102, 241, 0.12) 0%,
-    rgba(139, 92, 246, 0.1) 50%,
-    rgba(6, 182, 212, 0.1) 100%
-  );
-  --grad-text: linear-gradient(120deg, #4f46e5 0%, #7c3aed 45%, #0891b2 100%);
-  --grad-surface: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  --orb-1: rgba(99, 102, 241, 0.32);
-  --orb-2: rgba(139, 92, 246, 0.26);
-  --orb-3: rgba(6, 182, 212, 0.22);
-  --grid-line: rgba(15, 23, 42, 0.045);
+  --grad-accent: linear-gradient(0deg, var(--cyan-600), var(--cyan-600));
+  --grad-accent-soft: linear-gradient(135deg, rgba(8, 145, 178, 0.08) 0%, rgba(22, 99, 135, 0.05) 100%);
+  --grad-text: linear-gradient(0deg, var(--cyan-700), var(--cyan-700));
+  --orb-1: rgba(8, 145, 178, 0.12);
+  --orb-2: rgba(22, 99, 135, 0.1);
+  --orb-3: rgba(34, 211, 238, 0.1);
+  --grid-line: rgba(15, 23, 42, 0.035);
 
   /* --- Elevation (LIGHT) ------------------------------------------------- */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.07), 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08), 0 2px 4px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.1), 0 4px 10px rgba(15, 23, 42, 0.05);
-  --shadow-xl: 0 28px 60px rgba(15, 23, 42, 0.14), 0 8px 20px rgba(15, 23, 42, 0.06);
-  --shadow-glow: 0 8px 30px rgba(99, 102, 241, 0.28);
-  --ring: 0 0 0 3px rgba(99, 102, 241, 0.35);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --ring: 0 0 0 3px rgba(22, 99, 135, 0.25);
 
   color-scheme: light;
 }
@@ -171,27 +169,27 @@
    Dark theme
    ========================================================================== */
 [data-theme="dark"] {
-  --bg: #070b14;
-  --bg-deep: #05080f;
-  --surface: #0e1522;
-  --surface-2: #131c2c;
-  --surface-3: #1a2436;
-  --surface-inset: #0b111c;
-  --border: #1f2a3c;
-  --border-strong: #2d3a50;
-  --text: #eef2f9;
-  --text-secondary: #c2ccdb;
-  --text-muted: #8e9cb3;
-  --text-subtle: #6c7a91;
-  --text-inverse: #0b111c;
+  --bg: #0b1220;
+  --bg-deep: #070d18;
+  --surface: #111a2b;
+  --surface-2: #152035;
+  --surface-3: #1b2940;
+  --surface-inset: #0e1626;
+  --border: #22314a;
+  --border-strong: #2f4260;
+  --text: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  --text-inverse: #0b1220;
 
-  --accent: var(--indigo-400);
-  --accent-hover: var(--indigo-300);
-  --accent-text: var(--indigo-300);
-  --accent-soft: rgba(99, 102, 241, 0.14);
-  --accent-soft-strong: rgba(99, 102, 241, 0.22);
-  --accent-border: rgba(129, 140, 248, 0.32);
-  --accent-contrast: #0b1020;
+  --accent: var(--cyan-500);
+  --accent-hover: var(--cyan-400);
+  --accent-text: var(--cyan-300);
+  --accent-soft: rgba(6, 182, 212, 0.12);
+  --accent-soft-strong: rgba(6, 182, 212, 0.2);
+  --accent-border: rgba(34, 211, 238, 0.28);
+  --accent-contrast: #ffffff;
 
   --success: #34d399;
   --success-soft: rgba(52, 211, 153, 0.12);
@@ -202,31 +200,25 @@
   --info: #38bdf8;
   --info-soft: rgba(56, 189, 248, 0.12);
 
-  --glass-bg: rgba(14, 21, 34, 0.72);
-  --glass-bg-strong: rgba(14, 21, 34, 0.9);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(17, 26, 43, 0.92);
+  --glass-bg-strong: rgba(17, 26, 43, 0.97);
+  --glass-border: var(--border);
 
-  --grad-accent: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #22d3ee 100%);
-  --grad-accent-soft: linear-gradient(
-    135deg,
-    rgba(129, 140, 248, 0.18) 0%,
-    rgba(167, 139, 250, 0.14) 50%,
-    rgba(34, 211, 238, 0.12) 100%
-  );
-  --grad-text: linear-gradient(120deg, #a5b4fc 0%, #c4b5fd 45%, #67e8f9 100%);
-  --grad-surface: linear-gradient(180deg, #101a29 0%, #0b1220 100%);
-  --orb-1: rgba(99, 102, 241, 0.4);
-  --orb-2: rgba(139, 92, 246, 0.32);
-  --orb-3: rgba(6, 182, 212, 0.26);
-  --grid-line: rgba(255, 255, 255, 0.04);
+  --grad-accent: linear-gradient(0deg, var(--cyan-600), var(--cyan-600));
+  --grad-accent-soft: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(22, 99, 135, 0.1) 100%);
+  --grad-text: linear-gradient(0deg, var(--cyan-300), var(--cyan-300));
+  --orb-1: rgba(8, 145, 178, 0.2);
+  --orb-2: rgba(22, 99, 135, 0.22);
+  --orb-3: rgba(34, 211, 238, 0.12);
+  --grid-line: rgba(255, 255, 255, 0.035);
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55), 0 6px 14px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 32px 70px rgba(0, 0, 0, 0.62), 0 10px 24px rgba(0, 0, 0, 0.45);
-  --shadow-glow: 0 8px 34px rgba(129, 140, 248, 0.35);
-  --ring: 0 0 0 3px rgba(129, 140, 248, 0.45);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.45), 0 2px 4px -2px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.55), 0 8px 10px -6px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 4px 6px -1px rgba(0, 0, 0, 0.45), 0 2px 4px -2px rgba(0, 0, 0, 0.35);
+  --ring: 0 0 0 3px rgba(34, 211, 238, 0.35);
 
   color-scheme: dark;
 }

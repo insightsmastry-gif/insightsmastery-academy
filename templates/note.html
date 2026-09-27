@@ -17,8 +17,9 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/logo-mark.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
@@ -30,7 +31,7 @@
   (function () {
     try {
       var stored = localStorage.getItem('im-theme');
-      var dark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      var dark = stored === 'dark'; /* light is the brand default */
       document.documentElement.dataset.theme = dark ? 'dark' : 'light';
     } catch (error) { /* storage blocked — default light */ }
     /* `js` gates the fade-in CSS; if ui.js never boots, drop it so nothing stays hidden. */
@@ -45,11 +46,12 @@
 
 <header class="site-header" data-site-header>
   <div class="container site-header__inner">
-    <a class="brand" href="index.html">
-      <span class="brand__mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M9 8.5h6M9 12h4"/></svg>
+    <a class="brand" href="index.html" aria-label="InsightsMastery Academy notes — home">
+      <span class="brand__row">
+        <span class="brand__mark"><img src="assets/images/logo-mark.svg" alt="" width="44" height="44"></span>
+        <span class="brand__text"><span class="brand__accent">Insights</span>Mastery</span>
       </span>
-      <span class="brand__text">InsightsMastery<span class="brand__sub">Academy</span></span>
+      <span class="brand__sub">Academy</span>
     </a>
 
     <nav class="site-nav" aria-label="Primary">
@@ -57,6 +59,7 @@
       <a class="nav-link" data-nav="notes" href="notes.html">Notes</a>
       <a class="nav-link" data-nav="resources" href="resources.html">Resources</a>
       <a class="nav-link" data-nav="about" href="about.html">About</a>
+      <a class="nav-link nav-link--external" href="https://www.insightsmastry.in/" rel="noopener">Main site</a>
     </nav>
 
     <div class="site-header__actions">
@@ -78,7 +81,8 @@
     <a class="nav-link" data-nav="notes" href="notes.html">Notes</a>
     <a class="nav-link" data-nav="resources" href="resources.html">Resources</a>
     <a class="nav-link" data-nav="about" href="about.html">About</a>
-    <a class="btn btn--primary" href="notes.html">Start learning</a>
+    <a class="nav-link nav-link--external" href="https://www.insightsmastry.in/" rel="noopener">Main site</a>
+    <a class="btn btn--primary" href="https://www.insightsmastry.in/courses" rel="noopener">Explore programs</a>
   </div>
 </header>
 
@@ -167,9 +171,12 @@
 <footer class="site-footer">
   <div class="container site-footer__inner">
     <div class="site-footer__brand">
-      <a class="brand" href="index.html">
-        <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M9 8.5h6M9 12h4"/></svg></span>
-        <span class="brand__text">InsightsMastery<span class="brand__sub">Academy</span></span>
+      <a class="brand" href="index.html" aria-label="InsightsMastery Academy notes — home">
+        <span class="brand__row">
+          <span class="brand__mark"><img src="assets/images/logo-mark.svg" alt="" width="44" height="44"></span>
+          <span class="brand__text"><span class="brand__accent">Insights</span>Mastery</span>
+        </span>
+        <span class="brand__sub">Academy</span>
       </a>
       <p class="muted">Power BI, DAX, Power Query and SQL Server handbooks — written for practitioners, published as a fast static site.</p>
     </div>
@@ -179,6 +186,13 @@
       <a href="resources.html">PDF downloads</a>
       <a href="about.html">How it works</a>
     </nav>
+    <nav class="site-footer__nav" aria-label="InsightsMastery">
+      <p class="site-footer__heading">InsightsMastery</p>
+      <a href="https://www.insightsmastry.in/courses" rel="noopener">Programs</a>
+      <a href="https://www.insightsmastry.in/blog" rel="noopener">Blog</a>
+      <a href="https://www.insightsmastry.in/admission" rel="noopener">Apply for admission</a>
+      <a href="https://www.insightsmastry.in/billing" rel="noopener">Bills &amp; payments</a>
+    </nav>
     <nav class="site-footer__nav" aria-label="Project">
       <p class="site-footer__heading">Project</p>
       <a href="https://github.com/insightsmastry-gif/insightsmastery-academy" rel="noopener">GitHub repository</a>
@@ -187,8 +201,8 @@
     </nav>
   </div>
   <div class="container site-footer__legal">
-    <p>&copy; <span data-year>2026</span> InsightsMastery Academy. Content by InsightsMastery.</p>
-    <p>Static site · no tracking · deployed with GitHub Pages</p>
+    <p>&copy; <span data-year>2026</span> InsightsMastery. All rights reserved.</p>
+    <p class="site-footer__links"><a href="https://www.insightsmastry.in/privacy-policy" rel="noopener">Privacy Policy</a><a href="https://www.insightsmastry.in/terms-of-service" rel="noopener">Terms of Service</a></p>
   </div>
 </footer>
 
