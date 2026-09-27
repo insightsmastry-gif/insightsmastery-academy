@@ -12,7 +12,7 @@
  * Node 18+, ESM, zero dependencies. Runs from any working directory.
  *
  *   node scripts/build-manifest.mjs            build + write
- *   node scripts/build-manifest.mjs --check     build in memory, write nothing
+ *   node scripts/build-manifest.mjs --check     build in memory, write nothing; exit 1 on any warning
  *   node scripts/build-manifest.mjs --quiet     suppress the summary
  */
 
@@ -200,7 +200,7 @@ function parseNote(html) {
   const lead = toText(blockByClass(html, 'p', 'lead'));
 
   let mainHtml = firstMatch(html, /<main\b[^>]*>([\s\S]*?)<\/main>/i) || html;
-  const sections = (mainHtml.match(/<section\b[^>]*\bid\s*=\s*["'][^"']+["']/gi) || []).length;
+  const sectionTags = (mainHtml.match(/<section\b[^>]*\bid\s*=\s*["'][^"']+["']/gi) || []).length;
 
   const readable = mainHtml
     .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
@@ -208,6 +208,8 @@ function parseNote(html) {
     .replace(TOC_PATTERN, ' ');
 
   const headings = extractHeadings(readable);
+  // Handbooks without `<section id>` wrappers are still divided by their `<h2>`s.
+  const sections = sectionTags || headings.filter((heading) => heading.level === 2).length;
 
   const codeBlocks = [];
   const prose = readable.replace(/<pre\b[\s\S]*?<\/pre>/gi, (block) => {
@@ -466,6 +468,10 @@ async function main() {
     await writeFile(target, `${JSON.stringify(result.manifest, null, 2)}\n`, 'utf8');
   }
   if (!quiet) report(result, { check });
+  if (check && result.warnings.length > 0) {
+    console.error(`build-manifest: --check failed with ${result.warnings.length} warning(s)`);
+    process.exitCode = 1;
+  }
 }
 
 try {

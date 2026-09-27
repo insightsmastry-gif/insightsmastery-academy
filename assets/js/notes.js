@@ -170,7 +170,8 @@ function renderChips() {
   if (!dom.chips) return;
   const counts = new Map();
   notes.forEach((note) => counts.set(note.category, (counts.get(note.category) ?? 0) + 1));
-  const categories = site?.categories?.length ? site.categories : [...counts.keys()].sort();
+  // Only categories that notes actually use — PDF-only categories would show as empty chips.
+  const categories = [...counts.keys()].sort((a, b) => a.localeCompare(b));
   const entries = [{ value: '', label: 'All', count: notes.length }].concat(
     categories.map((category) => ({
       value: category,

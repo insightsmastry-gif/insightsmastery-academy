@@ -13,7 +13,9 @@
 <meta property="og:title" content="Resources — InsightsMastery Academy">
 <meta property="og:description" content="Download every InsightsMastery handbook and SOP as a print-ready PDF: Power BI, DAX time intelligence, Power Query and SQL Server setup guides.">
 <meta property="og:url" content="https://insightsmastry-gif.github.io/insightsmastery-academy/resources.html">
-<meta property="og:image" content="https://insightsmastry-gif.github.io/insightsmastery-academy/assets/images/og-cover.png">
+<meta property="og:image" content="https://insightsmastry-gif.github.io/insightsmastery-academy/assets/images/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +33,10 @@
       var dark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
       document.documentElement.dataset.theme = dark ? 'dark' : 'light';
     } catch (error) { /* storage blocked — default light */ }
+    /* `js` gates the fade-in CSS; if ui.js never boots, drop it so nothing stays hidden. */
+    var root = document.documentElement;
+    root.classList.add('js');
+    setTimeout(function () { if (!root.classList.contains('is-ready')) root.classList.remove('js'); }, 2500);
   })();
 </script>
 </head>
@@ -88,7 +94,7 @@
           straight from this repository.</p>
         <p class="resources-summary" data-reveal>
           <span class="resources-summary__dot" aria-hidden="true"></span>
-          <span data-resources-summary>Reading the library…</span>
+          <span data-resources-summary aria-live="polite">Reading the library…</span>
         </p>
       </div>
     </div>
@@ -122,7 +128,7 @@
         </div>
       </div>
 
-      <div class="resources-list" id="downloads" data-resources-list aria-live="polite" aria-busy="true">
+      <div class="resources-list" id="downloads" data-resources-list aria-busy="true">
         <div class="resource-group__grid">
           <div class="skeleton skeleton--card" aria-hidden="true"></div>
           <div class="skeleton skeleton--card" aria-hidden="true"></div>
@@ -201,6 +207,7 @@
       <li><span>This dialog</span><kbd class="kbd">?</kbd></li>
       <li><span>Close / blur</span><kbd class="kbd">Esc</kbd></li>
     </ul>
+    <label class="shortcut-toggle"><input type="checkbox" data-shortcuts-toggle checked> Enable single-key shortcuts</label>
     <button class="btn btn--outline btn--sm" type="submit" data-shortcuts-close>Close</button>
   </form>
 </dialog>

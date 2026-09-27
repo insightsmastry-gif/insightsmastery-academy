@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-09-03T21:27:05.740Z",
+  "generatedAt": "2026-09-27T09:38:00.742Z",
   "site": {
-    "noteCount": 4,
-    "resourceCount": 9,
-    "totalWords": 7432,
-    "totalMinutes": 35,
-    "totalBytes": 3013425,
+    "noteCount": 6,
+    "resourceCount": 11,
+    "totalWords": 11657,
+    "totalMinutes": 55,
+    "totalBytes": 3526323,
     "categories": [
+      "Curriculum",
       "Data Connectivity",
       "Data Modeling",
       "DAX",
-      "General",
       "Power Query",
       "Setup & SOP",
       "SQL Server"
@@ -20,8 +20,10 @@
       "Data Modeling",
       "DAX",
       "DAX Studio",
+      "Filter Functions",
       "Get Data",
       "Installation",
+      "Learning Path",
       "Power BI",
       "Power Query",
       "Setup",
@@ -32,7 +34,7 @@
       "Time Intelligence",
       "Transform"
     ],
-    "lastUpdated": "2026-09-03T21:27:02.357Z"
+    "lastUpdated": "2026-09-27T09:24:30.381Z"
   },
   "notes": [
     {
@@ -52,8 +54,8 @@
       "words": 1901,
       "minutes": 9,
       "readingTime": "9 min read",
-      "bytes": 19829,
-      "modified": "2026-09-03T19:53:05.071Z",
+      "bytes": 20101,
+      "modified": "2026-09-27T09:24:30.356Z",
       "sections": 10,
       "headings": [
         {
@@ -135,6 +137,413 @@
       "pdf": "pdfs/InsightsMastery_PowerBI_Data_Connectivity_Handbook.pdf"
     },
     {
+      "slug": "dax-filter-functions-handbook",
+      "file": "notes/InsightsMastery_DAX_Filter_Functions_Handbook.html",
+      "href": "note.html?note=dax-filter-functions-handbook",
+      "title": "DAX Filter Functions Handbook",
+      "kicker": "",
+      "description": "Manipulate filter context with CALCULATE, ALL, FILTER and the complete set of DAX filter functions",
+      "category": "DAX",
+      "tags": [
+        "DAX"
+      ],
+      "words": 791,
+      "minutes": 4,
+      "readingTime": "4 min read",
+      "bytes": 135107,
+      "modified": "2026-09-27T09:24:30.354Z",
+      "sections": 12,
+      "headings": [
+        {
+          "id": "dax-filter-functions",
+          "text": "DAX Filter Functions",
+          "level": 2
+        },
+        {
+          "id": "s1",
+          "text": "1. Introduction to Filter Context",
+          "level": 2
+        },
+        {
+          "id": "s2",
+          "text": "2. CALCULATE & CALCULATETABLE",
+          "level": 2
+        },
+        {
+          "id": "s3",
+          "text": "3. Removing Filters — ALL Family & REMOVEFILTERS",
+          "level": 2
+        },
+        {
+          "id": "s4",
+          "text": "4. FILTER Function",
+          "level": 2
+        },
+        {
+          "id": "s5",
+          "text": "5. KEEPFILTERS",
+          "level": 2
+        },
+        {
+          "id": "s6",
+          "text": "6. ALLSELECTED & SELECTEDVALUE",
+          "level": 2
+        },
+        {
+          "id": "s7",
+          "text": "7. LOOKUPVALUE",
+          "level": 2
+        },
+        {
+          "id": "s8",
+          "text": "8. Other Filter Functions",
+          "level": 2
+        },
+        {
+          "id": "s9",
+          "text": "9. Practical Patterns",
+          "level": 2
+        },
+        {
+          "id": "s10",
+          "text": "10. Quick Reference Table",
+          "level": 2
+        },
+        {
+          "id": "s11",
+          "text": "11. Official Reference",
+          "level": 2
+        }
+      ],
+      "pdf": "pdfs/InsightsMastery_DAX_Filter_Functions_Handbook.pdf"
+    },
+    {
+      "slug": "dax-mastery-student-handbook",
+      "file": "notes/DAX_Mastery_Student_Handbook.html",
+      "href": "note.html?note=dax-mastery-student-handbook",
+      "title": "DAX Mastery Student Handbook",
+      "kicker": "",
+      "description": "From Absolute Beginner to Advanced A Complete Guided Learning Path for Power BI DAX",
+      "category": "DAX",
+      "tags": [
+        "DAX"
+      ],
+      "words": 3434,
+      "minutes": 16,
+      "readingTime": "16 min read",
+      "bytes": 149332,
+      "modified": "2026-09-27T09:24:30.353Z",
+      "sections": 24,
+      "headings": [
+        {
+          "id": "how-to-use",
+          "text": "1. How to Use This Handbook",
+          "level": 2
+        },
+        {
+          "id": "recommended-learning-path",
+          "text": "Recommended Learning Path",
+          "level": 3
+        },
+        {
+          "id": "teaching-pattern-used-throughout",
+          "text": "Teaching Pattern Used Throughout",
+          "level": 3
+        },
+        {
+          "id": "roadmap",
+          "text": "2. DAX Roadmap",
+          "level": 2
+        },
+        {
+          "id": "fundamentals",
+          "text": "3. DAX Fundamentals",
+          "level": 2
+        },
+        {
+          "id": "3-1-what-is-dax",
+          "text": "3.1 What is DAX?",
+          "level": 3
+        },
+        {
+          "id": "3-2-tables-rows-and-columns",
+          "text": "3.2 Tables, Rows and Columns",
+          "level": 3
+        },
+        {
+          "id": "3-3-our-standard-sample-dataset",
+          "text": "3.3 Our Standard Sample Dataset",
+          "level": 3
+        },
+        {
+          "id": "measures-vs-columns",
+          "text": "4. Measures vs Calculated Columns",
+          "level": 2
+        },
+        {
+          "id": "4-1-calculated-column",
+          "text": "4.1 Calculated Column",
+          "level": 3
+        },
+        {
+          "id": "4-2-measure",
+          "text": "4.2 Measure",
+          "level": 3
+        },
+        {
+          "id": "filter-context",
+          "text": "5. Filter Context",
+          "level": 2
+        },
+        {
+          "id": "5-1-simple-meaning",
+          "text": "5.1 Simple Meaning",
+          "level": 3
+        },
+        {
+          "id": "5-2-how-filter-context-is-created",
+          "text": "5.2 How Filter Context is Created",
+          "level": 3
+        },
+        {
+          "id": "5-3-demonstration",
+          "text": "5.3 Demonstration",
+          "level": 3
+        },
+        {
+          "id": "row-context",
+          "text": "6. Row Context",
+          "level": 2
+        },
+        {
+          "id": "6-1-where-row-context-appears",
+          "text": "6.1 Where Row Context Appears",
+          "level": 3
+        },
+        {
+          "id": "6-2-classic-example-calculated-column",
+          "text": "6.2 Classic Example — Calculated Column",
+          "level": 3
+        },
+        {
+          "id": "count",
+          "text": "7. COUNT Family",
+          "level": 2
+        },
+        {
+          "id": "7-1-count",
+          "text": "7.1 COUNT",
+          "level": 3
+        },
+        {
+          "id": "7-2-counta",
+          "text": "7.2 COUNTA",
+          "level": 3
+        },
+        {
+          "id": "7-3-countx",
+          "text": "7.3 COUNTX",
+          "level": 3
+        },
+        {
+          "id": "7-4-countrows",
+          "text": "7.4 COUNTROWS",
+          "level": 3
+        },
+        {
+          "id": "sum",
+          "text": "8. SUM",
+          "level": 2
+        },
+        {
+          "id": "sumx",
+          "text": "9. SUMX — The Major Iterator",
+          "level": 2
+        },
+        {
+          "id": "average",
+          "text": "10. AVERAGE & AVERAGEX",
+          "level": 2
+        },
+        {
+          "id": "averagex",
+          "text": "AVERAGEX",
+          "level": 3
+        },
+        {
+          "id": "calculate",
+          "text": "11. CALCULATE — The Heart of DAX",
+          "level": 2
+        },
+        {
+          "id": "calculate-agg",
+          "text": "12. CALCULATE + Aggregation Functions",
+          "level": 2
+        },
+        {
+          "id": "calculate-count-counta-countrows",
+          "text": "CALCULATE + COUNT / COUNTA / COUNTROWS",
+          "level": 3
+        },
+        {
+          "id": "calculate-sum",
+          "text": "CALCULATE + SUM",
+          "level": 3
+        },
+        {
+          "id": "calculate-average",
+          "text": "CALCULATE + AVERAGE",
+          "level": 3
+        },
+        {
+          "id": "calculate-x-functions",
+          "text": "CALCULATE + X Functions",
+          "level": 3
+        },
+        {
+          "id": "filter",
+          "text": "13. FILTER Function",
+          "level": 2
+        },
+        {
+          "id": "all-family",
+          "text": "14. ALL Family — Removing Filters",
+          "level": 2
+        },
+        {
+          "id": "14-1-all",
+          "text": "14.1 ALL",
+          "level": 3
+        },
+        {
+          "id": "14-2-removefilters",
+          "text": "14.2 REMOVEFILTERS",
+          "level": 3
+        },
+        {
+          "id": "14-3-allexcept",
+          "text": "14.3 ALLEXCEPT",
+          "level": 3
+        },
+        {
+          "id": "14-4-allselected",
+          "text": "14.4 ALLSELECTED",
+          "level": 3
+        },
+        {
+          "id": "14-5-keepfilters",
+          "text": "14.5 KEEPFILTERS",
+          "level": 3
+        },
+        {
+          "id": "values",
+          "text": "15. VALUES and DISTINCT",
+          "level": 2
+        },
+        {
+          "id": "15-1-values",
+          "text": "15.1 VALUES",
+          "level": 3
+        },
+        {
+          "id": "15-2-distinct",
+          "text": "15.2 DISTINCT",
+          "level": 3
+        },
+        {
+          "id": "context-transition",
+          "text": "16. Context Transition",
+          "level": 2
+        },
+        {
+          "id": "comparisons",
+          "text": "17. Function Comparison Tables",
+          "level": 2
+        },
+        {
+          "id": "sum-vs-sumx",
+          "text": "SUM vs SUMX",
+          "level": 3
+        },
+        {
+          "id": "count-family",
+          "text": "COUNT Family",
+          "level": 3
+        },
+        {
+          "id": "mistakes",
+          "text": "18. Common Beginner Mistakes",
+          "level": 2
+        },
+        {
+          "id": "debugging",
+          "text": "19. DAX Debugging Process",
+          "level": 2
+        },
+        {
+          "id": "practice",
+          "text": "20. Practice Exercises",
+          "level": 2
+        },
+        {
+          "id": "level-1-beginner",
+          "text": "Level 1 — Beginner",
+          "level": 3
+        },
+        {
+          "id": "level-2-beginner",
+          "text": "Level 2 — Beginner+",
+          "level": 3
+        },
+        {
+          "id": "level-3-intermediate",
+          "text": "Level 3 — Intermediate",
+          "level": 3
+        },
+        {
+          "id": "level-4-advanced",
+          "text": "Level 4 — Advanced",
+          "level": 3
+        },
+        {
+          "id": "answers",
+          "text": "21. Answer Key (Selected)",
+          "level": 2
+        },
+        {
+          "id": "level-1",
+          "text": "Level 1",
+          "level": 3
+        },
+        {
+          "id": "level-2",
+          "text": "Level 2",
+          "level": 3
+        },
+        {
+          "id": "level-3",
+          "text": "Level 3",
+          "level": 3
+        },
+        {
+          "id": "project",
+          "text": "22. Mini Project — Sales Performance Dashboard",
+          "level": 2
+        },
+        {
+          "id": "cheat-sheet",
+          "text": "23. DAX Cheat Sheet",
+          "level": 2
+        },
+        {
+          "id": "final",
+          "text": "24. Final DAX Learning Roadmap",
+          "level": 2
+        }
+      ],
+      "pdf": "pdfs/DAX_Mastery_Student_Handbook.pdf"
+    },
+    {
       "slug": "sop-install-sql-server-2022-developer-edition-ssms",
       "file": "notes/SOP_Install_SQL_Server_2022_Developer_SSMS.html",
       "href": "note.html?note=sop-install-sql-server-2022-developer-edition-ssms",
@@ -151,8 +560,8 @@
       "words": 1571,
       "minutes": 7,
       "readingTime": "7 min read",
-      "bytes": 19904,
-      "modified": "2026-09-03T19:54:26.936Z",
+      "bytes": 20250,
+      "modified": "2026-09-27T09:24:30.357Z",
       "sections": 12,
       "headings": [
         {
@@ -349,8 +758,8 @@
       "words": 1532,
       "minutes": 7,
       "readingTime": "7 min read",
-      "bytes": 20995,
-      "modified": "2026-09-03T19:57:48.527Z",
+      "bytes": 21380,
+      "modified": "2026-09-27T09:24:30.356Z",
       "sections": 13,
       "headings": [
         {
@@ -523,8 +932,8 @@
       "words": 2428,
       "minutes": 12,
       "readingTime": "12 min read",
-      "bytes": 27594,
-      "modified": "2026-09-03T19:56:16.825Z",
+      "bytes": 27985,
+      "modified": "2026-09-27T09:24:30.357Z",
       "sections": 7,
       "headings": [
         {
@@ -643,6 +1052,22 @@
   ],
   "resources": [
     {
+      "slug": "dax-filter-functions-handbook",
+      "file": "pdfs/InsightsMastery_DAX_Filter_Functions_Handbook.pdf",
+      "href": "pdfs/InsightsMastery_DAX_Filter_Functions_Handbook.pdf",
+      "title": "DAX Filter Functions Handbook",
+      "description": "DAX Filter Functions Handbook — downloadable PDF (126 KB).",
+      "category": "DAX",
+      "tags": [
+        "DAX"
+      ],
+      "bytes": 128739,
+      "size": "126 KB",
+      "modified": "2026-09-27T09:24:30.369Z",
+      "ext": "pdf",
+      "note": "dax-filter-functions-handbook"
+    },
+    {
       "slug": "dax-formulas-notes-by-satish-dhawale",
       "file": "pdfs/DAX Formulas Notes by Satish Dhawale.pdf",
       "href": "pdfs/DAX Formulas Notes by Satish Dhawale.pdf",
@@ -654,23 +1079,41 @@
       ],
       "bytes": 814168,
       "size": "795 KB",
-      "modified": "2026-09-03T21:27:02.351Z",
+      "modified": "2026-09-27T09:24:30.363Z",
       "ext": "pdf",
       "note": null
+    },
+    {
+      "slug": "dax-mastery-student-handbook",
+      "file": "pdfs/DAX_Mastery_Student_Handbook.pdf",
+      "href": "pdfs/DAX_Mastery_Student_Handbook.pdf",
+      "title": "DAX Mastery Student Handbook",
+      "description": "DAX Mastery Student Handbook — downloadable PDF (94 KB).",
+      "category": "DAX",
+      "tags": [
+        "DAX"
+      ],
+      "bytes": 96409,
+      "size": "94 KB",
+      "modified": "2026-09-27T09:24:30.365Z",
+      "ext": "pdf",
+      "note": "dax-mastery-student-handbook"
     },
     {
       "slug": "filter-dax-functions-sop-for-students",
       "file": "pdfs/Filter_DAX_Functions_SOP_for_Students.pdf",
       "href": "pdfs/Filter_DAX_Functions_SOP_for_Students.pdf",
       "title": "Filter DAX Functions SOP For Students",
-      "description": "Filter DAX Functions SOP For Students — downloadable PDF (489 KB).",
-      "category": "Setup & SOP",
+      "description": "Student SOP for the DAX filter functions — CALCULATE, ALL, FILTER, KEEPFILTERS and friends — with worked steps.",
+      "category": "DAX",
       "tags": [
+        "DAX",
+        "Filter Functions",
         "SOP"
       ],
       "bytes": 500537,
       "size": "489 KB",
-      "modified": "2026-09-03T21:27:02.355Z",
+      "modified": "2026-09-27T09:24:30.369Z",
       "ext": "pdf",
       "note": null
     },
@@ -687,9 +1130,9 @@
         "DAX Studio",
         "Tabular Editor"
       ],
-      "bytes": 126306,
-      "size": "123 KB",
-      "modified": "2026-09-03T19:52:15.781Z",
+      "bytes": 126660,
+      "size": "124 KB",
+      "modified": "2026-09-27T09:24:30.371Z",
       "ext": "pdf",
       "note": null
     },
@@ -705,9 +1148,9 @@
         "Power Query",
         "Get Data"
       ],
-      "bytes": 132191,
+      "bytes": 132566,
       "size": "129 KB",
-      "modified": "2026-09-03T19:47:24.182Z",
+      "modified": "2026-09-27T09:24:30.371Z",
       "ext": "pdf",
       "note": "data-connectivity-in-power-bi"
     },
@@ -723,23 +1166,26 @@
         "Power Query",
         "DAX"
       ],
-      "bytes": 138306,
+      "bytes": 138702,
       "size": "135 KB",
-      "modified": "2026-09-03T19:45:46.696Z",
+      "modified": "2026-09-27T09:24:30.373Z",
       "ext": "pdf",
       "note": "time-intelligence-data-modeling-power-query"
     },
     {
-      "slug": "power-bi-mastery-carriculam",
-      "file": "pdfs/Power BI Mastery_Carriculam.pdf",
-      "href": "pdfs/Power BI Mastery_Carriculam.pdf",
-      "title": "Power BI Mastery Carriculam",
-      "description": "Power BI Mastery Carriculam — downloadable PDF (602 KB).",
-      "category": "General",
-      "tags": [],
+      "slug": "power-bi-mastery-curriculum",
+      "file": "pdfs/Power_BI_Mastery_Curriculum.pdf",
+      "href": "pdfs/Power_BI_Mastery_Curriculum.pdf",
+      "title": "Power BI Mastery Curriculum",
+      "description": "The full Power BI Mastery course curriculum: modules, topics and the order they are taught in.",
+      "category": "Curriculum",
+      "tags": [
+        "Power BI",
+        "Learning Path"
+      ],
       "bytes": 616074,
       "size": "602 KB",
-      "modified": "2026-09-03T21:27:02.357Z",
+      "modified": "2026-09-27T09:24:30.373Z",
       "ext": "pdf",
       "note": null
     },
@@ -755,9 +1201,9 @@
         "Data Cleaning",
         "Transform"
       ],
-      "bytes": 126604,
+      "bytes": 126958,
       "size": "124 KB",
-      "modified": "2026-09-03T19:57:35.362Z",
+      "modified": "2026-09-27T09:24:30.373Z",
       "ext": "pdf",
       "note": null
     },
@@ -776,7 +1222,7 @@
       ],
       "bytes": 334307,
       "size": "326 KB",
-      "modified": "2026-09-03T19:47:01.739Z",
+      "modified": "2026-09-27T09:24:30.381Z",
       "ext": "pdf",
       "note": "sop-install-sql-server-2022-developer-edition-ssms"
     },
@@ -791,9 +1237,9 @@
         "DAX",
         "Time Intelligence"
       ],
-      "bytes": 136610,
-      "size": "133 KB",
-      "modified": "2026-09-03T19:45:38.029Z",
+      "bytes": 137048,
+      "size": "134 KB",
+      "modified": "2026-09-27T09:24:30.373Z",
       "ext": "pdf",
       "note": "time-intelligence-with-dax"
     }

@@ -181,6 +181,14 @@ body[data-page="note"] { --reader-bar-h: 3.5rem; }
   .reader-bar__inner { gap: var(--space-2); justify-content: space-between; }
 }
 
+/* ≤ 479px: every action must fit a 360px viewport without horizontal scroll. */
+@media (max-width: 479px) {
+  .reader-bar__inner, .reader-bar__actions { gap: var(--space-1); }
+  .reader-bar__actions { min-width: 0; }
+  .reader-bar__sizes .segmented__btn { min-width: 2rem; padding-inline: var(--space-2); }
+  .reader-bar__actions .icon-btn, .reader-bar__pdf { flex: none; }
+}
+
 /* --- layout ----------------------------------------------------------------- */
 .reader {
   display: grid;

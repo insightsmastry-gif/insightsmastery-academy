@@ -10,8 +10,8 @@ framework, no dependencies.
 - Plain HTML + CSS + ES modules. Zero npm dependencies, zero build tools.
 - Content is data: pages render from `content/manifest.json`, generated from the
   files on disk.
-- Light/dark themes, full-text client-side search, keyboard shortcuts, and
-  reduced-motion support.
+- Light/dark themes, client-side search over titles, descriptions, tags and
+  headings, keyboard shortcuts (can be switched off), and reduced-motion support.
 
 ## Project tree
 
@@ -79,7 +79,8 @@ explicit `title`:
 
 Resolution order: exact filename entry → first matching `rules[].match`
 (case-insensitive substring of the filename) → `defaults.category`. The build
-prints a `!` warning for every file that fell through to the default category.
+prints a `!` warning for every file that fell through to the default category,
+and `npm run check` (run by CI on every pull request) fails on any warning.
 
 ## Local development
 
@@ -89,7 +90,7 @@ No install step — Node 18+ is the only requirement.
 npm start          # build the manifest, then serve http://localhost:4173
 npm run serve      # serve only
 npm run build      # regenerate content/manifest.json
-npm run check      # build in memory and print the summary, write nothing
+npm run check      # build in memory, write nothing, exit 1 on any warning
 node scripts/dev-server.mjs --port 8080   # or PORT=8080
 ```
 
@@ -127,6 +128,9 @@ yourself.
 | `?` | Show the shortcuts dialog |
 | `Esc` | Close dialog / blur search |
 
+Single-key shortcuts can be turned off from the shortcuts dialog (keyboard
+button in the header); the choice is stored in `localStorage` (`im-shortcuts`).
+
 ## Accessibility and performance
 
 - WCAG 2.1 AA targets: visible focus rings, AA contrast in both themes, one
@@ -135,6 +139,8 @@ yourself.
 - `prefers-reduced-motion: reduce` disables reveal and counter animations;
   animations otherwise touch only `transform`/`opacity`.
 - Theme is painted before first paint from `localStorage`, so there is no flash.
+  Content is hidden for the fade-in only when JavaScript runs (`html.js`); with
+  JavaScript off, or if a module fails to load, every page stays readable.
 - No trackers, no analytics, no third-party JavaScript. The only external
   request is the Google Fonts stylesheet.
 
@@ -145,6 +151,6 @@ yourself.
 | Pages show "content index missing" | `content/manifest.json` was never built or not committed — run `npm run build` |
 | Nothing loads from `file://` | Browsers block modules and `fetch` on that scheme — run `npm start` |
 | A new note is missing | Re-run `npm run build`; check the filename does not start with `_` or `.` |
-| A file lands in "General" | Add an entry or a rule in `content.config.json` (the build warns about these) |
+| A file lands in "General" / CI fails `npm run check` | Add an entry or a rule in `content.config.json` |
 | `port 4173 is busy` | `node scripts/dev-server.mjs --port 4174` |
 | Deploy succeeded but content is stale | The workflow rebuilds the manifest — confirm the note itself was committed |

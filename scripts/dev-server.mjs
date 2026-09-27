@@ -94,8 +94,15 @@ async function notFound(response, requestPath) {
   return 404;
 }
 
+/** GitHub Pages serves the site under this prefix; mirror it so absolute 404 URLs resolve. */
+const BASE_PATH = '/insightsmastery-academy';
+
 const server = createServer(async (request, response) => {
-  const requestPath = (request.url ?? '/').split('?')[0].split('#')[0];
+  const rawPath = (request.url ?? '/').split('?')[0].split('#')[0];
+  const requestPath =
+    rawPath === BASE_PATH || rawPath.startsWith(`${BASE_PATH}/`)
+      ? rawPath.slice(BASE_PATH.length) || '/'
+      : rawPath;
   let status = 200;
 
   try {

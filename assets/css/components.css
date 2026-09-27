@@ -481,6 +481,11 @@ textarea.input { min-height: 8rem; line-height: var(--leading-normal); resize: v
   padding: var(--space-3) var(--space-4); color: var(--text-secondary); font-size: var(--step--1);
 }
 .shortcut-list li + li { border-top: 1px solid var(--border); }
+.shortcut-toggle {
+  display: flex; align-items: center; gap: var(--space-3);
+  color: var(--text-secondary); font-size: var(--step--1); cursor: pointer;
+}
+.shortcut-toggle input { width: 1.1rem; height: 1.1rem; accent-color: var(--accent); }
 
 .toast-host {
   position: fixed; bottom: var(--space-6); left: 50%; z-index: var(--z-toast);
