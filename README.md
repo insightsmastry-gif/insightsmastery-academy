@@ -154,10 +154,10 @@ Old reader links (`note.html?note=<slug>`) redirect to `notes/<slug>/`.
 
 ### Custom domain
 
-The site is served at <https://notes.insightsmastery.in/>:
+The site is served at <https://notes.insightsmastry.in/>:
 
 - DNS (GoDaddy): `CNAME notes → insightsmastry-gif.github.io`.
-- GitHub: Settings → Pages → Custom domain `notes.insightsmastery.in`, with
+- GitHub: Settings → Pages → Custom domain `notes.insightsmastry.in`, with
   "Enforce HTTPS" on. With Actions deploys no `CNAME` file is needed.
 - `site.url` in `content.config.json` drives canonical URLs, Open Graph tags,
   the sitemap and `robots.txt`; change it there if the domain ever moves.

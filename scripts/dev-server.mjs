@@ -53,7 +53,7 @@ function resolvePort() {
 }
 
 const config = JSON.parse(await readFile(path.join(ROOT, 'content.config.json'), 'utf8'));
-const BASE_PATH = new URL(config.site.url).pathname; // "/" on notes.insightsmastery.in
+const BASE_PATH = new URL(config.site.url).pathname; // "/" on notes.insightsmastry.in
 
 /** Map a request path inside the base path to a file inside _site, or null. */
 async function resolveTarget(sitePath) {
