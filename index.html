@@ -13,12 +13,13 @@
 <meta property="og:title" content="Power BI, DAX &amp; Power Query handbooks — InsightsMastery Academy">
 <meta property="og:description" content="Practitioner handbooks for Power BI, DAX, Power Query and SQL Server. Read every note online, download the printable PDFs, no signup and no tracking.">
 <meta property="og:url" content="https://insightsmastry-gif.github.io/insightsmastery-academy/index.html">
-<meta property="og:image" content="https://insightsmastry-gif.github.io/insightsmastery-academy/assets/images/og-cover.png">
+<meta property="og:image" content="https://insightsmastry-gif.github.io/insightsmastery-academy/assets/images/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/components.css">
@@ -31,6 +32,10 @@
       var dark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
       document.documentElement.dataset.theme = dark ? 'dark' : 'light';
     } catch (error) { /* storage blocked — default light */ }
+    /* `js` gates the fade-in CSS; if ui.js never boots, drop it so nothing stays hidden. */
+    var root = document.documentElement;
+    root.classList.add('js');
+    setTimeout(function () { if (!root.classList.contains('is-ready')) root.classList.remove('js'); }, 2500);
   })();
 </script>
 </head>
@@ -214,7 +219,7 @@
           <span class="step__num" aria-hidden="true">2</span>
           <div class="step__body">
             <h3 class="step__title">Push to GitHub</h3>
-            <p class="muted">A commit triggers the workflow. It scans both folders, extracts titles, headings, tags and sizes, and writes a fresh <code>content/manifest.json</code>.</p>
+            <p class="muted">A commit triggers the workflow. It scans both folders, sanitises each handbook into its own page, extracts titles, headings, tags and sizes, and checks every link before publishing.</p>
           </div>
         </div>
 
@@ -286,6 +291,7 @@
       <li><span>This dialog</span><kbd class="kbd">?</kbd></li>
       <li><span>Close / blur</span><kbd class="kbd">Esc</kbd></li>
     </ul>
+    <label class="shortcut-toggle"><input type="checkbox" data-shortcuts-toggle checked> Enable single-key shortcuts</label>
     <button class="btn btn--outline btn--sm" type="submit" data-shortcuts-close>Close</button>
   </form>
 </dialog>

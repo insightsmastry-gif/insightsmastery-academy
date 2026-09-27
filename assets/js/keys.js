@@ -14,9 +14,34 @@
 
 import { toggleTheme } from './theme.js';
 
-const ROUTES = { h: 'index.html', n: 'notes.html', r: 'resources.html', a: 'about.html' };
+/** Resolved from this module's URL so `g` routes work from any page depth (e.g. a nested 404). */
+const SITE_ROOT = new URL('../../', import.meta.url);
+const ROUTES = Object.fromEntries(
+  Object.entries({ h: 'index.html', n: 'notes.html', r: 'resources.html', a: 'about.html' }).map(
+    ([key, page]) => [key, new URL(page, SITE_ROOT).href]
+  )
+);
+const STORAGE_KEY = 'im-shortcuts';
 let awaitingGo = false;
 let goTimer;
+
+/** WCAG 2.1.4: single-character shortcuts can be switched off (Esc always works). */
+function shortcutsEnabled() {
+  try {
+    return localStorage.getItem(STORAGE_KEY) !== 'off';
+  } catch {
+    return true;
+  }
+}
+
+function setShortcutsEnabled(enabled) {
+  try {
+    if (enabled) localStorage.removeItem(STORAGE_KEY);
+    else localStorage.setItem(STORAGE_KEY, 'off');
+  } catch {
+    /* storage blocked — preference lasts for this page only */
+  }
+}
 
 function isTypingTarget(target) {
   if (!target) return false;
@@ -31,6 +56,8 @@ function dialog() {
 function openHelp() {
   const node = dialog();
   if (!node) return;
+  const toggle = node.querySelector('[data-shortcuts-toggle]');
+  if (toggle) toggle.checked = shortcutsEnabled();
   if (typeof node.showModal === 'function' && !node.open) node.showModal();
 }
 
@@ -59,7 +86,7 @@ function onKeydown(event) {
     return;
   }
 
-  if (isTypingTarget(event.target)) return;
+  if (isTypingTarget(event.target) || !shortcutsEnabled()) return;
 
   if (awaitingGo) {
     const route = ROUTES[event.key.toLowerCase()];
@@ -108,4 +135,10 @@ document.addEventListener('click', (event) => {
     event.preventDefault();
     closeHelp();
   }
+});
+document.addEventListener('change', (event) => {
+  const toggle = event.target.closest?.('[data-shortcuts-toggle]');
+  if (!toggle) return;
+  setShortcutsEnabled(toggle.checked);
+  awaitingGo = false;
 });

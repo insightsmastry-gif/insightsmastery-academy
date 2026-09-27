@@ -1,4 +1,11 @@
-# Dependencies (the site has none — this only guards accidental installs)
+# Build output (`npm run build`) — never committed; CI rebuilds it on every deploy
+_site/
+.site-staging-*/
+# TypeSafe label cache (persisted in CI with actions/cache)
+.cache/
+content/
+
+# Dependencies
 node_modules/
 
 # OS noise
@@ -17,7 +24,3 @@ graphify-out/
 .swarm/
 .vscode/
 .idea/
-
-# NOTE: content/manifest.json is intentionally NOT ignored. It is committed so
-# GitHub Pages can serve the site straight from the branch root, without the
-# build workflow having to run first.

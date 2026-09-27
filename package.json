@@ -1,19 +1,25 @@
 {
   "name": "insightsmastery-academy",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "description": "Static learning site for the InsightsMastery Power BI, DAX, Power Query and SQL Server handbooks.",
   "homepage": "https://insightsmastry-gif.github.io/insightsmastery-academy/",
   "license": "UNLICENSED",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "scripts": {
-    "build": "node scripts/build-manifest.mjs",
-    "check": "node scripts/build-manifest.mjs --check",
-    "start": "npm run build && node scripts/dev-server.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check",
+    "verify": "node scripts/build.mjs && node scripts/check-site.mjs",
+    "start": "node scripts/build.mjs && node scripts/dev-server.mjs --watch",
     "dev": "npm run start",
     "serve": "node scripts/dev-server.mjs"
+  },
+  "devDependencies": {
+    "@typesafe-ai/sdk": "0.6.0",
+    "cheerio": "1.2.0",
+    "sanitize-html": "2.17.7"
   }
 }

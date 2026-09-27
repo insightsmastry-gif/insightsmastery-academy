@@ -150,16 +150,18 @@ hr { border: 0; border-top: 1px solid var(--border); }
 .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 .no-scrollbar::-webkit-scrollbar { width: 0; height: 0; }
 .is-hidden { display: none !important; }
+/* Without JavaScript nothing will replace loading skeletons — hide them. */
+html:not(.js) .skeleton, html:not(.js) .reader-skeleton { display: none; }
 
 /* --- 5. Motion system ----------------------------------------------------- */
-[data-reveal] {
+html.js [data-reveal] {
   opacity: 0; transform: translateY(14px); will-change: opacity, transform;
   transition: opacity var(--dur-4) var(--ease-out) var(--reveal-delay, 0ms),
     transform var(--dur-4) var(--ease-out) var(--reveal-delay, 0ms);
 }
-[data-reveal].is-revealed { opacity: 1; transform: none; will-change: auto; }
+html.js [data-reveal].is-revealed { opacity: 1; transform: none; will-change: auto; }
 
-html:not(.is-ready) body { opacity: 0; }
+html.js:not(.is-ready) body { opacity: 0; }
 html.is-ready body {
   opacity: 1;
   transition: opacity var(--dur-3) var(--ease-out),
@@ -209,8 +211,8 @@ html.is-ready body {
     scroll-behavior: auto !important;
   }
 
-  [data-reveal], [data-reveal].is-revealed { opacity: 1; transform: none; }
-  html:not(.is-ready) body { opacity: 1; }
+  html.js [data-reveal], html.js [data-reveal].is-revealed { opacity: 1; transform: none; }
+  html.js:not(.is-ready) body { opacity: 1; }
 }
 
 /* --- 8. Print ------------------------------------------------------------- */
