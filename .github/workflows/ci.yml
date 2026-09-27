@@ -10,17 +10,34 @@ permissions:
 
 jobs:
   check:
-    name: Content check
+    name: Build + site checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
-      # Fails on any build warning, e.g. a note or PDF that fell through to the default category.
-      - name: Validate notes and PDFs
-        run: npm run check
+      - name: Install build tools
+        run: npm ci
+
+      # Builds _site/ and fails on broken links, missing CSP, bad JSON-LD or leaked private files.
+      # TypeSafe answers are cached by content hash, so each file is judged once.
+      - name: Restore TypeSafe label cache
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: typesafe-labels-${{ github.run_id }}
+          restore-keys: typesafe-labels-
+
+      - name: Build and verify site
+        run: npm run verify
+        env:
+          # Optional: without it the build falls back to the rules in content.config.json.
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}

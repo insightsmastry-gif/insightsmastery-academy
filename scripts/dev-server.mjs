@@ -1,31 +1,33 @@
 #!/usr/bin/env node
 /**
- * InsightsMastery Academy — local static server.
+ * InsightsMastery Academy — local preview of the built site.
  *
- * The site uses ES modules and `fetch('content/manifest.json')`, both of which
- * browsers refuse over `file://`. This serves the repo root over HTTP so local
- * previews behave exactly like GitHub Pages.
+ * Serves `_site/` under the same base path GitHub Pages uses
+ * (`/insightsmastery-academy/`, from `site.url` in content.config.json), so
+ * relative links, absolute 404 URLs and the CSP behave exactly as in production.
+ * With `--watch`, any change to the sources re-runs `scripts/build.mjs`.
  *
- * Node 18+, ESM, zero dependencies.
- *
- *   node scripts/dev-server.mjs              http://localhost:4173
- *   node scripts/dev-server.mjs --port 8080
- *   PORT=8080 node scripts/dev-server.mjs
+ *   node scripts/dev-server.mjs                   http://localhost:4173/insightsmastery-academy/
+ *   node scripts/dev-server.mjs --watch
+ *   node scripts/dev-server.mjs --port 8080       (or PORT=8080)
  */
 
-import { createServer } from 'node:http';
+import { spawn } from 'node:child_process';
+import { watch } from 'node:fs';
 import { readFile, stat } from 'node:fs/promises';
+import { createServer } from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const SITE = path.join(ROOT, '_site');
 const DEFAULT_PORT = 4173;
+const IGNORED = /^(?:_site|\.site-staging-\d+|node_modules|\.git)(?:[\\/]|$)/;
 
 const MIME = new Map(Object.entries({
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
-  '.mjs': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.pdf': 'application/pdf',
   '.svg': 'image/svg+xml',
@@ -35,14 +37,13 @@ const MIME = new Map(Object.entries({
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
   '.woff2': 'font/woff2',
-  '.woff': 'font/woff',
   '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml; charset=utf-8',
-  '.map': 'application/json; charset=utf-8',
 }));
 
+const args = process.argv.slice(2);
+
 function resolvePort() {
-  const args = process.argv.slice(2);
   const flag = args.indexOf('--port');
   const raw = (flag !== -1 && args[flag + 1])
     || args.find((arg) => arg.startsWith('--port='))?.split('=')[1]
@@ -51,25 +52,19 @@ function resolvePort() {
   return Number.isInteger(port) && port > 0 && port < 65536 ? port : DEFAULT_PORT;
 }
 
-function contentType(filePath) {
-  return MIME.get(path.extname(filePath).toLowerCase()) ?? 'application/octet-stream';
-}
+const config = JSON.parse(await readFile(path.join(ROOT, 'content.config.json'), 'utf8'));
+const BASE_PATH = new URL(config.site.url).pathname; // "/insightsmastery-academy/"
 
-/** Map a request path to a file inside ROOT, or null if it escapes the root. */
-function safeResolve(urlPath) {
+/** Map a request path inside the base path to a file inside _site, or null. */
+async function resolveTarget(sitePath) {
   let decoded;
   try {
-    decoded = decodeURIComponent(urlPath);
+    decoded = decodeURIComponent(sitePath);
   } catch {
     return null;
   }
-  const resolved = path.resolve(ROOT, `.${path.posix.normalize(decoded)}`);
-  return resolved === ROOT || resolved.startsWith(ROOT + path.sep) ? resolved : null;
-}
-
-async function resolveTarget(requestPath) {
-  const resolved = safeResolve(requestPath);
-  if (!resolved) return null;
+  const resolved = path.resolve(SITE, `.${path.posix.normalize(`/${decoded}`)}`);
+  if (resolved !== SITE && !resolved.startsWith(SITE + path.sep)) return null;
   try {
     const stats = await stat(resolved);
     if (!stats.isDirectory()) return resolved;
@@ -81,62 +76,77 @@ async function resolveTarget(requestPath) {
   }
 }
 
-async function notFound(response, requestPath) {
-  const page = path.join(ROOT, '404.html');
-  try {
-    const body = await readFile(page);
-    response.writeHead(404, { 'Content-Type': MIME.get('.html'), 'Cache-Control': 'no-store' });
-    response.end(body);
-  } catch {
-    response.writeHead(404, { 'Content-Type': MIME.get('.txt'), 'Cache-Control': 'no-store' });
-    response.end(`404 Not Found: ${requestPath}\n`);
-  }
-  return 404;
+function send(response, status, body, type, method) {
+  response.writeHead(status, {
+    'Content-Type': type,
+    'Content-Length': Buffer.byteLength(body),
+    'Cache-Control': 'no-store',
+  });
+  response.end(method === 'HEAD' ? undefined : body);
 }
 
-/** GitHub Pages serves the site under this prefix; mirror it so absolute 404 URLs resolve. */
-const BASE_PATH = '/insightsmastery-academy';
-
 const server = createServer(async (request, response) => {
-  const rawPath = (request.url ?? '/').split('?')[0].split('#')[0];
-  const requestPath =
-    rawPath === BASE_PATH || rawPath.startsWith(`${BASE_PATH}/`)
-      ? rawPath.slice(BASE_PATH.length) || '/'
-      : rawPath;
+  const requestPath = (request.url ?? '/').split('?')[0].split('#')[0];
   let status = 200;
-
   try {
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       status = 405;
-      response.writeHead(405, { Allow: 'GET, HEAD', 'Cache-Control': 'no-store' });
+      response.writeHead(405, { Allow: 'GET, HEAD' });
+      response.end();
+    } else if (!requestPath.startsWith(BASE_PATH)) {
+      status = 302;
+      response.writeHead(302, { Location: BASE_PATH });
       response.end();
     } else {
-      const target = await resolveTarget(requestPath);
-      if (!target) {
-        status = await notFound(response, requestPath);
+      const target = await resolveTarget(requestPath.slice(BASE_PATH.length));
+      if (target) {
+        send(response, 200, await readFile(target), MIME.get(path.extname(target).toLowerCase()) ?? 'application/octet-stream', request.method);
       } else {
-        const body = await readFile(target);
-        response.writeHead(200, {
-          'Content-Type': contentType(target),
-          'Content-Length': body.byteLength,
-          'Cache-Control': 'no-store',
-        });
-        response.end(request.method === 'HEAD' ? undefined : body);
+        status = 404;
+        const page = await readFile(path.join(SITE, '404.html')).catch(() => `404 Not Found: ${requestPath}\n`);
+        send(response, 404, page, MIME.get('.html'), request.method);
       }
     }
   } catch (error) {
     status = 500;
-    response.writeHead(500, { 'Content-Type': MIME.get('.txt'), 'Cache-Control': 'no-store' });
-    response.end(`500 ${error instanceof Error ? error.message : 'Server error'}\n`);
+    send(response, 500, `500 ${error instanceof Error ? error.message : 'Server error'}\n`, MIME.get('.txt'), request.method);
   }
-
   console.log(`${new Date().toISOString().slice(11, 19)}  ${status}  ${request.method} ${requestPath}`);
 });
 
+function startWatcher() {
+  let timer;
+  let running = false;
+  let queued = false;
+  const rebuild = () => {
+    if (running) {
+      queued = true;
+      return;
+    }
+    running = true;
+    const child = spawn(process.execPath, [path.join(ROOT, 'scripts/build.mjs'), '--quiet'], { stdio: 'inherit' });
+    child.on('exit', (code) => {
+      console.log(code === 0 ? '  rebuilt _site/' : `  build failed (exit ${code})`);
+      running = false;
+      if (queued) {
+        queued = false;
+        rebuild();
+      }
+    });
+  };
+  watch(ROOT, { recursive: true }, (_, file) => {
+    if (!file || IGNORED.test(file)) return;
+    clearTimeout(timer);
+    timer = setTimeout(rebuild, 150);
+  });
+  console.log('  watching sources — edits rebuild _site/ automatically');
+}
+
 const port = resolvePort();
 server.listen(port, () => {
-  console.log(`InsightsMastery Academy — serving ${ROOT}`);
-  console.log(`  http://localhost:${port}/   (Ctrl+C to stop)`);
+  console.log(`InsightsMastery Academy — serving ${SITE}`);
+  console.log(`  http://localhost:${port}${BASE_PATH}   (Ctrl+C to stop)`);
+  if (args.includes('--watch')) startWatcher();
 });
 
 server.on('error', (error) => {

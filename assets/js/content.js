@@ -1,9 +1,9 @@
 /**
  * Content access layer.
  *
- * The site is fully static: `scripts/build-manifest.mjs` scans /notes and
- * /pdfs at build time and writes `content/manifest.json`. Nothing here
- * hard-codes a note or a PDF — every list is derived from that manifest.
+ * The site is fully static: `scripts/build.mjs` scans /notes and /pdfs at
+ * build time and writes `content/manifest.json`. Nothing here hard-codes a
+ * note or a PDF — every list is derived from that manifest.
  */
 
 const MANIFEST_URL = 'content/manifest.json';
@@ -14,14 +14,14 @@ export class ContentError extends Error {
     super(message);
     this.name = 'ContentError';
     this.cause = cause;
-    this.hint = hint ?? 'Run `npm run build` to regenerate content/manifest.json.';
+    this.hint = hint ?? 'Run `npm start` (or `npm run build`) to generate _site/content/manifest.json.';
   }
 }
 
 let cache = null;
 
 /**
- * Resolve any repo-relative path (e.g. 'content/manifest.json', 'notes/x.html')
+ * Resolve any site-relative path (e.g. 'content/manifest.json', 'pdfs/x.pdf')
  * relative to the site root, using this module's own location as the anchor.
  * This prevents 404s when the site is opened without trailing slashes or in sub-paths.
  */
@@ -36,12 +36,11 @@ export function resolveAssetUrl(relativePath) {
 
 /**
  * Fetch + cache the content manifest.
- * @param {{ base?: string }} [options] optional explicit base override
- * @returns {Promise<import('./types.js').Manifest>}
+ * @returns {Promise<{ site: object, notes: object[], resources: object[] }>}
  */
-export async function loadManifest(options = {}) {
+export async function loadManifest() {
   if (cache) return cache;
-  const url = options.base ? `${options.base}${MANIFEST_URL}` : resolveAssetUrl(MANIFEST_URL);
+  const url = resolveAssetUrl(MANIFEST_URL);
   let response;
   try {
     response = await fetch(url, { cache: 'no-cache' });
@@ -70,19 +69,9 @@ export async function loadManifest(options = {}) {
   return cache;
 }
 
-/** @returns {Promise<import('./types.js').Note[]>} */
-export async function getNotes() {
-  return (await loadManifest()).notes;
-}
-
-/** @returns {Promise<import('./types.js').Resource[]>} */
+/** @returns {Promise<object[]>} */
 export async function getResources() {
   return (await loadManifest()).resources;
-}
-
-/** Look up one note by slug. */
-export async function getNote(slug) {
-  return (await getNotes()).find((note) => note.slug === slug) ?? null;
 }
 
 // --- formatting helpers ------------------------------------------------------
@@ -135,17 +124,6 @@ export function formatRelative(iso) {
 export function readingLabel(minutes) {
   const value = Math.max(1, Math.round(minutes || 1));
   return `${value} min read`;
-}
-
-/** Slug-safe id from arbitrary text. */
-export function slugify(text) {
-  return String(text)
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 72);
 }
 
 /** Escape untrusted text before it touches innerHTML. */

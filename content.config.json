@@ -1,5 +1,18 @@
 {
-  "_comment": "Optional metadata for the content build. EVERY field here is optional: a new file dropped into notes/ or pdfs/ is published by `npm run build` without touching this file — title, description, headings, word count and size are read from the file itself, and the category comes from the first matching entry in `rules` (or `defaults.category`). Use `notes`/`resources` only to override what the file cannot tell us: category, tags, description, title. Keys are exact filenames.",
+  "_comment": "Content metadata for the build. `site` is required; everything else is optional: a new file dropped into notes/ or pdfs/ is published by `npm run build` without touching this file — title, description, headings, word count and size are read from the file itself, and the category comes from the first matching entry in `rules` (or `defaults.category`). Use `notes`/`resources` only to override what the file cannot tell us: category, tags, description, title. Keys are exact filenames.",
+  "site": {
+    "url": "https://insightsmastry-gif.github.io/insightsmastery-academy/",
+    "name": "InsightsMastery Academy"
+  },
+  "categories": {
+    "Data Connectivity": "Getting data into Power BI: Get Data, connectors and sources such as Excel, CSV, folders, SQL Server and shared semantic models",
+    "Data Modeling": "Designing Power BI semantic models: star schema, fact and dimension tables, relationships and model best practices",
+    "DAX": "Writing DAX: measures, calculated columns, CALCULATE and filter context, iterators, filter functions and time intelligence",
+    "Power Query": "Shaping and cleaning data in Power Query / M: transform steps, column operations, merges, appends and data cleaning",
+    "SQL Server": "Microsoft SQL Server and SQL Server Management Studio (SSMS): installing, configuring and querying the database engine",
+    "Setup & SOP": "Installing and configuring analytics tools (Power BI Desktop, DAX Studio, Tabular Editor) and step-by-step standard operating procedures",
+    "Curriculum": "Course outlines, syllabi and learning paths that span many topics rather than teaching one"
+  },
   "defaults": {
     "category": "General",
     "tags": []
