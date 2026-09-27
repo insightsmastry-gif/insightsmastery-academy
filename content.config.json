@@ -1,7 +1,7 @@
 {
   "_comment": "Content metadata for the build. `site` is required; everything else is optional: a new file dropped into notes/ or pdfs/ is published by `npm run build` without touching this file — title, description, headings, word count and size are read from the file itself, and the category comes from the first matching entry in `rules` (or `defaults.category`). Use `notes`/`resources` only to override what the file cannot tell us: category, tags, description, title. Keys are exact filenames.",
   "site": {
-    "url": "https://insightsmastry-gif.github.io/insightsmastery-academy/",
+    "url": "https://notes.insightsmastry.in/",
     "name": "InsightsMastery Academy"
   },
   "categories": {

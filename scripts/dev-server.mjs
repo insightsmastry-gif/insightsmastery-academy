@@ -2,12 +2,12 @@
 /**
  * InsightsMastery Academy — local preview of the built site.
  *
- * Serves `_site/` under the same base path GitHub Pages uses
- * (`/insightsmastery-academy/`, from `site.url` in content.config.json), so
+ * Serves `_site/` under the same base path as production (the path of
+ * `site.url` in content.config.json — `/` on the custom domain), so
  * relative links, absolute 404 URLs and the CSP behave exactly as in production.
  * With `--watch`, any change to the sources re-runs `scripts/build.mjs`.
  *
- *   node scripts/dev-server.mjs                   http://localhost:4173/insightsmastery-academy/
+ *   node scripts/dev-server.mjs                   http://localhost:4173/
  *   node scripts/dev-server.mjs --watch
  *   node scripts/dev-server.mjs --port 8080       (or PORT=8080)
  */
@@ -53,7 +53,7 @@ function resolvePort() {
 }
 
 const config = JSON.parse(await readFile(path.join(ROOT, 'content.config.json'), 'utf8'));
-const BASE_PATH = new URL(config.site.url).pathname; // "/insightsmastery-academy/"
+const BASE_PATH = new URL(config.site.url).pathname; // "/" on notes.insightsmastery.in
 
 /** Map a request path inside the base path to a file inside _site, or null. */
 async function resolveTarget(sitePath) {

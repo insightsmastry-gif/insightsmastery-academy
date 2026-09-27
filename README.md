@@ -5,7 +5,7 @@ Power Query and SQL Server. Every note in `notes/` and every download in
 `pdfs/` is discovered by the build and published automatically: no CMS, no
 framework, no runtime dependencies.
 
-**Live:** <https://insightsmastry-gif.github.io/insightsmastery-academy/>
+**Live:** <https://notes.insightsmastry.in/>
 
 - Plain HTML + CSS + ES modules in the browser. The build (Node 20+) uses three
   dev dependencies: `cheerio` (HTML parsing), `sanitize-html` (allowlist
@@ -83,7 +83,7 @@ explicit `title`:
 
 ```json
 {
-  "site": { "url": "https://insightsmastry-gif.github.io/insightsmastery-academy/", "name": "InsightsMastery Academy" },
+  "site": { "url": "https://notes.insightsmastry.in/", "name": "InsightsMastery Academy" },
   "categories": { "DAX": "Writing DAX: measures, CALCULATE and filter context, …" },
   "defaults": { "category": "General" },
   "rules": [
@@ -130,7 +130,7 @@ badges and as a "level" filter in the notes library (`?level=Beginner`).
 
 ```bash
 npm ci             # once: installs the build tools
-npm start          # build, serve http://localhost:4173/insightsmastery-academy/, rebuild on save
+npm start          # build, serve http://localhost:4173/, rebuild on save
 npm run build      # build _site/
 npm run check      # validate content only, write nothing
 npm run verify     # build + check-site (what CI runs)
@@ -138,9 +138,9 @@ npm run serve      # serve an existing _site/ without rebuilding
 node scripts/dev-server.mjs --port 8080   # or PORT=8080
 ```
 
-The preview serves `_site/` under the same `/insightsmastery-academy/` base path
-as GitHub Pages, so links, the 404 page and the Content-Security-Policy behave
-as in production.
+The preview serves `_site/` under the same base path as production (taken from
+`site.url`; `/` for the custom domain), so links, the 404 page and the
+Content-Security-Policy behave as in production.
 
 ## Deployment
 
@@ -151,6 +151,19 @@ source handbooks are never published. Pull requests and other branches run the
 same checks in `.github/workflows/ci.yml`.
 
 Old reader links (`note.html?note=<slug>`) redirect to `notes/<slug>/`.
+
+### Custom domain
+
+The site is served at <https://notes.insightsmastery.in/>:
+
+- DNS (GoDaddy): `CNAME notes → insightsmastry-gif.github.io`.
+- GitHub: Settings → Pages → Custom domain `notes.insightsmastery.in`, with
+  "Enforce HTTPS" on. With Actions deploys no `CNAME` file is needed.
+- `site.url` in `content.config.json` drives canonical URLs, Open Graph tags,
+  the sitemap and `robots.txt`; change it there if the domain ever moves.
+
+Old `insightsmastry-gif.github.io/insightsmastery-academy/…` links redirect to
+the custom domain automatically.
 
 ## Security and caching
 

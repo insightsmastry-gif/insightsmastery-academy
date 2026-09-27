@@ -74,7 +74,7 @@ async function hashModules() {
 /* --------------------------------------------------------------- urls ---- */
 
 function createUrlTools(siteUrl) {
-  const basePath = new URL(siteUrl).pathname; // "/insightsmastery-academy/"
+  const basePath = new URL(siteUrl).pathname; // "/" on the custom domain
   /** Source reference -> site-relative path ("assets/css/base.css"), or null if not local. */
   const local = (value) => {
     if (!value || /^(?:[a-z][a-z0-9+.-]*:|#|\/\/)/i.test(value)) return null;
@@ -221,14 +221,22 @@ function prevNextHtml(notes, index) {
   return link(notes[index - 1], 'prev', 'Previous note') + link(notes[index + 1], 'next', 'Next note');
 }
 
-function setSocialMeta($, { title, description, url, type }) {
+function setSocialMeta($, { title, description, type }) {
   $('title').text(title);
   $('meta[name="description"]').attr('content', description);
-  $('link[rel="canonical"]').attr('href', url);
   $('meta[property="og:type"]').attr('content', type);
   $('meta[property="og:title"]').attr('content', title);
   $('meta[property="og:description"]').attr('content', description);
+}
+
+/** Public URL of a root page; the home page is the site root. */
+const pageUrl = (siteUrl, page) => (page === 'index.html' ? siteUrl : `${siteUrl}${page}`);
+
+/** Absolute URLs in <head> always come from `site.url`, never from the source files. */
+function setSiteUrls($, siteUrl, url) {
+  $('link[rel="canonical"]').attr('href', url);
   $('meta[property="og:url"]').attr('content', url);
+  $('meta[property="og:image"]').attr('content', `${siteUrl}assets/images/og-cover.jpg`);
 }
 
 async function renderNotePage(template, content, index, context) {
@@ -238,7 +246,8 @@ async function renderNotePage(template, content, index, context) {
   const url = `${config.site.url}${note.href}`;
   const title = `${note.title} — ${config.site.name}`;
 
-  setSocialMeta($, { title, description: note.description, url, type: 'article' });
+  setSocialMeta($, { title, description: note.description, type: 'article' });
+  setSiteUrls($, config.site.url, url);
   $('meta[property="og:type"]').after(
     `\n<meta property="article:modified_time" content="${escapeHtml(note.modified)}">` +
       `\n<meta property="article:section" content="${escapeHtml(note.category)}">`
@@ -321,6 +330,7 @@ async function renderPage(page, content, context) {
     );
   }
 
+  setSiteUrls($, config.site.url, pageUrl(config.site.url, page));
   const prefix = page === '404.html' ? context.urls.basePath : '';
   await publishAssets($, { ...context, prefix });
   addSecurityMeta($);
@@ -357,7 +367,7 @@ function sitemap(content) {
   const { config, notes, site } = content;
   const entries = [
     ...['index.html', 'notes.html', 'resources.html', 'about.html'].map((page) => ({
-      loc: `${config.site.url}${page}`,
+      loc: pageUrl(config.site.url, page),
       lastmod: site.lastUpdated,
     })),
     ...notes.map((note) => ({ loc: `${config.site.url}${note.href}`, lastmod: note.modified })),
