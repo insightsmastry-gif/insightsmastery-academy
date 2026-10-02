@@ -1,0 +1,30 @@
+name: Rebuild insightsmastry.in
+
+# insightsmastry.in/notes is built from this repo: every push that changes a
+# handbook, a PDF or the config asks Vercel to rebuild the main site.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'notes/**'
+      - 'pdfs/**'
+      - 'content.config.json'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rebuild:
+    name: Trigger Vercel deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the deploy hook
+        env:
+          # Vercel → marketing project → Settings → Git → Deploy Hooks (branch main).
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::VERCEL_DEPLOY_HOOK_URL is not set; insightsmastry.in was not rebuilt."
+            exit 0
+          fi
+          curl --fail --silent --show-error -X POST "$HOOK"
